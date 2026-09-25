@@ -11,7 +11,6 @@ __pycache__/
 *$py.class
 *.env
 venv/
-.venv/
 ENV/
 
 # IDE & OS
