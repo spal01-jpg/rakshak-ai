@@ -1,0 +1,1716 @@
+{
+  "personnel": [
+    {
+      "id": "CRPF-94821",
+      "name": "Havildar Rajesh Kumar",
+      "rank": "Havildar",
+      "force": "CRPF",
+      "unit": "182 Battalion, Delta Company",
+      "station": "Pulwama, J&K",
+      "deploymentZone": "Counter-Insurgency High Risk",
+      "monthsInZone": 16,
+      "age": 34,
+      "yearsInService": 14,
+      "photo": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 25,
+      "stressRiskLevel": "High",
+      "riskScore": 75,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-09-24",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 0,
+        "consecutiveFieldDays": 240,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 57,
+        "leaveEntitlementRemaining": 48,
+        "nightDutyShiftsPastMonth": 18,
+        "averageSleepHours": 2.0,
+        "restRecoveryScore": 32,
+        "hardshipTenureMonths": 16,
+        "familyEmergencyStatus": "Father hospitalized with renal failure in Rohtak"
+      },
+      "biometrics": {
+        "restingHeartRate": 84,
+        "hrvMs": 28,
+        "sleepQuality": "Fragmented (Insomnia)",
+        "dailySteps": 16500,
+        "bloodPressure": "138/88"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-25",
+        "moodScore": 1.0,
+        "exhaustionLevel": "Critical",
+        "familyWorryScore": 4.0,
+        "reportedSymptoms": [
+          "Border Patrol Fatigue",
+          "Family Separation / Worry",
+          "Extreme Climate / Hypoxia",
+          "Overdue Leave Anxiety"
+        ]
+      },
+      "aiRiskFactors": [
+        "220 days since last home visit with active father medical crisis",
+        "High night-shift duty density (18 shifts in 30 days)",
+        "Critically low HRV (28ms) indicating autonomic nervous system exhaustion",
+        "Consecutive counter-insurgency deployment exceeding recommended 12-month limit"
+      ],
+      "welfareRecommendations": [
+        "Immediate 15-day Special Compassionate Home Leave",
+        "Temporary relief from night ambush duty rotations",
+        "Schedule voluntary confidential counseling with Unit Medical Officer",
+        "Assign trusted Peer Buddy (Sahayak) from same sub-unit"
+      ],
+      "actionHistory": [
+        {
+          "actionType": "Sanction 15-Day Welfare Leave",
+          "notes": "Approved for father's hospital treatment",
+          "dispatchedBy": "Commanding Officer / Welfare Cell",
+          "timestamp": "2026-09-25 22:59:16",
+          "status": "Initiated"
+        },
+        {
+          "actionType": "Sanction 15-Day Welfare Leave",
+          "notes": "Approved for father's hospital treatment",
+          "dispatchedBy": "Commanding Officer / Welfare Cell",
+          "timestamp": "2026-09-24 20:26:07",
+          "status": "Initiated"
+        },
+        {
+          "actionType": "Sanction 15-Day Welfare Leave",
+          "notes": "Approved for father's hospital treatment",
+          "dispatchedBy": "Commanding Officer / Welfare Cell",
+          "timestamp": "2026-09-24 20:03:38",
+          "status": "Initiated"
+        }
+      ]
+    },
+    {
+      "id": "BSF-44120",
+      "name": "Head Constable Manoj Gurjar",
+      "rank": "Head Constable",
+      "force": "BSF",
+      "unit": "65 Battalion, Border Outpost Alpha",
+      "station": "Jaisalmer Sector, Rajasthan",
+      "deploymentZone": "Harsh Desert Border Outpost",
+      "monthsInZone": 14,
+      "age": 38,
+      "yearsInService": 17,
+      "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 46,
+      "stressRiskLevel": "High",
+      "riskScore": 74,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-07-15",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 185,
+        "consecutiveFieldDays": 190,
+        "leaveApplicationsPending": 1,
+        "leaveSanctionedDaysYear": 18,
+        "leaveEntitlementRemaining": 42,
+        "nightDutyShiftsPastMonth": 15,
+        "averageSleepHours": 5.0,
+        "restRecoveryScore": 41,
+        "hardshipTenureMonths": 14,
+        "familyEmergencyStatus": "Agricultural land dispute back home in Alwar"
+      },
+      "biometrics": {
+        "restingHeartRate": 78,
+        "hrvMs": 35,
+        "sleepQuality": "Moderate",
+        "dailySteps": 18200,
+        "bloodPressure": "130/84"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-23",
+        "moodScore": 3,
+        "exhaustionLevel": "Moderate-High",
+        "familyWorryScore": 8,
+        "reportedSymptoms": [
+          "Dehydration fatigue",
+          "Sleep disturbances"
+        ]
+      },
+      "aiRiskFactors": [
+        "185 days separation from family amidst domestic property litigation",
+        "Prolonged extreme weather thermal fatigue (Desert summer duty)",
+        "Accumulated leave deficit of 42 days unutilized"
+      ],
+      "welfareRecommendations": [
+        "Expedite approval of pending 12-day casual leave application",
+        "Refer land dispute details to District Welfare Liaison Officer",
+        "Provide electrolyte hydration packs & afternoon shaded rest cycles"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "ITBP-88192",
+      "name": "Sub-Inspector Tenzing Dorjee",
+      "rank": "Sub-Inspector",
+      "force": "ITBP",
+      "unit": "34 Battalion, High Altitude Post",
+      "station": "Eastern Ladakh (LAC)",
+      "deploymentZone": "Extreme High-Altitude (15,500 ft)",
+      "monthsInZone": 11,
+      "age": 31,
+      "yearsInService": 9,
+      "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 52,
+      "stressRiskLevel": "Moderate",
+      "riskScore": 58,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-06-01",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 140,
+        "consecutiveFieldDays": 140,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 24,
+        "leaveEntitlementRemaining": 36,
+        "nightDutyShiftsPastMonth": 12,
+        "averageSleepHours": 5.8,
+        "restRecoveryScore": 54,
+        "hardshipTenureMonths": 11,
+        "familyEmergencyStatus": "Normal (Routine communication available via satellite SATPHONE)"
+      },
+      "biometrics": {
+        "restingHeartRate": 74,
+        "hrvMs": 44,
+        "sleepQuality": "Hypoxic awakenings noted",
+        "dailySteps": 12000,
+        "bloodPressure": "126/82"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-21",
+        "moodScore": 3.5,
+        "exhaustionLevel": "Moderate",
+        "familyWorryScore": 4,
+        "reportedSymptoms": [
+          "Mild hypoxia headaches",
+          "Physical isolation cabin fever"
+        ]
+      },
+      "aiRiskFactors": [
+        "High altitude cold isolation for 11 continuous months",
+        "Approaching tenure threshold for high-altitude acclimatization cycle",
+        "Sub-zero environmental stress"
+      ],
+      "welfareRecommendations": [
+        "Plan rotational de-induction to lower transit camp (Leh) next month",
+        "Ensure broadband VSAT connectivity for weekly video call with spouse",
+        "Schedule recreation and tactical wellness recovery sessions"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "CISF-31908",
+      "name": "Constable Sunita Sharma",
+      "rank": "Constable",
+      "force": "CISF",
+      "unit": "Airport Security Unit",
+      "station": "Indira Gandhi International Airport, New Delhi",
+      "deploymentZone": "High-Density Metro Transit",
+      "monthsInZone": 8,
+      "age": 27,
+      "yearsInService": 5,
+      "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 61,
+      "stressRiskLevel": "Moderate",
+      "riskScore": 49,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-05-18",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 95,
+        "consecutiveFieldDays": 95,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 15,
+        "leaveEntitlementRemaining": 45,
+        "nightDutyShiftsPastMonth": 14,
+        "averageSleepHours": 5.6,
+        "restRecoveryScore": 58,
+        "hardshipTenureMonths": 8,
+        "familyEmergencyStatus": "Caring for 3-year-old toddler with day-care shift clashes"
+      },
+      "biometrics": {
+        "restingHeartRate": 72,
+        "hrvMs": 48,
+        "sleepQuality": "Disrupted by irregular airport shift timings",
+        "dailySteps": 15400,
+        "bloodPressure": "120/78"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-23",
+        "moodScore": 3.8,
+        "exhaustionLevel": "Moderate",
+        "familyWorryScore": 6,
+        "reportedSymptoms": [
+          "Circadian rhythm fatigue",
+          "Prolonged standing backache"
+        ]
+      },
+      "aiRiskFactors": [
+        "Rapid shift rotations (Morning/Evening/Night cycles without 48hr turnaround)",
+        "Dual-burden of childcare with irregular metro duty hours",
+        "Ergonomic fatigue from 8+ hours continuous standing security frisking"
+      ],
+      "welfareRecommendations": [
+        "Align duty schedule to fixed-shift bracket to stabilize childcare arrangement",
+        "Grant 4 days compensatory rest off (CRO)",
+        "Ergonomic anti-fatigue mat allocation at passenger frisking terminal"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "AR-12903",
+      "name": "Rifleman Lalthan Puia",
+      "rank": "Rifleman",
+      "force": "Assam Rifles",
+      "unit": "26 Assam Rifles",
+      "station": "Chandel, Manipur Border",
+      "deploymentZone": "Dense Jungle Border Counter-Insurgency",
+      "monthsInZone": 18,
+      "age": 29,
+      "yearsInService": 8,
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 34,
+      "stressRiskLevel": "Critical",
+      "riskScore": 92,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-04-10",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 245,
+        "consecutiveFieldDays": 270,
+        "leaveApplicationsPending": 2,
+        "leaveSanctionedDaysYear": 8,
+        "leaveEntitlementRemaining": 52,
+        "nightDutyShiftsPastMonth": 20,
+        "averageSleepHours": 4.1,
+        "restRecoveryScore": 25,
+        "hardshipTenureMonths": 18,
+        "familyEmergencyStatus": "Wife delivered newborn baby 6 weeks ago; yet to meet child"
+      },
+      "biometrics": {
+        "restingHeartRate": 89,
+        "hrvMs": 22,
+        "sleepQuality": "Critical Deficit",
+        "dailySteps": 21000,
+        "bloodPressure": "142/92"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-23",
+        "moodScore": 1.5,
+        "exhaustionLevel": "Severe",
+        "familyWorryScore": 10,
+        "reportedSymptoms": [
+          "Extreme anxiety",
+          "Hypervigilance",
+          "Severe emotional distress"
+        ]
+      },
+      "aiRiskFactors": [
+        "245 days without leave during critical life milestone (birth of first child)",
+        "20 night patrols in 30 days in active hostile border terrain",
+        "Severe autonomic exhaustion (HRV 22ms, sleep 4.1 hrs)",
+        "Critical self-assessment scores indicating severe psychological burnout risk"
+      ],
+      "welfareRecommendations": [
+        "PRIORITY 1: Immediate sanction of 20-day Paternity & Annual Leave with travel clearance",
+        "Mandatory 72-hour stand-down from ambush/night patrol duties pending departure",
+        "In-person check-in with Battalion Psychologist or Medical Officer",
+        "Peer buddy escort for transit to Dimapur railhead"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "IA-67219",
+      "name": "Naik Subedar Gurpreet Singh",
+      "rank": "Naik Subedar",
+      "force": "Indian Army",
+      "unit": "14 Sikh Regiment",
+      "station": "Siachen Glacier Base Camp",
+      "deploymentZone": "Super High Altitude Glacier",
+      "monthsInZone": 6,
+      "age": 36,
+      "yearsInService": 16,
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 68,
+      "stressRiskLevel": "Low",
+      "riskScore": 32,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-07-01",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 65,
+        "consecutiveFieldDays": 65,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 30,
+        "leaveEntitlementRemaining": 30,
+        "nightDutyShiftsPastMonth": 8,
+        "averageSleepHours": 6.8,
+        "restRecoveryScore": 72,
+        "hardshipTenureMonths": 6,
+        "familyEmergencyStatus": "Stable, daily connectivity via Army welfare telephone"
+      },
+      "biometrics": {
+        "restingHeartRate": 66,
+        "hrvMs": 56,
+        "sleepQuality": "Good",
+        "dailySteps": 11500,
+        "bloodPressure": "118/76"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 4.5,
+        "exhaustionLevel": "Low",
+        "familyWorryScore": 2,
+        "reportedSymptoms": [
+          "None reported"
+        ]
+      },
+      "aiRiskFactors": [
+        "Normal acclimatization trajectory",
+        "Good sleep patterns and robust autonomic heart recovery"
+      ],
+      "welfareRecommendations": [
+        "Continue routine high-altitude monitoring",
+        "Appoint as Peer Welfare Mentor for junior soldiers in unit"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "SSB-55201",
+      "name": "Constable Amit Verma",
+      "rank": "Constable",
+      "force": "SSB",
+      "unit": "42 Battalion, Indo-Nepal Border",
+      "station": "Raxaul Checkpost, Bihar",
+      "deploymentZone": "Open Border Friendly Sector",
+      "monthsInZone": 9,
+      "age": 26,
+      "yearsInService": 4,
+      "photo": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 79,
+      "stressRiskLevel": "Low",
+      "riskScore": 21,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-08-20",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 42,
+        "consecutiveFieldDays": 42,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 20,
+        "leaveEntitlementRemaining": 40,
+        "nightDutyShiftsPastMonth": 6,
+        "averageSleepHours": 7.2,
+        "restRecoveryScore": 82,
+        "hardshipTenureMonths": 9,
+        "familyEmergencyStatus": "Family living in nearby district; visited recently"
+      },
+      "biometrics": {
+        "restingHeartRate": 64,
+        "hrvMs": 62,
+        "sleepQuality": "Optimal",
+        "dailySteps": 14000,
+        "bloodPressure": "116/74"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 4.8,
+        "exhaustionLevel": "Very Low",
+        "familyWorryScore": 1,
+        "reportedSymptoms": [
+          "None"
+        ]
+      },
+      "aiRiskFactors": [
+        "Well-balanced rest and leave distribution",
+        "Low operational threat environment"
+      ],
+      "welfareRecommendations": [
+        "Maintain current operational cadence",
+        "Eligible for upcoming specialized sports/drill training camp"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "CRPF-81144",
+      "name": "Inspector Vikramaditya Rathore",
+      "rank": "Inspector",
+      "force": "CRPF",
+      "unit": "205 CoBRA Battalion (Commando)",
+      "station": "Sukma, Bastar, Chhattisgarh",
+      "deploymentZone": "Deep Jungle Anti-Maoist Operations",
+      "monthsInZone": 15,
+      "age": 37,
+      "yearsInService": 15,
+      "photo": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 41,
+      "stressRiskLevel": "High",
+      "riskScore": 78,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-05-12",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 195,
+        "consecutiveFieldDays": 210,
+        "leaveApplicationsPending": 1,
+        "leaveSanctionedDaysYear": 10,
+        "leaveEntitlementRemaining": 50,
+        "nightDutyShiftsPastMonth": 17,
+        "averageSleepHours": 4.8,
+        "restRecoveryScore": 36,
+        "hardshipTenureMonths": 15,
+        "familyEmergencyStatus": "Mother suffering from chronic arthritis; lives alone in village"
+      },
+      "biometrics": {
+        "restingHeartRate": 82,
+        "hrvMs": 31,
+        "sleepQuality": "Fragmented",
+        "dailySteps": 19500,
+        "bloodPressure": "136/88"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-23",
+        "moodScore": 2.5,
+        "exhaustionLevel": "High",
+        "familyWorryScore": 8,
+        "reportedSymptoms": [
+          "Combat hyper-arousal",
+          "Fatigue",
+          "Musculoskeletal pain"
+        ]
+      },
+      "aiRiskFactors": [
+        "15 months in high-intensity jungle ambush and IED threat operational zone",
+        "Substantial leave deficit (195 days without family leave)",
+        "Sustained autonomic hyper-vigilance state (HRV 31ms)"
+      ],
+      "welfareRecommendations": [
+        "Grant 14 days operational respite leave",
+        "De-escalate to Group Centre / Training academy instructor rotation",
+        "Provide psychological debrief session with force counselor"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "NSG-10204",
+      "name": "Captain Aditya Nair",
+      "rank": "Captain",
+      "force": "NSG",
+      "unit": "51 Special Action Group (SAG)",
+      "station": "Manesar, Haryana",
+      "deploymentZone": "Counter-Terrorism Quick Reaction",
+      "monthsInZone": 10,
+      "age": 30,
+      "yearsInService": 8,
+      "photo": "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 64,
+      "stressRiskLevel": "Moderate",
+      "riskScore": 48,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-08-01",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 90,
+        "consecutiveFieldDays": 90,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 20,
+        "leaveEntitlementRemaining": 40,
+        "nightDutyShiftsPastMonth": 14,
+        "averageSleepHours": 5.8,
+        "restRecoveryScore": 62,
+        "hardshipTenureMonths": 10,
+        "familyEmergencyStatus": "Stable, newly married; spouse working in Gurgaon"
+      },
+      "biometrics": {
+        "restingHeartRate": 68,
+        "hrvMs": 52,
+        "sleepQuality": "Good",
+        "dailySteps": 17800,
+        "bloodPressure": "122/80"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 3.9,
+        "exhaustionLevel": "Moderate",
+        "familyWorryScore": 3,
+        "reportedSymptoms": [
+          "High adrenaline post-drill soreness"
+        ]
+      },
+      "aiRiskFactors": [
+        "High tempo CQB drills and constant 15-minute standby alert posture",
+        "Frequent unannounced night mobilisation exercises"
+      ],
+      "welfareRecommendations": [
+        "Weekend off-station pass to visit family in Gurgaon",
+        "Routine sports physiotherapy sessions"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "IN-44912",
+      "name": "Master Chief Petty Officer Ramesh Pillai",
+      "rank": "MCPO II",
+      "force": "Indian Navy",
+      "unit": "INS Vikrant Battle Group",
+      "station": "Arabian Sea Operational Deployment",
+      "deploymentZone": "Continuous Blue-Water Sea Sortie",
+      "monthsInZone": 7,
+      "age": 42,
+      "yearsInService": 21,
+      "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 48,
+      "stressRiskLevel": "High",
+      "riskScore": 69,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-06-15",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 175,
+        "consecutiveFieldDays": 175,
+        "leaveApplicationsPending": 1,
+        "leaveSanctionedDaysYear": 15,
+        "leaveEntitlementRemaining": 45,
+        "nightDutyShiftsPastMonth": 16,
+        "averageSleepHours": 4.9,
+        "restRecoveryScore": 45,
+        "hardshipTenureMonths": 7,
+        "familyEmergencyStatus": "Son appearing for Class 12 Board exams in Kochi"
+      },
+      "biometrics": {
+        "restingHeartRate": 76,
+        "hrvMs": 38,
+        "sleepQuality": "Vessel engine vibration noise disruption",
+        "dailySteps": 13200,
+        "bloodPressure": "132/86"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-23",
+        "moodScore": 3.1,
+        "exhaustionLevel": "High",
+        "familyWorryScore": 7,
+        "reportedSymptoms": [
+          "Mild vestibular dizziness",
+          "Chronic shift fatigue"
+        ]
+      },
+      "aiRiskFactors": [
+        "Confined shipboard environment with no physical off-ship liberty for 90 days",
+        "High acoustic and mechanical fatigue in boiler/engine compartments",
+        "Family milestone separation anxiety"
+      ],
+      "welfareRecommendations": [
+        "Priority shore leave upon vessel docking in Karwar Naval Base",
+        "Allocate satellite calling minutes quota for family calls",
+        "Sound isolation earmuffs upgrade for engine room watch"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "IAF-78103",
+      "name": "Junior Warrant Officer Sandeep Bhasin",
+      "rank": "Junior Warrant Officer",
+      "force": "Indian Air Force",
+      "unit": "45 Squadron (Flying Daggers)",
+      "station": "Air Force Station Sulur, Coimbatore",
+      "deploymentZone": "Frontline Airbase Radar & Avionics Maintenance",
+      "monthsInZone": 12,
+      "age": 39,
+      "yearsInService": 18,
+      "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 72,
+      "stressRiskLevel": "Low",
+      "riskScore": 28,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-07-20",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 50,
+        "consecutiveFieldDays": 50,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 28,
+        "leaveEntitlementRemaining": 32,
+        "nightDutyShiftsPastMonth": 6,
+        "averageSleepHours": 7.0,
+        "restRecoveryScore": 78,
+        "hardshipTenureMonths": 12,
+        "familyEmergencyStatus": "Normal, living with family in married airforce quarters"
+      },
+      "biometrics": {
+        "restingHeartRate": 65,
+        "hrvMs": 58,
+        "sleepQuality": "Good",
+        "dailySteps": 12400,
+        "bloodPressure": "118/78"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 4.6,
+        "exhaustionLevel": "Low",
+        "familyWorryScore": 1,
+        "reportedSymptoms": [
+          "None"
+        ]
+      },
+      "aiRiskFactors": [
+        "Stable operational environment",
+        "Healthy rest and domestic balance"
+      ],
+      "welfareRecommendations": [
+        "Continue routine operational excellence",
+        "Lead squadron welfare sports team"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "CRPF-66219",
+      "name": "Lady Constable Ananya Roy",
+      "rank": "Constable",
+      "force": "CRPF",
+      "unit": "232 Mahila Battalion",
+      "station": "Srinagar Law & Order Sector",
+      "deploymentZone": "Urban Crowd Control & Checkpost Security",
+      "monthsInZone": 13,
+      "age": 25,
+      "yearsInService": 4,
+      "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 43,
+      "stressRiskLevel": "High",
+      "riskScore": 76,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-06-11",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 190,
+        "consecutiveFieldDays": 190,
+        "leaveApplicationsPending": 1,
+        "leaveSanctionedDaysYear": 10,
+        "leaveEntitlementRemaining": 50,
+        "nightDutyShiftsPastMonth": 16,
+        "averageSleepHours": 4.6,
+        "restRecoveryScore": 38,
+        "hardshipTenureMonths": 13,
+        "familyEmergencyStatus": "Mother in Siliguri undergoing chemotherapy sessions"
+      },
+      "biometrics": {
+        "restingHeartRate": 81,
+        "hrvMs": 33,
+        "sleepQuality": "Poor",
+        "dailySteps": 18400,
+        "bloodPressure": "134/86"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-23",
+        "moodScore": 2.2,
+        "exhaustionLevel": "High",
+        "familyWorryScore": 9,
+        "reportedSymptoms": [
+          "Anxiety episodes",
+          "Severe body ache from riot gear"
+        ]
+      },
+      "aiRiskFactors": [
+        "Prolonged heavy full-body riot gear wearing (10+ hrs daily in high tension)",
+        "Severe family oncology distress (mother chemotherapy)",
+        "Overdue leave backlog of 190 days"
+      ],
+      "welfareRecommendations": [
+        "Grant immediate 20 days emergency compassionate leave to attend mother",
+        "Temporary rotation to administrative desk duty at Group Centre",
+        "Medical review with Battalion Gynecologist & Physician"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "BSF-99104",
+      "name": "Sub-Inspector Balwinder Singh",
+      "rank": "Sub-Inspector",
+      "force": "BSF",
+      "unit": "113 Battalion, Riverine Sector",
+      "station": "Sunderbans Floating BOP, West Bengal",
+      "deploymentZone": "Tidal Mangrove Riverine Border Patrol",
+      "monthsInZone": 15,
+      "age": 35,
+      "yearsInService": 13,
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 39,
+      "stressRiskLevel": "Critical",
+      "riskScore": 87,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-05-04",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 215,
+        "consecutiveFieldDays": 230,
+        "leaveApplicationsPending": 2,
+        "leaveSanctionedDaysYear": 12,
+        "leaveEntitlementRemaining": 48,
+        "nightDutyShiftsPastMonth": 19,
+        "averageSleepHours": 4.4,
+        "restRecoveryScore": 30,
+        "hardshipTenureMonths": 15,
+        "familyEmergencyStatus": "Heavy flooding damaged family home in Gurdaspur, Punjab"
+      },
+      "biometrics": {
+        "restingHeartRate": 85,
+        "hrvMs": 26,
+        "sleepQuality": "Fragmented (River humidity & insects)",
+        "dailySteps": 14000,
+        "bloodPressure": "140/90"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-22",
+        "moodScore": 1.8,
+        "exhaustionLevel": "Severe",
+        "familyWorryScore": 9,
+        "reportedSymptoms": [
+          "Extreme mental fatigue",
+          "Gastrointestinal distress",
+          "Skin fungus"
+        ]
+      },
+      "aiRiskFactors": [
+        "15 continuous months on isolated floating watercraft with zero land access",
+        "Loss of family property due to severe floods back in ancestral village",
+        "High night speedboat patrol frequency in high pirate/smuggling active creeks"
+      ],
+      "welfareRecommendations": [
+        "Urgent relief from Floating BOP; post to shore base immediately",
+        "Sanction 18 days emergency flood rehabilitation leave",
+        "Financial grant from BSF Central Welfare Fund for house repairs"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "ITBP-41092",
+      "name": "Head Constable Sunil Negi",
+      "rank": "Head Constable",
+      "force": "ITBP",
+      "unit": "8th Battalion, Animal Transport Wing",
+      "station": "Mana Pass, Uttarakhand (18,000 ft)",
+      "deploymentZone": "Snowbound High Pass Supply Route",
+      "monthsInZone": 8,
+      "age": 33,
+      "yearsInService": 11,
+      "photo": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 57,
+      "stressRiskLevel": "Moderate",
+      "riskScore": 53,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-07-09",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 110,
+        "consecutiveFieldDays": 110,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 18,
+        "leaveEntitlementRemaining": 42,
+        "nightDutyShiftsPastMonth": 10,
+        "averageSleepHours": 6.0,
+        "restRecoveryScore": 59,
+        "hardshipTenureMonths": 8,
+        "familyEmergencyStatus": "Normal, spouse and parents in Chamoli district"
+      },
+      "biometrics": {
+        "restingHeartRate": 71,
+        "hrvMs": 46,
+        "sleepQuality": "Acceptable with oxygen tent",
+        "dailySteps": 19000,
+        "bloodPressure": "124/80"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 3.7,
+        "exhaustionLevel": "Moderate",
+        "familyWorryScore": 3,
+        "reportedSymptoms": [
+          "Extreme cold chilblains on toes"
+        ]
+      },
+      "aiRiskFactors": [
+        "Sub-zero trek with mules across frozen moraine passes daily",
+        "High physical calorie exertion (19k steps on steep inclines)"
+      ],
+      "welfareRecommendations": [
+        "Issue heated thermal boot liners from battalion depot",
+        "Plan winter rotation to Joshimath transit camp"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "CISF-66710",
+      "name": "Sub-Inspector Deepak Chillar",
+      "rank": "Sub-Inspector",
+      "force": "CISF",
+      "unit": "DMRC Metro Security Unit",
+      "station": "Rajiv Chowk Metro Station, New Delhi",
+      "deploymentZone": "High-Footfall Underground Transit",
+      "monthsInZone": 7,
+      "age": 28,
+      "yearsInService": 6,
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 67,
+      "stressRiskLevel": "Low",
+      "riskScore": 33,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-08-14",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 55,
+        "consecutiveFieldDays": 55,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 22,
+        "leaveEntitlementRemaining": 38,
+        "nightDutyShiftsPastMonth": 8,
+        "averageSleepHours": 6.8,
+        "restRecoveryScore": 70,
+        "hardshipTenureMonths": 7,
+        "familyEmergencyStatus": "Family residing locally in Rohini"
+      },
+      "biometrics": {
+        "restingHeartRate": 66,
+        "hrvMs": 55,
+        "sleepQuality": "Good",
+        "dailySteps": 16000,
+        "bloodPressure": "120/78"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 4.4,
+        "exhaustionLevel": "Low",
+        "familyWorryScore": 2,
+        "reportedSymptoms": [
+          "Occasional crowd noise fatigue"
+        ]
+      },
+      "aiRiskFactors": [
+        "Continuous ambient underground acoustic exposure",
+        "High alert vigilance during peak commuter rush hours"
+      ],
+      "welfareRecommendations": [
+        "Acoustic noise-dampening ear protection at X-ray monitors",
+        "Nominated for upcoming advanced security specialist course"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "IA-90412",
+      "name": "Havildar Kuldeep Yadav",
+      "rank": "Havildar",
+      "force": "Indian Army",
+      "unit": "3 Grenadiers",
+      "station": "Line of Control (LoC), Poonch",
+      "deploymentZone": "Active Ceasefire Forward Post",
+      "monthsInZone": 13,
+      "age": 35,
+      "yearsInService": 15,
+      "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 44,
+      "stressRiskLevel": "High",
+      "riskScore": 75,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-06-18",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 180,
+        "consecutiveFieldDays": 200,
+        "leaveApplicationsPending": 1,
+        "leaveSanctionedDaysYear": 12,
+        "leaveEntitlementRemaining": 48,
+        "nightDutyShiftsPastMonth": 18,
+        "averageSleepHours": 4.7,
+        "restRecoveryScore": 39,
+        "hardshipTenureMonths": 13,
+        "familyEmergencyStatus": "Wife undergoing surgery for gallbladder stone in Rewari"
+      },
+      "biometrics": {
+        "restingHeartRate": 80,
+        "hrvMs": 34,
+        "sleepQuality": "Poor (Sniping threat vigilance)",
+        "dailySteps": 15000,
+        "bloodPressure": "136/88"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-23",
+        "moodScore": 2.6,
+        "exhaustionLevel": "High",
+        "familyWorryScore": 8,
+        "reportedSymptoms": [
+          "Combat hypervigilance",
+          "Shoulder tension"
+        ]
+      },
+      "aiRiskFactors": [
+        "13 months in frontline bunker with direct sniper threat",
+        "18 night observation post duties in 30 days",
+        "Wife's impending surgical operation with no adult relative available"
+      ],
+      "welfareRecommendations": [
+        "Sanction 15-day Medical Attendant leave for spouse surgery",
+        "Rotate out of forward bunker to company headquarters depot"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "SSB-11890",
+      "name": "Lady Constable Priyanka Tamang",
+      "rank": "Constable",
+      "force": "SSB",
+      "unit": "17 Battalion, Anti-Human Trafficking Unit",
+      "station": "Panitanki Border, Indo-Nepal",
+      "deploymentZone": "Border Surveillance & Women Safety Desk",
+      "monthsInZone": 9,
+      "age": 26,
+      "yearsInService": 4,
+      "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 75,
+      "stressRiskLevel": "Low",
+      "riskScore": 25,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-08-05",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 45,
+        "consecutiveFieldDays": 45,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 25,
+        "leaveEntitlementRemaining": 35,
+        "nightDutyShiftsPastMonth": 6,
+        "averageSleepHours": 7.1,
+        "restRecoveryScore": 80,
+        "hardshipTenureMonths": 9,
+        "familyEmergencyStatus": "Normal, regular home contact in Darjeeling"
+      },
+      "biometrics": {
+        "restingHeartRate": 63,
+        "hrvMs": 64,
+        "sleepQuality": "Optimal",
+        "dailySteps": 13500,
+        "bloodPressure": "115/75"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 4.7,
+        "exhaustionLevel": "Low",
+        "familyWorryScore": 2,
+        "reportedSymptoms": [
+          "None"
+        ]
+      },
+      "aiRiskFactors": [
+        "Emotional secondary trauma from trafficking interception cases (managed via peer counseling)",
+        "Healthy rest balance"
+      ],
+      "welfareRecommendations": [
+        "Provide psychological debrief sessions post rescue operations",
+        "Commendation for high-performing trafficking interception"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "CRPF-12001",
+      "name": "Assistant Commandant Ankit Sharma",
+      "rank": "Assistant Commandant",
+      "force": "CRPF",
+      "unit": "150 Battalion, Bravo Company Commander",
+      "station": "Dantewada, Chhattisgarh",
+      "deploymentZone": "Maoist Insurgency Red Corridor",
+      "monthsInZone": 17,
+      "age": 32,
+      "yearsInService": 9,
+      "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 36,
+      "stressRiskLevel": "Critical",
+      "riskScore": 90,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-04-14",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 230,
+        "consecutiveFieldDays": 250,
+        "leaveApplicationsPending": 2,
+        "leaveSanctionedDaysYear": 10,
+        "leaveEntitlementRemaining": 50,
+        "nightDutyShiftsPastMonth": 21,
+        "averageSleepHours": 4.2,
+        "restRecoveryScore": 27,
+        "hardshipTenureMonths": 17,
+        "familyEmergencyStatus": "Pregnant wife in 8th month with gestational complications in Jaipur"
+      },
+      "biometrics": {
+        "restingHeartRate": 88,
+        "hrvMs": 24,
+        "sleepQuality": "Critical Deficit",
+        "dailySteps": 22000,
+        "bloodPressure": "144/94"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-23",
+        "moodScore": 1.7,
+        "exhaustionLevel": "Severe",
+        "familyWorryScore": 10,
+        "reportedSymptoms": [
+          "Severe operational stress",
+          "Acid reflux",
+          "Insomnia"
+        ]
+      },
+      "aiRiskFactors": [
+        "Company Commander carrying full operational responsibility for 130 troops in high-risk IED belt",
+        "Wife entering delivery month with medical complications while 1,500km away",
+        "230 days continuous field tenure without leave relief",
+        "Signs of severe executive burnout and sympathetic adrenal overdrive"
+      ],
+      "welfareRecommendations": [
+        "PRIORITY 1: Immediate relief of command by Second-in-Command (2IC)",
+        "Sanction 25-day Paternity & Special Welfare Leave with direct air transit clearance",
+        "Executive medical check-up at AIIMS New Delhi en route"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "IN-99014",
+      "name": "Lieutenant Commander Varun Nambiar",
+      "rank": "Lt Commander",
+      "force": "Indian Navy",
+      "unit": "Submarine Arm (INS Kalvari)",
+      "station": "Eastern Fleet, Visakhapatnam",
+      "deploymentZone": "Submerged Long-Endurance Patrol",
+      "monthsInZone": 5,
+      "age": 34,
+      "yearsInService": 12,
+      "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 59,
+      "stressRiskLevel": "Moderate",
+      "riskScore": 51,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-07-11",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 85,
+        "consecutiveFieldDays": 85,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 20,
+        "leaveEntitlementRemaining": 40,
+        "nightDutyShiftsPastMonth": 15,
+        "averageSleepHours": 5.4,
+        "restRecoveryScore": 56,
+        "hardshipTenureMonths": 5,
+        "familyEmergencyStatus": "Normal, spouse in Naval Officers Enclave, Vizag"
+      },
+      "biometrics": {
+        "restingHeartRate": 70,
+        "hrvMs": 48,
+        "sleepQuality": "Artificial diurnal cycle adaptation",
+        "dailySteps": 8500,
+        "bloodPressure": "122/82"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 3.8,
+        "exhaustionLevel": "Moderate",
+        "familyWorryScore": 3,
+        "reportedSymptoms": [
+          "Vitamin D lack",
+          "Circadian phase delay"
+        ]
+      },
+      "aiRiskFactors": [
+        "Zero natural sunlight for 45-day submerged mission cycles",
+        "High sensory hyper-vigilance (sonar acoustic monitoring)"
+      ],
+      "welfareRecommendations": [
+        "Prescribe full-spectrum bright light therapy and Vitamin D3 supplementation",
+        "Mandatory 7-day decompression leave post-patrol"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "BSF-33201",
+      "name": "Constable Jagdish Meena",
+      "rank": "Constable",
+      "force": "BSF",
+      "unit": "194 Battalion, Creek Crocodile Commando",
+      "station": "Sir Creek, Gujarat",
+      "deploymentZone": "Tidal Salt Marshes & Extreme Salinity",
+      "monthsInZone": 12,
+      "age": 30,
+      "yearsInService": 8,
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 51,
+      "stressRiskLevel": "Moderate",
+      "riskScore": 60,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-06-22",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 135,
+        "consecutiveFieldDays": 140,
+        "leaveApplicationsPending": 1,
+        "leaveSanctionedDaysYear": 15,
+        "leaveEntitlementRemaining": 45,
+        "nightDutyShiftsPastMonth": 14,
+        "averageSleepHours": 5.5,
+        "restRecoveryScore": 51,
+        "hardshipTenureMonths": 12,
+        "familyEmergencyStatus": "Normal, family in Dausa, Rajasthan"
+      },
+      "biometrics": {
+        "restingHeartRate": 75,
+        "hrvMs": 42,
+        "sleepQuality": "Moderate",
+        "dailySteps": 16800,
+        "bloodPressure": "128/84"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-23",
+        "moodScore": 3.4,
+        "exhaustionLevel": "Moderate",
+        "familyWorryScore": 5,
+        "reportedSymptoms": [
+          "Extreme salt glare eye strain",
+          "Foot skin maceration"
+        ]
+      },
+      "aiRiskFactors": [
+        "Corrosive marsh environment with high isolation and solar reflection",
+        "High night amphibious patrol density"
+      ],
+      "welfareRecommendations": [
+        "Issue polarized UV protective tactical goggles",
+        "Approve upcoming 15-day festival leave application for Diwali"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "IAF-22108",
+      "name": "Corporal Rohit Deshmukh",
+      "rank": "Corporal",
+      "force": "Indian Air Force",
+      "unit": "Air Defence Radar Station",
+      "station": "Naliya, Kutch",
+      "deploymentZone": "Forward Operational Early Warning Radar",
+      "monthsInZone": 10,
+      "age": 27,
+      "yearsInService": 6,
+      "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 69,
+      "stressRiskLevel": "Low",
+      "riskScore": 31,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-08-18",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 60,
+        "consecutiveFieldDays": 60,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 24,
+        "leaveEntitlementRemaining": 36,
+        "nightDutyShiftsPastMonth": 7,
+        "averageSleepHours": 6.9,
+        "restRecoveryScore": 75,
+        "hardshipTenureMonths": 10,
+        "familyEmergencyStatus": "Normal, communication daily via mobile"
+      },
+      "biometrics": {
+        "restingHeartRate": 64,
+        "hrvMs": 59,
+        "sleepQuality": "Good",
+        "dailySteps": 11000,
+        "bloodPressure": "116/76"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 4.5,
+        "exhaustionLevel": "Low",
+        "familyWorryScore": 1,
+        "reportedSymptoms": [
+          "None"
+        ]
+      },
+      "aiRiskFactors": [
+        "Predictable shift rotation schedule with adequate turnaround"
+      ],
+      "welfareRecommendations": [
+        "Maintain current operational cadence",
+        "Eligible for technical advanced instrumentation training"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "AR-44018",
+      "name": "Havildar David Vanlalhruaia",
+      "rank": "Havildar",
+      "force": "Assam Rifles",
+      "unit": "10 Assam Rifles",
+      "station": "Ukhrul, Nagaland Border",
+      "deploymentZone": "Dense Ridge Mountain Counter-Insurgency",
+      "monthsInZone": 14,
+      "age": 36,
+      "yearsInService": 15,
+      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 47,
+      "stressRiskLevel": "High",
+      "riskScore": 72,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-06-25",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 165,
+        "consecutiveFieldDays": 180,
+        "leaveApplicationsPending": 1,
+        "leaveSanctionedDaysYear": 15,
+        "leaveEntitlementRemaining": 45,
+        "nightDutyShiftsPastMonth": 16,
+        "averageSleepHours": 5.1,
+        "restRecoveryScore": 43,
+        "hardshipTenureMonths": 14,
+        "familyEmergencyStatus": "Teenage daughter hospitalized with severe dengue in Aizawl"
+      },
+      "biometrics": {
+        "restingHeartRate": 77,
+        "hrvMs": 37,
+        "sleepQuality": "Moderate",
+        "dailySteps": 19200,
+        "bloodPressure": "130/84"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-23",
+        "moodScore": 2.9,
+        "exhaustionLevel": "Moderate-High",
+        "familyWorryScore": 8,
+        "reportedSymptoms": [
+          "Knee joint inflammation",
+          "Family anxiety"
+        ]
+      },
+      "aiRiskFactors": [
+        "14 months steep jungle terrain patrolling",
+        "Active family medical crisis with daughter in hospital",
+        "Accumulated leave deficit"
+      ],
+      "welfareRecommendations": [
+        "Expedite 14-day emergency compassionate leave to visit daughter",
+        "Knee joint orthopaedic check-up at Base Hospital"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "CRPF-55102",
+      "name": "Constable Manpreet Kaur",
+      "rank": "Constable",
+      "force": "CRPF",
+      "unit": "Rapid Action Force (RAF 99 Bn)",
+      "station": "Ahmedabad Rapid Deployment Camp",
+      "deploymentZone": "Communal Riot Control & Rapid Response",
+      "monthsInZone": 9,
+      "age": 27,
+      "yearsInService": 5,
+      "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 63,
+      "stressRiskLevel": "Moderate",
+      "riskScore": 47,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-07-29",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 80,
+        "consecutiveFieldDays": 80,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 18,
+        "leaveEntitlementRemaining": 42,
+        "nightDutyShiftsPastMonth": 11,
+        "averageSleepHours": 6.2,
+        "restRecoveryScore": 64,
+        "hardshipTenureMonths": 9,
+        "familyEmergencyStatus": "Normal, periodic phone calls with family in Patiala"
+      },
+      "biometrics": {
+        "restingHeartRate": 69,
+        "hrvMs": 51,
+        "sleepQuality": "Good",
+        "dailySteps": 15800,
+        "bloodPressure": "120/78"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 4.1,
+        "exhaustionLevel": "Moderate",
+        "familyWorryScore": 3,
+        "reportedSymptoms": [
+          "Fatigue after heavy drill week"
+        ]
+      },
+      "aiRiskFactors": [
+        "Spike in sudden 30-minute riot control mobilizations",
+        "Physical muscle strain"
+      ],
+      "welfareRecommendations": [
+        "Provide scheduled sauna & physical recovery sessions",
+        "Maintain current leave rotation schedule"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "IA-88091",
+      "name": "Subedar Major Balram Thapa",
+      "rank": "Subedar Major",
+      "force": "Indian Army",
+      "unit": "1/11 Gorkha Rifles",
+      "station": "Kupwara, North Kashmir",
+      "deploymentZone": "Dense Pine Forest Infiltration Counter-Ops",
+      "monthsInZone": 15,
+      "age": 46,
+      "yearsInService": 25,
+      "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 55,
+      "stressRiskLevel": "Moderate",
+      "riskScore": 54,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-05-19",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 125,
+        "consecutiveFieldDays": 140,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 20,
+        "leaveEntitlementRemaining": 40,
+        "nightDutyShiftsPastMonth": 12,
+        "averageSleepHours": 5.7,
+        "restRecoveryScore": 57,
+        "hardshipTenureMonths": 15,
+        "familyEmergencyStatus": "Normal, son selected in NDA Khadakwasla (source of pride)"
+      },
+      "biometrics": {
+        "restingHeartRate": 70,
+        "hrvMs": 47,
+        "sleepQuality": "Acceptable",
+        "dailySteps": 17000,
+        "bloodPressure": "128/82"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 4.0,
+        "exhaustionLevel": "Moderate",
+        "familyWorryScore": 2,
+        "reportedSymptoms": [
+          "Mild chronic lower back ache"
+        ]
+      },
+      "aiRiskFactors": [
+        "High senior non-commissioned officer responsibility for all battalion jawans' morale",
+        "Harsh winter mountain terrain"
+      ],
+      "welfareRecommendations": [
+        "Physiotherapy for chronic lumbar spine alignment",
+        "Appoint as Senior Battalion Welfare Advisory Mentor"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "CISF-88190",
+      "name": "Head Constable Satish Pillai",
+      "rank": "Head Constable",
+      "force": "CISF",
+      "unit": "Bhabha Atomic Research Centre Security",
+      "station": "Trombay, Mumbai",
+      "deploymentZone": "Strategic Nuclear Facility Perimeter Security",
+      "monthsInZone": 11,
+      "age": 36,
+      "yearsInService": 14,
+      "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 71,
+      "stressRiskLevel": "Low",
+      "riskScore": 29,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-07-03",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 60,
+        "consecutiveFieldDays": 60,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 26,
+        "leaveEntitlementRemaining": 34,
+        "nightDutyShiftsPastMonth": 7,
+        "averageSleepHours": 7.0,
+        "restRecoveryScore": 76,
+        "hardshipTenureMonths": 11,
+        "familyEmergencyStatus": "Family residing comfortably in Navi Mumbai"
+      },
+      "biometrics": {
+        "restingHeartRate": 65,
+        "hrvMs": 60,
+        "sleepQuality": "Good",
+        "dailySteps": 13000,
+        "bloodPressure": "118/76"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 4.6,
+        "exhaustionLevel": "Low",
+        "familyWorryScore": 1,
+        "reportedSymptoms": [
+          "None"
+        ]
+      },
+      "aiRiskFactors": [
+        "Controlled industrial access protocol environment with low dynamic threat"
+      ],
+      "welfareRecommendations": [
+        "Maintain current operational cadence",
+        "Eligible for fire-fighting certification refresh"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "ITBP-77002",
+      "name": "Constable Rigzin Namgyal",
+      "rank": "Constable",
+      "force": "ITBP",
+      "unit": "Sikkim Sector High Altitude Post",
+      "station": "Nathu La Pass, Sikkim (14,140 ft)",
+      "deploymentZone": "Snowbound Strategic Border Pass",
+      "monthsInZone": 13,
+      "age": 28,
+      "yearsInService": 6,
+      "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 49,
+      "stressRiskLevel": "High",
+      "riskScore": 70,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-06-08",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 170,
+        "consecutiveFieldDays": 180,
+        "leaveApplicationsPending": 1,
+        "leaveSanctionedDaysYear": 14,
+        "leaveEntitlementRemaining": 46,
+        "nightDutyShiftsPastMonth": 15,
+        "averageSleepHours": 5.2,
+        "restRecoveryScore": 44,
+        "hardshipTenureMonths": 13,
+        "familyEmergencyStatus": "Elderly grandmother unwell in Leh"
+      },
+      "biometrics": {
+        "restingHeartRate": 78,
+        "hrvMs": 36,
+        "sleepQuality": "Fragmented by extreme blizzards",
+        "dailySteps": 14500,
+        "bloodPressure": "130/84"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-23",
+        "moodScore": 3.0,
+        "exhaustionLevel": "Moderate-High",
+        "familyWorryScore": 7,
+        "reportedSymptoms": [
+          "Cold numbness in fingers",
+          "Insomnia"
+        ]
+      },
+      "aiRiskFactors": [
+        "13 months sub-zero temperature deployment",
+        "170 days without home leave",
+        "Declining heart rate variability"
+      ],
+      "welfareRecommendations": [
+        "Sanction 15-day home leave to Leh via Gangtok transit",
+        "Schedule medical check for early-stage frostnip"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "BSF-10294",
+      "name": "Lady Constable Meenakshi Boro",
+      "rank": "Constable",
+      "force": "BSF",
+      "unit": "South Bengal Frontier, Mahila Picket",
+      "station": "Petrapole Integrated Checkpost",
+      "deploymentZone": "High-Volume Border Crossing & Anti-Smuggling",
+      "monthsInZone": 10,
+      "age": 25,
+      "yearsInService": 4,
+      "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 66,
+      "stressRiskLevel": "Low",
+      "riskScore": 34,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-08-02",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 65,
+        "consecutiveFieldDays": 65,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 22,
+        "leaveEntitlementRemaining": 38,
+        "nightDutyShiftsPastMonth": 9,
+        "averageSleepHours": 6.7,
+        "restRecoveryScore": 71,
+        "hardshipTenureMonths": 10,
+        "familyEmergencyStatus": "Normal, regular communication with home in Assam"
+      },
+      "biometrics": {
+        "restingHeartRate": 67,
+        "hrvMs": 56,
+        "sleepQuality": "Good",
+        "dailySteps": 16200,
+        "bloodPressure": "118/76"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-24",
+        "moodScore": 4.3,
+        "exhaustionLevel": "Low",
+        "familyWorryScore": 2,
+        "reportedSymptoms": [
+          "None"
+        ]
+      },
+      "aiRiskFactors": [
+        "Good physiological resilience metrics",
+        "Adequate sleep recovery"
+      ],
+      "welfareRecommendations": [
+        "Continue current shift rotation schedule",
+        "Eligible for canine handling certification"
+      ],
+      "actionHistory": []
+    },
+    {
+      "id": "CRPF-33019",
+      "name": "Constable Vinod Paswan",
+      "rank": "Constable",
+      "force": "CRPF",
+      "unit": "204 CoBRA Battalion",
+      "station": "Bijapur, Bastar",
+      "deploymentZone": "Dense Sal Forest Deep Anti-Maoist Ops",
+      "monthsInZone": 16,
+      "age": 31,
+      "yearsInService": 10,
+      "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+      "wellbeingPercentage": 35,
+      "stressRiskLevel": "Critical",
+      "riskScore": 91,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2026-05-02",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 235,
+        "consecutiveFieldDays": 250,
+        "leaveApplicationsPending": 2,
+        "leaveSanctionedDaysYear": 8,
+        "leaveEntitlementRemaining": 52,
+        "nightDutyShiftsPastMonth": 20,
+        "averageSleepHours": 4.1,
+        "restRecoveryScore": 26,
+        "hardshipTenureMonths": 16,
+        "familyEmergencyStatus": "Two children down with severe enteric typhoid in Gaya, Bihar"
+      },
+      "biometrics": {
+        "restingHeartRate": 87,
+        "hrvMs": 23,
+        "sleepQuality": "Severe Deficit",
+        "dailySteps": 21500,
+        "bloodPressure": "142/92"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2026-09-22",
+        "moodScore": 1.6,
+        "exhaustionLevel": "Severe",
+        "familyWorryScore": 10,
+        "reportedSymptoms": [
+          "Extreme anxiety",
+          "Tremors",
+          "Severe sleep loss"
+        ]
+      },
+      "aiRiskFactors": [
+        "235 days without leave in active IED and ambush jungle warfare",
+        "Extreme family crisis with both young children hospitalized",
+        "Autonomic nervous system exhaustion (HRV 23ms, sleep 4.1 hrs)",
+        "Severe psychological distress"
+      ],
+      "welfareRecommendations": [
+        "PRIORITY 1: Immediate sanction of 20 days emergency compassionate leave",
+        "Stand down from jungle ambush operations immediately",
+        "Battalion psychologist debrief before travel to railhead"
+      ],
+      "actionHistory": []
+    }
+  ],
+  "unitStats": {
+    "totalPersonnel": 1200,
+    "consentCompliance": "97.8%",
+    "riskDistribution": {
+      "low": 1017,
+      "moderate": 135,
+      "high": 40,
+      "critical": 8
+    },
+    "forceReadinessIndex": 86.4,
+    "averageLeaveDeficitDays": 84,
+    "welfareInterventionsActive": 32,
+    "counselingSessionsCompletedMonth": 56
+  }
+}

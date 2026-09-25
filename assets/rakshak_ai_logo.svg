@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0a182e"/>
+      <stop offset="60%" stop-color="#040b17"/>
+      <stop offset="100%" stop-color="#02060d"/>
+    </radialGradient>
+
+    <!-- Metallic Gold Shield Gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd700"/>
+      <stop offset="25%" stop-color="#fff3a8"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="75%" stop-color="#aa8012"/>
+      <stop offset="100%" stop-color="#f5d77f"/>
+    </linearGradient>
+
+    <!-- Cyber Neon Cyan Gradient -->
+    <linearGradient id="cyanNeon" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+
+    <!-- Emerald Vital Pulse Glow -->
+    <linearGradient id="vitalPulse" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00e676"/>
+      <stop offset="50%" stop-color="#69f0ae"/>
+      <stop offset="100%" stop-color="#00e676"/>
+    </linearGradient>
+
+    <!-- Indian Flag Colors -->
+    <linearGradient id="flagSaffron" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff9933"/>
+      <stop offset="100%" stop-color="#e67300"/>
+    </linearGradient>
+    <linearGradient id="flagGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#138808"/>
+      <stop offset="100%" stop-color="#0e6005"/>
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Deep Military Tactical Canvas Background -->
+  <rect width="1000" height="1000" fill="url(#bgGrad)"/>
+
+  <!-- Subtle Circular Tech Rings -->
+  <circle cx="500" cy="460" r="410" fill="none" stroke="rgba(56, 189, 248, 0.12)" stroke-width="2" stroke-dasharray="10 15"/>
+  <circle cx="500" cy="460" r="370" fill="none" stroke="rgba(212, 175, 55, 0.15)" stroke-width="1.5"/>
+
+  <!-- ========================================== -->
+  <!-- 1. TACTICAL GUARDIAN SHIELD (OUTER & INNER)-->
+  <!-- ========================================== -->
+  <!-- Outer Gold Shield Outline -->
+  <path d="M500,140 L760,240 L690,620 L500,790 L310,620 L240,240 Z" 
+        fill="#071326" stroke="url(#goldGrad)" stroke-width="16" stroke-linejoin="round"
+        filter="drop-shadow(0 15px 30px rgba(0,0,0,0.8))"/>
+
+  <!-- Inner Cyan Neon Bevel -->
+  <path d="M500,175 L725,260 L665,595 L500,745 L335,595 L275,260 Z" 
+        fill="#091b36" stroke="url(#cyanNeon)" stroke-width="6" stroke-linejoin="round"
+        filter="url(#glowCyan)"/>
+
+  <!-- ========================================== -->
+  <!-- 2. INDIAN TRICOLOR TOP CREST               -->
+  <!-- ========================================== -->
+  <g transform="translate(425, 205)">
+    <!-- Shield Mini Crest -->
+    <path d="M0,0 L150,0 L135,55 L75,75 L15,55 Z" fill="#ffffff" stroke="url(#goldGrad)" stroke-width="3" />
+    <!-- Saffron Stripe -->
+    <path d="M2,2 L148,2 L143,20 L7,20 Z" fill="url(#flagSaffron)"/>
+    <!-- Green Stripe -->
+    <path d="M11,36 L139,36 L133,53 L75,73 L17,53 Z" fill="url(#flagGreen)"/>
+    <!-- Ashoka Chakra (Navy Blue) -->
+    <circle cx="75" cy="28" r="7" fill="none" stroke="#000080" stroke-width="1.5"/>
+    <circle cx="75" cy="28" r="1.5" fill="#000080"/>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- 3. CYBER-EAGLE GUARDIAN WITH WINGS         -->
+  <!-- ========================================== -->
+  <!-- Left Wing (Cyber Circuit Feathers) -->
+  <g fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowCyan)">
+    <!-- Feather Layer 1 -->
+    <path d="M470,360 C380,260 260,270 200,340 C240,360 300,360 370,410"/>
+    <path d="M460,390 C360,320 250,340 190,420 C240,430 300,420 370,470"/>
+    <path d="M450,420 C360,390 270,420 210,500 C260,500 320,480 380,510"/>
+    <!-- Circuit nodes -->
+    <circle cx="200" cy="340" r="4" fill="#38bdf8"/>
+    <circle cx="190" cy="420" r="4" fill="#38bdf8"/>
+    <circle cx="210" cy="500" r="4" fill="#38bdf8"/>
+    <circle cx="290" cy="355" r="3" fill="#38bdf8"/>
+    <circle cx="280" cy="425" r="3" fill="#38bdf8"/>
+  </g>
+
+  <!-- Right Wing (Cyber Circuit Feathers) -->
+  <g fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowCyan)">
+    <!-- Feather Layer 1 -->
+    <path d="M530,360 C620,260 740,270 800,340 C760,360 700,360 630,410"/>
+    <path d="M540,390 C640,320 750,340 810,420 C760,430 700,420 630,470"/>
+    <path d="M550,420 C640,390 730,420 790,500 C740,500 680,480 620,510"/>
+    <!-- Circuit nodes -->
+    <circle cx="800" cy="340" r="4" fill="#38bdf8"/>
+    <circle cx="810" cy="420" r="4" fill="#38bdf8"/>
+    <circle cx="790" cy="500" r="4" fill="#38bdf8"/>
+    <circle cx="710" cy="355" r="3" fill="#38bdf8"/>
+    <circle cx="720" cy="425" r="3" fill="#38bdf8"/>
+  </g>
+
+  <!-- Eagle Central Body Silhouette -->
+  <path d="M500,300 C520,330 555,360 550,440 C545,510 525,570 500,610 C475,570 455,510 450,440 C445,360 480,330 500,300 Z" 
+        fill="#0a254a" stroke="url(#goldGrad)" stroke-width="4"/>
+
+  <!-- Eagle Head & Sharp Beak -->
+  <path d="M485,310 L500,290 L515,310 L525,325 L500,345 L475,325 Z" fill="#d4af37"/>
+  <path d="M500,320 L535,335 L500,345 Z" fill="#ffd700"/>
+  <!-- Eagle Eye -->
+  <circle cx="495" cy="322" r="3" fill="#38bdf8" filter="url(#glowCyan)"/>
+
+  <!-- ========================================== -->
+  <!-- 4. VITAL CARDIAC ECG PULSE (EMERALD GREEN) -->
+  <!-- ========================================== -->
+  <polyline points="260,470 380,470 410,470 430,420 450,530 470,390 500,560 530,370 550,520 570,440 590,470 620,470 740,470" 
+            fill="none" stroke="url(#vitalPulse)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"
+            filter="url(#glowGreen)"/>
+
+  <!-- Pulse Heartbeat Accent Dots -->
+  <circle cx="260" cy="470" r="6" fill="#00e676" filter="url(#glowGreen)"/>
+  <circle cx="740" cy="470" r="6" fill="#00e676" filter="url(#glowGreen)"/>
+
+  <!-- ========================================== -->
+  <!-- 5. BANNER & EDITABLE TEXT "RakshakAI"      -->
+  <!-- ========================================== -->
+  <!-- Bottom Ribbon / Banner -->
+  <path d="M190,750 L810,750 L770,855 L500,885 L230,855 Z" 
+        fill="#07152b" stroke="url(#goldGrad)" stroke-width="8" stroke-linejoin="round"
+        filter="drop-shadow(0 15px 25px rgba(0,0,0,0.9))"/>
+
+  <!-- Inner Banner Trim -->
+  <path d="M210,765 L790,765 L755,840 L500,865 L245,840 Z" 
+        fill="#0c203f" stroke="rgba(56, 189, 248, 0.4)" stroke-width="2"/>
+
+  <!-- Main Editable Text: RakshakAI -->
+  <!-- In vector editors (Illustrator/Figma/Canva), this is a selectable, fully editable text element -->
+  <text x="500" y="830" 
+        text-anchor="middle" 
+        font-family="'Inter', 'Montserrat', 'Arial Black', sans-serif" 
+        font-size="68" 
+        font-weight="900" 
+        letter-spacing="2"
+        fill="#ffffff" 
+        stroke="#040b17"
+        stroke-width="3"
+        style="text-shadow: 0 4px 15px rgba(56, 189, 248, 0.6);">
+    Rakshak<tspan fill="#38bdf8">AI</tspan>
+  </text>
+
+  <!-- Subtitle Text: SOLDIER WELFARE & STRESS CARE PLATFORM -->
+  <text x="500" y="860" 
+        text-anchor="middle" 
+        font-family="'Inter', sans-serif" 
+        font-size="16" 
+        font-weight="700" 
+        letter-spacing="6"
+        fill="#d4af37">
+    SOLDIER WELFARE &amp; STRESS CARE PLATFORM
+  </text>
+</svg>

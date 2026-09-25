@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RakshakAI - Official Logo & Editable Branding Kit</title>
+  <link rel="icon" type="image/jpeg" href="assets/rakshak_ai_eagle_logo.jpg?v=eagle" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <style>
+    :root {
+      --bg: #050b14;
+      --card-bg: rgba(11, 23, 44, 0.85);
+      --border: rgba(56, 189, 248, 0.25);
+      --primary: #38bdf8;
+      --gold: #d4af37;
+      --green: #00e676;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body {
+      background: var(--bg);
+      color: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1.5rem;
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(2, 132, 199, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.12) 0%, transparent 50%);
+    }
+    .header-bar {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .header-bar h1 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .header-bar h1 span { color: var(--primary); }
+    .header-bar p {
+      color: #94a3b8;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+    }
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .preview-box {
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 1/1;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid rgba(56, 189, 248, 0.4);
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.35);
+      margin-bottom: 1.5rem;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .preview-box img, .preview-box svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .badge-label {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .card-desc {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s ease;
+    }
+    .btn-download.primary {
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+    }
+    .btn-download.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5);
+    }
+    .btn-download.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      margin-top: 0.75rem;
+    }
+    .btn-download.secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Live In-Browser Editor Controls */
+    .editor-section {
+      width: 100%;
+      margin-top: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1.2rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .editor-field {
+      margin-bottom: 1rem;
+    }
+    .editor-field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .editor-input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      background: rgba(5, 11, 20, 0.8);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .editor-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .back-nav {
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+    .back-nav a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+    .back-nav a:hover { color: #fff; }
+    @media (max-width: 850px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <h1>Rakshak<span>AI</span> Official Logo Kit</h1>
+    <p>Download the high-resolution JPG or edit & export with custom text and colors.</p>
+  </div>
+
+  <div class="main-grid">
+    
+    <!-- CARD 1: Full-Resolution 1024x1024 JPG -->
+    <div class="card">
+      <span class="badge-label">Ultra-HD Raster Format</span>
+      <h2 class="card-title">High-Resolution JPG Logo</h2>
+      <p class="card-desc">
+        1024 × 1024 px master render with 3D metallic gold bevels, glowing cyan borders, and Indian tricolor crest. Ready for immediate use.
+      </p>
+
+      <div class="preview-box">
+        <img id="jpgPreviewImg" src="assets/rakshak_ai_eagle_logo.jpg?v=eagle_final" alt="RakshakAI Eagle Emblem Logo" />
+      </div>
+
+      <a href="assets/rakshak_ai_eagle_logo.jpg" download="RakshakAI_Eagle_Logo_Master.jpg" class="btn-download primary">
+        <i class="fas fa-download"></i> Download Master Eagle JPG (1024x1024)
+      </a>
+
+      <button onclick="copyDirectLink()" class="btn-download secondary">
+        <i class="fas fa-link"></i> Copy Direct Image Link
+      </button>
+    </div>
+
+    <!-- CARD 2: Fully Editable Vector & In-Browser Customizer -->
+    <div class="card">
+      <span class="badge-label" style="background:rgba(212, 175, 55, 0.2); color:#ffd700;">Vector & Editable Format</span>
+      <h2 class="card-title">Live Editable Logo Studio</h2>
+      <p class="card-desc">
+        Change the logo text, colors, and subtitle live in your browser, or download the vector SVG with editable text layers for Canva, Photoshop, or Figma.
+      </p>
+
+      <div class="preview-box" id="svgContainer">
+        <!-- Embedded Interactive SVG for Real-time Editing -->
+        <svg id="liveSvgLogo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+          <defs>
+            <radialGradient id="bgGrad2" cx="50%" cy="50%" r="70%">
+              <stop offset="0%" stop-color="#0a182e"/>
+              <stop offset="60%" stop-color="#040b17"/>
+              <stop offset="100%" stop-color="#02060d"/>
+            </radialGradient>
+            <linearGradient id="goldGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffd700"/>
+              <stop offset="25%" stop-color="#fff3a8"/>
+              <stop offset="50%" stop-color="#d4af37"/>
+              <stop offset="75%" stop-color="#aa8012"/>
+              <stop offset="100%" stop-color="#f5d77f"/>
+            </linearGradient>
+            <linearGradient id="cyanNeon2" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop id="glowColorStop" offset="0%" stop-color="#38bdf8"/>
+              <stop offset="100%" stop-color="#0284c7"/>
+            </linearGradient>
+          </defs>
+          <rect width="1000" height="1000" fill="url(#bgGrad2)"/>
+          <circle cx="500" cy="460" r="410" fill="none" stroke="rgba(56, 189, 248, 0.15)" stroke-width="2" stroke-dasharray="10 15"/>
+          <path d="M500,140 L760,240 L690,620 L500,790 L310,620 L240,240 Z" fill="#071326" stroke="url(#goldGrad2)" stroke-width="16" stroke-linejoin="round"/>
+          <path d="M500,175 L725,260 L665,595 L500,745 L335,595 L275,260 Z" fill="#091b36" stroke="url(#cyanNeon2)" stroke-width="6" stroke-linejoin="round"/>
+          <!-- Tricolor -->
+          <g transform="translate(425, 205)">
+            <path d="M0,0 L150,0 L135,55 L75,75 L15,55 Z" fill="#ffffff" stroke="url(#goldGrad2)" stroke-width="3"/>
+            <path d="M2,2 L148,2 L143,20 L7,20 Z" fill="#ff9933"/>
+            <path d="M11,36 L139,36 L133,53 L75,73 L17,53 Z" fill="#138808"/>
+            <circle cx="75" cy="28" r="7" fill="none" stroke="#000080" stroke-width="1.5"/>
+          </g>
+          <!-- Wings -->
+          <g fill="none" stroke="#38bdf8" stroke-width="5" stroke-linecap="round">
+            <path d="M470,360 C380,260 260,270 200,340 C240,360 300,360 370,410"/>
+            <path d="M460,390 C360,320 250,340 190,420 C240,430 300,420 370,470"/>
+            <path d="M530,360 C620,260 740,270 800,340 C760,360 700,360 630,410"/>
+            <path d="M540,390 C640,320 750,340 810,420 C760,430 700,420 630,470"/>
+          </g>
+          <!-- Body & Head -->
+          <path d="M500,300 C520,330 555,360 550,440 C545,510 525,570 500,610 C475,570 455,510 450,440 C445,360 480,330 500,300 Z" fill="#0a254a" stroke="url(#goldGrad2)" stroke-width="4"/>
+          <path d="M485,310 L500,290 L515,310 L525,325 L500,345 L475,325 Z" fill="#d4af37"/>
+          <!-- Pulse -->
+          <polyline points="260,470 380,470 430,420 450,530 470,390 500,560 530,370 550,520 570,440 620,470 740,470" fill="none" stroke="#00e676" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Banner -->
+          <path d="M190,750 L810,750 L770,855 L500,885 L230,855 Z" fill="#07152b" stroke="url(#goldGrad2)" stroke-width="8"/>
+          <!-- Editable Text Nodes -->
+          <text id="liveTextBrand" x="500" y="830" text-anchor="middle" font-family="'Inter', sans-serif" font-size="64" font-weight="900" fill="#ffffff">RakshakAI</text>
+          <text id="liveTextSubtitle" x="500" y="860" text-anchor="middle" font-family="'Inter', sans-serif" font-size="16" font-weight="700" fill="#d4af37" letter-spacing="4">SOLDIER WELFARE &amp; STRESS CARE</text>
+        </svg>
+      </div>
+
+      <!-- Live Controls -->
+      <div class="editor-section">
+        <div class="editor-field">
+          <label>Edit Brand Name</label>
+          <input type="text" id="inputBrandName" class="editor-input" value="RakshakAI" oninput="updateLiveText()" />
+        </div>
+        <div class="editor-field">
+          <label>Edit Subtitle</label>
+          <input type="text" id="inputSubtitle" class="editor-input" value="SOLDIER WELFARE &amp; STRESS CARE" oninput="updateLiveSubtitle()" />
+        </div>
+      </div>
+
+      <div style="display:flex; gap:0.8rem; width:100%; margin-top:1.2rem;">
+        <a href="assets/rakshak_ai_logo.svg" download="RakshakAI_Vector_Editable.svg" class="btn-download primary" style="flex:1;">
+          <i class="fas fa-file-code"></i> Download Editable SVG
+        </a>
+        <button onclick="exportLiveSvgAsJpg()" class="btn-download primary" style="flex:1; background:linear-gradient(135deg, #10b981, #059669);">
+          <i class="fas fa-image"></i> Export Edited JPG
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="back-nav">
+    <a href="/"><i class="fas fa-arrow-left"></i> Back to RakshakAI Main Application</a>
+  </div>
+
+  <script>
+    function updateLiveText() {
+      const val = document.getElementById('inputBrandName').value || 'RakshakAI';
+      document.getElementById('liveTextBrand').textContent = val;
+    }
+    function updateLiveSubtitle() {
+      const val = document.getElementById('inputSubtitle').value || 'SOLDIER WELFARE & STRESS CARE';
+      document.getElementById('liveTextSubtitle').textContent = val;
+    }
+    function copyDirectLink() {
+      const url = window.location.origin + '/assets/rakshak_ai_eagle_logo.jpg';
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Direct Image URL copied to clipboard!\n\n' + url);
+      });
+    }
+
+    // Convert Live SVG to JPG Canvas and trigger download
+    function exportLiveSvgAsJpg() {
+      const svg = document.getElementById('liveSvgLogo');
+      const xml = new XMLSerializer().serializeToString(svg);
+      const svg64 = btoa(unescape(encodeURIComponent(xml)));
+      const image64 = 'data:image/svg+xml;base64,' + svg64;
+
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1000;
+        canvas.height = 1000;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#050b14';
+        ctx.fillRect(0, 0, 1000, 1000);
+        ctx.drawImage(img, 0, 0);
+
+        const a = document.createElement('a');
+        a.download = 'RakshakAI_Custom_Logo.jpg';
+        a.href = canvas.toDataURL('image/jpeg', 0.95);
+        a.click();
+      };
+      img.src = image64;
+    }
+  </script>
+</body>
+</html>
