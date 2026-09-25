@@ -176,6 +176,7 @@ class RakshakApp {
   // AUTH & ROLE DISPATCHER
   // ==========================================================
   selectLoginRole(role, elem) {
+    if (role !== 'soldier' && role !== 'commander') role = 'soldier';
     this.selectedLoginRole = role;
     document.querySelectorAll('.role-card-picker').forEach(c => c.classList.remove('active'));
     if (elem) elem.classList.add('active');
@@ -184,65 +185,38 @@ class RakshakApp {
     if (usernameInput) {
       if (role === 'soldier') usernameInput.value = 'CRPF-94821 (Rajesh Kumar)';
       else if (role === 'commander') usernameInput.value = 'CMD-01 (Col. Virendra Saxena)';
-      else if (role === 'welfare') usernameInput.value = 'WEL-04 (Maj. Sunita Rao - Welfare Officer)';
-      else if (role === 'medical') usernameInput.value = 'MED-09 (Dr. Capt. Ananya Sharma - Medical Officer)';
     }
   }
 
   handleAuthLogin(roleOverride = null) {
-    const role = roleOverride || this.selectedLoginRole;
+    let role = roleOverride || this.selectedLoginRole;
+    if (role !== 'soldier' && role !== 'commander') role = 'soldier';
     this.selectedLoginRole = role;
     document.getElementById('authLandingView').style.display = 'none';
     document.getElementById('mainAppShell').style.display = 'flex';
 
     // Role-Based Navigation & Access Enforcement
     const navLiHome = document.getElementById('navLiHome');
-    const navLiTreatment = document.getElementById('navLiTreatment');
-    const navLiWelfareTracker = document.getElementById('navLiWelfareTracker');
     const navLiCommander = document.getElementById('navLiCommander');
     const navLiTwin = document.getElementById('navLiTwin');
     const navHomeText = document.querySelector('#navItemHome span');
 
     if (role === 'soldier') {
       // PERSONNEL (JAWAN) VIEW:
-      // Only sees own daily check-in, live stress indicator & own twin
+      // Only sees own daily check-in, live stress indicator, treatment indication & own twin
       if (navHomeText) navHomeText.innerText = 'Home (Check-In)';
       if (navLiHome) navLiHome.style.display = 'block';
-      if (navLiTreatment) navLiTreatment.style.display = 'none';
-      if (navLiWelfareTracker) navLiWelfareTracker.style.display = 'none';
       if (navLiCommander) navLiCommander.style.display = 'none';
       if (navLiTwin) navLiTwin.style.display = 'block'; // ONLY PERSONNEL HAS TWIN!
 
       this.navigateToView('soldier');
       this.checkSoldierConsent();
-    } else if (role === 'medical') {
-      // MEDICAL OFFICER VIEW:
-      // Removed personal stress checker & twin! Views all personnel & Clinical Treatment Center
-      if (navLiHome) navLiHome.style.display = 'none';
-      if (navLiTreatment) navLiTreatment.style.display = 'block';
-      if (navLiWelfareTracker) navLiWelfareTracker.style.display = 'none';
-      if (navLiCommander) navLiCommander.style.display = 'block';
-      if (navLiTwin) navLiTwin.style.display = 'none'; // REMOVED FROM ALL EXCEPT PERSONNEL
-
-      this.navigateToView('treatment');
-    } else if (role === 'welfare') {
-      // WELFARE OFFICER VIEW:
-      // Removed personal stress checker & twin! Views all personnel & Welfare Treatment Tracker
-      if (navLiHome) navLiHome.style.display = 'none';
-      if (navLiTreatment) navLiTreatment.style.display = 'none';
-      if (navLiWelfareTracker) navLiWelfareTracker.style.display = 'block';
-      if (navLiCommander) navLiCommander.style.display = 'block';
-      if (navLiTwin) navLiTwin.style.display = 'none'; // REMOVED FROM ALL EXCEPT PERSONNEL
-
-      this.navigateToView('welfare_tracker');
     } else {
       // COMMANDER VIEW:
       // Can check his own live stress level & accesses Commander Operations Center
       // Twin panel removed from all except personnel!
       if (navHomeText) navHomeText.innerText = 'Personal Stress Check';
       if (navLiHome) navLiHome.style.display = 'block'; // COMMANDER ALLOWED TO CHECK LIVE STRESS!
-      if (navLiTreatment) navLiTreatment.style.display = 'none';
-      if (navLiWelfareTracker) navLiWelfareTracker.style.display = 'none';
       if (navLiCommander) navLiCommander.style.display = 'block';
       if (navLiTwin) navLiTwin.style.display = 'none'; // REMOVED FROM ALL EXCEPT PERSONNEL
 
@@ -251,9 +225,7 @@ class RakshakApp {
 
     const roleTitles = {
       soldier: 'PERSONNEL (JAWAN)',
-      commander: 'COMMANDING OFFICER',
-      welfare: 'WELFARE OFFICER',
-      medical: 'MEDICAL OFFICER'
+      commander: 'COMMANDING OFFICER'
     };
     this.showToast(`Welcome! Logged in as: ${roleTitles[role] || role.toUpperCase()}`);
   }
@@ -267,25 +239,16 @@ class RakshakApp {
 
   navigateToView(viewName) {
     // PERSONNEL DATA PRIVACY PROTECTION:
-    // If logged in as personnel/soldier, deny access to commander, treatment, and welfare tracker!
-    if (this.selectedLoginRole === 'soldier') {
-      if (viewName === 'commander' || viewName === 'treatment' || viewName === 'welfare_tracker') {
-        this.showToast("🔒 Access Restricted: Personnel force roster & clinical data are restricted to Officers.");
-        return;
-      }
+    // If logged in as personnel/soldier, deny access to commander operations roster!
+    if (this.selectedLoginRole === 'soldier' && viewName === 'commander') {
+      this.showToast("🔒 Access Restricted: Personnel force roster is restricted to Commanding Officers.");
+      return;
     }
 
     // DIGITAL WELFARE TWIN RESTRICTION:
     // "remove digital welfare twin panel from all except personnel"
     if (viewName === 'twin' && this.selectedLoginRole !== 'soldier') {
       this.showToast("🔒 Access Restricted: Digital Welfare Twin panel is only accessible to active Personnel.");
-      return;
-    }
-
-    // MEDICAL & WELFARE OFFICERS cannot access personal check-in
-    // Commander and Personnel CAN check live stress level
-    if (viewName === 'soldier' && (this.selectedLoginRole === 'medical' || this.selectedLoginRole === 'welfare')) {
-      this.showToast("Personal check-in is disabled for Medical and Welfare Officers.");
       return;
     }
 
@@ -337,20 +300,6 @@ class RakshakApp {
       if (uRole) uRole.innerText = "Commanding Officer";
       this.initCommanderCharts();
       this.renderCommanderTable(this.personnelList);
-    } else if (viewName === 'treatment') {
-      if (title) title.innerText = "Clinical Treatment Center & Stress Triage Matrix";
-      if (subtitle) subtitle.innerText = "Live stress triage, priority-tiered therapies, and psychiatric counseling";
-      if (avatar) avatar.src = "https://images.unsplash.com/photo-1594824813626-d98c2537ef18?w=150";
-      if (uName) uName.innerText = "Dr. Capt. A. Sharma";
-      if (uRole) uRole.innerText = "Unit Medical Officer (MO)";
-      this.fetchTreatmentRoster();
-    } else if (viewName === 'welfare_tracker') {
-      if (title) title.innerText = "Welfare & Treatment Outcomes Tracker";
-      if (subtitle) subtitle.innerText = "Post-treatment stress delta monitoring & 25% threshold re-referral workflow";
-      if (avatar) avatar.src = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150";
-      if (uName) uName.innerText = "Maj. Sunita Rao";
-      if (uRole) uRole.innerText = "Senior Welfare Officer";
-      this.fetchWelfareTreatments();
     } else if (viewName === 'resilience') {
       if (title) title.innerText = "Tactical Resilience Center";
       if (subtitle) subtitle.innerText = "4-4-4-4 Box Breathing, Muscle Decompression, & Sleep Hygiene";
@@ -878,9 +827,18 @@ class RakshakApp {
     this.stressIndicatorMode = mode;
     const btnStress = document.getElementById('btnOptStressPct');
     const btnWellbeing = document.getElementById('btnOptWellbeingPct');
-    if (btnStress && btnWellbeing) {
-      btnStress.classList.toggle('active', mode === 'stress');
-      btnWellbeing.classList.toggle('active', mode === 'wellbeing');
+    const btnTreatment = document.getElementById('btnOptTreatmentIndication');
+    if (btnStress) btnStress.classList.toggle('active', mode === 'stress');
+    if (btnWellbeing) btnWellbeing.classList.toggle('active', mode === 'wellbeing');
+    if (btnTreatment) btnTreatment.classList.toggle('active', mode === 'treatment');
+
+    if (mode === 'treatment') {
+      const box = document.getElementById('liveTreatmentIndicationBox');
+      if (box) {
+        box.classList.add('highlight-glow');
+        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        setTimeout(() => box.classList.remove('highlight-glow'), 2000);
+      }
     }
     this.updateLiveStressIndicator();
   }
@@ -958,13 +916,15 @@ class RakshakApp {
     if (moodChip) moodChip.innerText = moodLabel;
     if (sleepChip) sleepChip.innerText = sleepLabel;
 
-    // Mode-specific display (Stress % vs Wellbeing %)
+    // Mode-specific display (Stress % vs Wellbeing % vs Treatment Indication)
     const isStressMode = this.stressIndicatorMode === 'stress';
-    const displayVal = isStressMode ? stressPct : wellbeingPct;
+    const isWellbeingMode = this.stressIndicatorMode === 'wellbeing';
+    const isTreatmentMode = this.stressIndicatorMode === 'treatment';
+    const displayVal = isWellbeingMode ? wellbeingPct : stressPct;
 
     if (numElem) {
       numElem.innerText = `${displayVal}%`;
-      if (isStressMode) {
+      if (!isWellbeingMode) {
         if (stressPct <= 35) numElem.style.color = '#10b981';
         else if (stressPct <= 60) numElem.style.color = '#eab308';
         else if (stressPct <= 78) numElem.style.color = '#f97316';
@@ -976,45 +936,92 @@ class RakshakApp {
       }
     }
 
-    if (lblElem) {
-      lblElem.innerText = isStressMode ? 'LIVE STRESS LEVEL' : 'LIVE WELLBEING INDEX';
-    }
-
-    if (barElem) {
-      barElem.style.width = `${displayVal}%`;
-      if (isStressMode) {
-        barElem.style.background = 'linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%)';
-      } else {
-        barElem.style.background = 'linear-gradient(90deg, #ef4444 0%, #f59e0b 50%, #10b981 100%)';
-      }
-    }
-
     // Determine Severity Status & Advice
     let statusClass = 'moderate';
     let statusIcon = 'fa-info-circle';
     let statusText = 'Moderate Strain';
     let adviceText = 'Sub-optimal sleep and moderate mood place your autonomic load in the manageable range.';
 
-    if (stressPct <= 32) {
-      statusClass = 'low';
-      statusIcon = 'fa-check-circle';
-      statusText = 'Low Stress • Restored';
-      adviceText = 'Restorative sleep and positive outlook provide optimal cognitive focus and physical resilience.';
-    } else if (stressPct <= 58) {
+    // 5. Treatment Indication Guidance (Informational Only - No Option to Schedule/Execute Therapy or Counseling)
+    let priorityTier = 'low';
+    let priorityBadgeText = 'Low Priority (< 40%)';
+    let priorityTitle = 'Routine Preventive Wellness Indicated';
+    let priorityPillClass = 'low';
+    let modalities = [
+      "Routine Resilience Fortification & Tactical Mindfulness",
+      "Voluntary Bi-Weekly Digital Check-Ins",
+      "Physical Recovery Cycles & Sleep Quality Maintenance"
+    ];
+
+    if (stressPct >= 70) {
+      statusClass = 'critical';
+      statusIcon = 'fa-exclamation-circle';
+      statusText = 'Critical Stress • Action Needed';
+      adviceText = 'Severe sleep deficit and operational exhaustion detected. High autonomic nervous system strain.';
+      priorityTier = 'immediate';
+      priorityBadgeText = 'Immediate Priority (≥ 70%)';
+      priorityTitle = 'Clinical Crisis Decompression Indicated';
+      priorityPillClass = 'immediate';
+      modalities = [
+        "In-Clinic Acute Clinical Decompression Protocol",
+        "Emergency Psychiatric Medical Diagnostic Evaluation",
+        "Immediate 72-Hour Relief from High-Hazard Duty & Night Patrols",
+        "In-Patient Buddy Vigilance & Circadian Rest Reset"
+      ];
+    } else if (stressPct >= 55) {
+      statusClass = 'high';
+      statusIcon = 'fa-exclamation-triangle';
+      statusText = 'High Stress • Fatigue Alert';
+      adviceText = 'Elevated operational fatigue detected. Autonomic recovery cycles indicated.';
+      priorityTier = 'high';
+      priorityBadgeText = 'High Priority (55–69%)';
+      priorityTitle = 'Intensive Clinical Care Indicated';
+      priorityPillClass = 'high';
+      modalities = [
+        "Intensive 1-on-1 Psychological Counseling Sessions",
+        "Trauma-Informed Cognitive Behavioral Therapy (CBT)",
+        "7-Day Structured Sleep Restoration Protocol",
+        "Autonomic Grounding & Biofeedback Regimen"
+      ];
+    } else if (stressPct >= 40) {
       statusClass = 'moderate';
       statusIcon = 'fa-info-circle';
       statusText = 'Moderate Strain • Stable';
       adviceText = 'Autonomic load is elevated but manageable. Prioritize 7+ hours sleep and brief recovery pauses.';
-    } else if (stressPct <= 78) {
-      statusClass = 'high';
-      statusIcon = 'fa-exclamation-triangle';
-      statusText = 'High Stress • Fatigue Alert';
-      adviceText = 'Elevated operational fatigue detected. 4-4-4-4 tactical box breathing or a short rest cycle recommended.';
+      priorityTier = 'medium';
+      priorityBadgeText = 'Medium Priority (40–54%)';
+      priorityTitle = 'Guided Support Regimen Indicated';
+      priorityPillClass = 'medium';
+      modalities = [
+        "Guided Heart Rate Variability (HRV) Biofeedback Training",
+        "Structured Peer Support & Unit Buddy Debriefing Circles",
+        "Operational Fatigue Rotation & Shift Schedule Re-balancing",
+        "Tactical 4-4-4-4 Box Breathing & Progressive Muscle Relaxation (PMR)"
+      ];
     } else {
-      statusClass = 'critical';
-      statusIcon = 'fa-exclamation-circle';
-      statusText = 'Critical Stress • Action Needed';
-      adviceText = 'Severe sleep deficit and exhaustion detected. Confidential counseling or rotational recovery recommended.';
+      statusClass = 'low';
+      statusIcon = 'fa-check-circle';
+      statusText = 'Low Stress • Restored';
+      adviceText = 'Restorative sleep and positive outlook provide optimal cognitive focus and physical resilience.';
+    }
+
+    if (lblElem) {
+      if (isTreatmentMode) {
+        lblElem.innerText = `INDICATED: ${priorityTier.toUpperCase()} TREATMENT (${stressPct}%)`;
+      } else if (isWellbeingMode) {
+        lblElem.innerText = 'LIVE WELLBEING INDEX';
+      } else {
+        lblElem.innerText = 'LIVE STRESS LEVEL';
+      }
+    }
+
+    if (barElem) {
+      barElem.style.width = `${displayVal}%`;
+      if (!isWellbeingMode) {
+        barElem.style.background = 'linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%)';
+      } else {
+        barElem.style.background = 'linear-gradient(90deg, #ef4444 0%, #f59e0b 50%, #10b981 100%)';
+      }
     }
 
     if (badgeElem) {
@@ -1028,6 +1035,30 @@ class RakshakApp {
 
     if (adviceElem) {
       adviceElem.innerText = adviceText;
+    }
+
+    // Render Live Treatment Indication Box (Informational only - strictly no options to execute therapy/counseling)
+    const trtBox = document.getElementById('liveTreatmentIndicationBox');
+    if (trtBox) {
+      trtBox.className = `live-treatment-indication-box tier-${priorityTier}`;
+      trtBox.innerHTML = `
+        <div class="live-treatment-header">
+          <div class="treatment-priority-pill ${priorityPillClass}">
+            <i class="fas fa-stethoscope"></i> <span>${priorityBadgeText}</span>
+          </div>
+          <span class="treatment-advisory-tag"><i class="fas fa-info-circle"></i> Indicative Clinical Guidance Only</span>
+        </div>
+        <div class="treatment-modalities-title">${priorityTitle}:</div>
+        <ul class="treatment-modalities-list">
+          ${modalities.map(m => `<li><i class="fas fa-check-circle"></i> <span>${m}</span></li>`).join('')}
+        </ul>
+        <div class="treatment-disclaimer-note">
+          <i class="fas fa-shield-alt"></i>
+          <span>
+            <strong>Informational Advisory:</strong> Calculated in real-time from your current stress level (${stressPct}%). Without specialized diagnostic training datasets, Rakshak AI presents suggested treatment modalities strictly as advisory indications. No treatments, therapy sessions, or counseling can be booked or administered through this interface. Please report to base medical officers for formal clinical procedures.
+          </span>
+        </div>
+      `;
     }
 
     // 6. Elevated Stress Support Trigger (>= 60% Threshold)
@@ -1073,11 +1104,12 @@ class RakshakApp {
 
     if (choice === 'mitra') {
       this.navigateToView('chat');
+      const userName = this.selectedLoginRole === 'commander' ? 'Commander Saxena' : 'Rajesh';
       if (this.chatbot && typeof this.chatbot.renderMessage === 'function') {
         setTimeout(() => {
           this.chatbot.renderMessage({
             sender: 'bot',
-            text: `**Namaste Rajesh.** I noticed your live stress level is currently elevated at **${stressVal}%**. I am right here with you.\n\nEverything we share is strictly confidential, non-punitive, and 100% air-gapped from your service records. How are you feeling right now? Would you like to share what's on your mind, or do a 2-minute tactical breathing exercise together?`,
+            text: `**Namaste ${userName}.** I noticed your live stress level is currently elevated at **${stressVal}%**. I am right here with you.\n\nEverything we share is strictly confidential, non-punitive, and 100% air-gapped from your service records. How are you feeling right now? Would you like to share what's on your mind, or do a 2-minute tactical breathing exercise together?`,
             quickReplies: [
               "Start 4-4-4-4 Box Breathing 🧘",
               "Duty ki thakaan aur family chinta",
@@ -1256,493 +1288,6 @@ class RakshakApp {
     }
   }
 
-  // ==========================================================
-  // MEDICAL OFFICER: CLINICAL TREATMENT MATRIX & PRIORITY TRIAGE
-  // ==========================================================
-  async fetchTreatmentRoster() {
-    try {
-      const res = await fetch(`/api/personnel?sort=${this.treatmentSortOrder}`);
-      this.treatmentPersonnelList = await res.json();
-
-      // Count priority tiers
-      let countImm = 0, countHigh = 0, countMed = 0, countLow = 0;
-      this.treatmentPersonnelList.forEach(p => {
-        const stress = p.liveStressLevel !== undefined ? p.liveStressLevel : (p.riskScore || 50);
-        if (stress >= 70) countImm++;
-        else if (stress >= 55) countHigh++;
-        else if (stress >= 40) countMed++;
-        else countLow++;
-      });
-
-      const elImm = document.getElementById('countImmediatePriority');
-      const elHigh = document.getElementById('countHighPriority');
-      const elMed = document.getElementById('countMediumPriority');
-      const elLow = document.getElementById('countLowPriority');
-
-      if (elImm) elImm.innerText = countImm;
-      if (elHigh) elHigh.innerText = countHigh;
-      if (elMed) elMed.innerText = countMed;
-      if (elLow) elLow.innerText = countLow;
-
-      this.renderTreatmentRoster();
-    } catch(e) {
-      console.error("fetchTreatmentRoster error", e);
-    }
-  }
-
-  renderTreatmentRoster() {
-    const grid = document.getElementById('treatmentRosterGrid');
-    if (!grid) return;
-    grid.innerHTML = '';
-
-    const q = (this.treatmentSearchText || '').toLowerCase().trim();
-    const priority = this.treatmentPriorityFilter;
-
-    let list = this.treatmentPersonnelList.filter(p => {
-      const stress = p.liveStressLevel !== undefined ? p.liveStressLevel : (p.riskScore || 50);
-      let matchQ = true;
-      if (q) {
-        const searchable = `${p.name} ${p.id} ${p.rank} ${p.force} ${p.unit} ${p.station}`.toLowerCase();
-        matchQ = searchable.includes(q);
-      }
-
-      let matchP = true;
-      if (priority === 'immediate') matchP = stress >= 70;
-      else if (priority === 'high') matchP = stress >= 55 && stress < 70;
-      else if (priority === 'medium') matchP = stress >= 40 && stress < 55;
-      else if (priority === 'low') matchP = stress < 40;
-      else if (priority === 'escalated') {
-        matchP = (p.treatmentHistory || []).some(t => t.reportedBackToMO || (t.difference !== undefined && t.difference < 25));
-      }
-
-      return matchQ && matchP;
-    });
-
-    if (list.length === 0) {
-      grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:3rem; color:var(--text-muted); background:var(--bg-card); border-radius:var(--radius-lg); border:1px dashed var(--border-card);">
-        <i class="fas fa-user-slash" style="font-size:2rem; margin-bottom:0.8rem; display:block;"></i>
-        No personnel found matching the selected treatment priority or search criteria.
-      </div>`;
-      return;
-    }
-
-    list.forEach(p => {
-      const stress = p.liveStressLevel !== undefined ? p.liveStressLevel : (p.riskScore || 50);
-      let priorityClass = 'low';
-      let priorityBadgeText = '🟢 Low Priority (<40%)';
-      let priorityColor = '#10b981';
-
-      if (stress >= 70) {
-        priorityClass = 'immediate';
-        priorityBadgeText = '🔴 Immediate Priority (≥ 70%)';
-        priorityColor = '#ef4444';
-      } else if (stress >= 55) {
-        priorityClass = 'high';
-        priorityBadgeText = '🟠 High Priority (55% - 69%)';
-        priorityColor = '#f97316';
-      } else if (stress >= 40) {
-        priorityClass = 'medium';
-        priorityBadgeText = '🟡 Medium Priority (40% - 54%)';
-        priorityColor = '#eab308';
-      }
-
-      const req = p.treatmentRequired || {
-        priority: priorityBadgeText,
-        modalities: [
-          stress >= 70 ? "Emergency Psychiatric Consultation & Clinical Decompression" :
-          stress >= 55 ? "Intensive 1-on-1 Counseling & Trauma CBT" :
-          stress >= 40 ? "Guided Biofeedback Therapy & Group Peer Circles" :
-          "Routine Resilience Fortification Workshops"
-        ],
-        primaryFocus: "Autonomic re-regulation and psychological recovery."
-      };
-
-      // Check if re-referred by Welfare Officer (< 25% drop)
-      const escalatedTrt = (p.treatmentHistory || []).find(t => t.reportedBackToMO || (t.difference !== undefined && t.difference < 25));
-
-      const card = document.createElement('div');
-      card.className = `treatment-soldier-card priority-${priorityClass}`;
-      card.innerHTML = `
-        <div class="treatment-card-header">
-          <img src="${p.photo || 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=150'}" class="treatment-soldier-avatar" alt="${p.name}" />
-          <div style="flex:1;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.4rem;">
-              <div>
-                <h4 style="font-size:1.05rem; font-weight:800; color:var(--text-main); margin:0;">${p.name}</h4>
-                <p style="font-size:0.78rem; color:var(--text-muted); margin:0.2rem 0 0 0;">${p.rank} • ${p.force} (${p.id})</p>
-              </div>
-              <span class="treatment-priority-badge ${priorityClass}">${priorityBadgeText}</span>
-            </div>
-            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.35rem;">
-              <i class="fas fa-map-marker-alt"></i> ${p.station} | ${p.deploymentZone} (${p.monthsInZone || 12}m in zone)
-            </p>
-          </div>
-        </div>
-
-        <div class="treatment-stress-meter-row">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
-            <span style="font-size:0.75rem; font-weight:800; text-transform:uppercase; color:var(--text-muted); letter-spacing:0.03em;">Live Autonomic Stress Level</span>
-            <strong style="font-size:1.15rem; font-weight:900; color:${priorityColor};">${stress}%</strong>
-          </div>
-          <div style="height:8px; background:rgba(148,163,184,0.2); border-radius:4px; overflow:hidden;">
-            <div style="height:100%; width:${stress}%; background:${priorityColor}; border-radius:4px; transition:width 0.4s ease;"></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--text-muted); margin-top:0.35rem;">
-            <span>Resting HR: <strong>${p.biometrics ? p.biometrics.restingHeartRate : 74} bpm</strong></span>
-            <span>HRV: <strong>${p.biometrics ? p.biometrics.hrvMs : 38} ms</strong></span>
-            <span>Overdue Leave: <strong>${p.hrIndicators ? p.hrIndicators.daysSinceLastLeave : 45}d</strong></span>
-          </div>
-        </div>
-
-        ${escalatedTrt ? `
-          <div style="background:rgba(239, 68, 68, 0.1); border:1.5px solid #ef4444; border-radius:var(--radius-md); padding:0.75rem 0.9rem; margin-bottom:1rem; font-size:0.8rem; color:#ef4444; display:flex; align-items:center; gap:0.6rem;">
-            <i class="fas fa-exclamation-circle" style="font-size:1.1rem; flex-shrink:0;"></i>
-            <div>
-              <strong>Welfare Officer Escalation:</strong> Stress drop was only ${escalatedTrt.difference}% (&lt; 25% threshold). Secondary clinical intervention mandated.
-            </div>
-          </div>
-        ` : ''}
-
-        <div class="treatment-required-box ${priorityClass}">
-          <h5><i class="fas fa-notes-medical"></i> Treatment Required (${req.priority || priorityBadgeText}):</h5>
-          <ul class="treatment-modalities-list">
-            ${(req.modalities || []).map(m => `<li>${m}</li>`).join('')}
-          </ul>
-        </div>
-
-        <div class="treatment-card-actions">
-          <button type="button" class="btn-welfare-action primary" style="flex:1; justify-content:center;" onclick="rakshakApp.openPrescribeModal('${p.id}')">
-            <i class="fas fa-stethoscope"></i> Prescribe Treatment
-          </button>
-          <button type="button" class="btn-welfare-action secondary" onclick="rakshakApp.openSoldierModal('${p.id}')" title="View Full Profile">
-            <i class="fas fa-id-card"></i> Profile
-          </button>
-        </div>
-      `;
-
-      grid.appendChild(card);
-    });
-  }
-
-  filterTreatmentPriority(priority, elem) {
-    this.treatmentPriorityFilter = priority;
-    const pills = document.querySelectorAll('#treatmentFilterPills .filter-pill');
-    pills.forEach(p => p.classList.remove('active'));
-    if (elem) elem.classList.add('active');
-    else {
-      pills.forEach(p => {
-        if (p.getAttribute('onclick')?.includes(priority)) p.classList.add('active');
-      });
-    }
-    this.renderTreatmentRoster();
-  }
-
-  handleTreatmentSearch(query) {
-    this.treatmentSearchText = query;
-    this.renderTreatmentRoster();
-  }
-
-  handleTreatmentSort(sortKey) {
-    this.treatmentSortOrder = sortKey;
-    this.fetchTreatmentRoster();
-  }
-
-  openPrescribeModal(pid = null) {
-    const select = document.getElementById('prescribeSoldierSelect');
-    if (select && this.personnelList) {
-      select.innerHTML = '';
-      this.personnelList.forEach(p => {
-        const stress = p.liveStressLevel !== undefined ? p.liveStressLevel : (p.riskScore || 50);
-        const opt = document.createElement('option');
-        opt.value = p.id;
-        opt.innerText = `${p.rank} ${p.name} (${p.id}) • Live Stress: ${stress}%`;
-        if (pid && p.id === pid) opt.selected = true;
-        select.appendChild(opt);
-      });
-    }
-
-    const selectedPid = pid || (select ? select.value : 'CRPF-94821');
-    this.handlePrescribeSoldierChange(selectedPid);
-
-    const modal = document.getElementById('prescribeTreatmentModal');
-    if (modal) modal.classList.add('active');
-  }
-
-  closePrescribeModal() {
-    const modal = document.getElementById('prescribeTreatmentModal');
-    if (modal) modal.classList.remove('active');
-  }
-
-  handlePrescribeSoldierChange(pid) {
-    const person = (this.personnelList || []).find(p => p.id === pid);
-    const stress = person ? (person.liveStressLevel !== undefined ? person.liveStressLevel : (person.riskScore || 70)) : 70;
-    const preInput = document.getElementById('prescribePreStress');
-    const postInput = document.getElementById('prescribePostStress');
-    if (preInput) preInput.value = stress;
-    if (postInput) postInput.value = Math.max(25, stress - 22);
-  }
-
-  async submitPrescribeTreatment(e) {
-    if (e) e.preventDefault();
-    const pid = document.getElementById('prescribeSoldierSelect')?.value;
-    const pre = parseFloat(document.getElementById('prescribePreStress')?.value || '70');
-    const post = parseFloat(document.getElementById('prescribePostStress')?.value || '50');
-    const treatmentName = document.getElementById('prescribeTreatmentSelect')?.value || 'Intensive 1-on-1 Clinical Counseling';
-    const notes = document.getElementById('prescribeNotes')?.value || 'Clinical therapy session conducted and logged.';
-
-    try {
-      const res = await fetch(`/api/personnel/${pid}/treatment`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          treatmentName: treatmentName,
-          category: 'Clinical Therapy',
-          preStressLevel: pre,
-          postStressLevel: post,
-          notes: notes,
-          treatingMO: 'Dr. Capt. Ananya Sharma (Unit MO)'
-        })
-      });
-      const data = await res.json();
-      this.closePrescribeModal();
-      this.showToast(`Clinical Treatment Prescribed & Logged! Stress drop: ${data.treatment.difference}%`);
-      await this.fetchPersonnel();
-      await this.fetchTreatmentRoster();
-    } catch(err) {
-      console.error(err);
-      this.showToast("Failed to record treatment session.");
-    }
-  }
-
-  // ==========================================================
-  // WELFARE OFFICER: TREATMENT OUTCOMES TRACKER & RE-REFERRAL (<25%)
-  // ==========================================================
-  async fetchWelfareTreatments() {
-    try {
-      const res = await fetch('/api/treatments');
-      this.welfareTreatments = await res.json();
-
-      let under25Count = 0;
-      this.welfareTreatments.forEach(t => {
-        const diff = t.difference !== undefined ? t.difference : (t.preStressLevel - t.postStressLevel);
-        if (diff < 25) under25Count++;
-      });
-
-      const elTotal = document.getElementById('wfTotalTreatments');
-      const elAction = document.getElementById('wfActionRequiredCount');
-      if (elTotal) elTotal.innerText = this.welfareTreatments.length;
-      if (elAction) elAction.innerText = under25Count;
-
-      // Populate soldier selector dropdown with unique soldiers
-      const soldierSelect = document.getElementById('welfareSoldierSelect');
-      if (soldierSelect) {
-        const currentVal = soldierSelect.value || 'all';
-        soldierSelect.innerHTML = `<option value="all">Showing All Soldiers with Treatment History (${this.welfareTreatments.length})</option>`;
-        const seen = new Set();
-        this.welfareTreatments.forEach(t => {
-          if (!seen.has(t.soldierId)) {
-            seen.add(t.soldierId);
-            const opt = document.createElement('option');
-            opt.value = t.soldierId;
-            opt.innerText = `${t.soldierRank} ${t.soldierName} (${t.soldierId}) - ${t.soldierForce}`;
-            soldierSelect.appendChild(opt);
-          }
-        });
-        soldierSelect.value = currentVal;
-      }
-
-      this.renderWelfareTreatments();
-    } catch(e) {
-      console.error("fetchWelfareTreatments error", e);
-    }
-  }
-
-  renderWelfareTreatments() {
-    const container = document.getElementById('welfareTreatmentsList');
-    if (!container) return;
-    container.innerHTML = '';
-
-    let list = this.welfareTreatments;
-
-    // Filter by soldier
-    if (this.welfareSelectedSoldierId && this.welfareSelectedSoldierId !== 'all') {
-      list = list.filter(t => t.soldierId === this.welfareSelectedSoldierId);
-    }
-
-    // Filter by outcome (under25 vs over25)
-    if (this.welfareOutcomeFilter === 'under25') {
-      list = list.filter(t => (t.difference !== undefined ? t.difference : (t.preStressLevel - t.postStressLevel)) < 25);
-    } else if (this.welfareOutcomeFilter === 'over25') {
-      list = list.filter(t => (t.difference !== undefined ? t.difference : (t.preStressLevel - t.postStressLevel)) >= 25);
-    }
-
-    if (list.length === 0) {
-      container.innerHTML = `<div style="text-align:center; padding:3rem; color:var(--text-muted); background:var(--bg-card); border-radius:var(--radius-lg); border:1px dashed var(--border-card);">
-        <i class="fas fa-clipboard-check" style="font-size:2.2rem; margin-bottom:0.8rem; display:block; color:#10b981;"></i>
-        No treatment records matching the selected filter criteria.
-      </div>`;
-      return;
-    }
-
-    list.forEach(t => {
-      const diff = t.difference !== undefined ? t.difference : (t.preStressLevel - t.postStressLevel);
-      const isUnder25 = diff < 25;
-      const isReported = Boolean(t.reportedBackToMO);
-
-      const card = document.createElement('div');
-      card.className = `welfare-treatment-item-card ${isUnder25 ? 'alert-under-25' : 'responsive-over-25'}`;
-      card.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem; margin-bottom:0.8rem;">
-          <div style="display:flex; align-items:center; gap:0.9rem;">
-            <img src="${t.soldierPhoto || 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=150'}" style="width:48px; height:48px; border-radius:50%; object-fit:cover; border:2px solid var(--border-card);" alt="${t.soldierName}" />
-            <div>
-              <h4 style="font-size:1.1rem; font-weight:800; color:var(--text-main); margin:0;">${t.soldierRank} ${t.soldierName}</h4>
-              <p style="font-size:0.8rem; color:var(--text-muted); margin:0.2rem 0 0 0;">${t.soldierForce} • Service ID: <strong>${t.soldierId}</strong> | Station: ${t.soldierStation}</p>
-            </div>
-          </div>
-          <div style="text-align:right;">
-            <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">Administered: ${t.date}</span>
-            <div style="font-size:0.8rem; color:var(--text-main); font-weight:600; margin-top:0.2rem;">By: ${t.treatingMO}</div>
-          </div>
-        </div>
-
-        <div style="background:var(--bg-card-subtle); padding:0.7rem 1rem; border-radius:var(--radius-md); border:1px solid var(--border-card); margin-bottom:1rem;">
-          <strong style="color:var(--primary); font-size:0.9rem;">${t.treatmentName}</strong>
-          <span style="font-size:0.75rem; color:var(--text-muted); margin-left:0.5rem;">[${t.category}]</span>
-        </div>
-
-        <!-- Before & After Stress Visualizer -->
-        <div class="stress-delta-visualizer">
-          <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">Treatment Stress Delta:</span>
-          
-          <div class="stress-metric-pill pre">
-            <i class="fas fa-arrow-circle-up"></i> Before Treatment: <strong>${t.preStressLevel}%</strong>
-          </div>
-
-          <i class="fas fa-long-arrow-alt-right" style="color:var(--text-muted); font-size:1.1rem;"></i>
-
-          <div class="stress-metric-pill ${isUnder25 ? 'post' : 'post-good'}">
-            <i class="fas fa-arrow-circle-down"></i> After Treatment: <strong>${t.postStressLevel}%</strong>
-          </div>
-
-          <div class="stress-delta-badge ${isUnder25 ? 'under-25' : 'over-25'}">
-            <i class="fas ${isUnder25 ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
-            Difference: <strong>${diff}% Drop</strong> (${isUnder25 ? 'Under 25% Threshold' : '≥ 25% Optimal Recovery'})
-          </div>
-        </div>
-
-        <div style="margin-bottom:1rem; font-size:0.85rem; color:var(--text-main); line-height:1.5;">
-          <strong>Clinical Notes:</strong> ${t.notes || 'Routine therapeutic intervention.'}
-        </div>
-
-        <!-- Action / Reporting Section -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; padding-top:0.8rem; border-top:1px solid var(--border-card);">
-          ${isUnder25 ? `
-            <div style="color:#ef4444; font-size:0.82rem; font-weight:700; display:flex; align-items:center; gap:0.4rem;">
-              <i class="fas fa-info-circle"></i>
-              Stress delta (${diff}%) is less than 25%. Under military welfare protocol, soldier requires further clinical treatment.
-            </div>
-            <div>
-              ${isReported ? `
-                <button type="button" class="btn-reported-done" disabled>
-                  <i class="fas fa-check-double"></i> Reported to Medical Officer (Further Treatment Queued)
-                </button>
-              ` : `
-                <button type="button" class="btn-report-to-mo" onclick="rakshakApp.openReportToMoModal('${t.treatmentId}', '${t.soldierId}')">
-                  <i class="fas fa-paper-plane"></i> Report Back to Medical Officer for Further Treatment
-                </button>
-              `}
-            </div>
-          ` : `
-            <div style="color:#10b981; font-size:0.82rem; font-weight:700; display:flex; align-items:center; gap:0.4rem;">
-              <i class="fas fa-check-circle"></i>
-              Stress drop satisfies mandatory ≥ 25% recovery threshold. Soldier responding favorably to treatment.
-            </div>
-            <button type="button" class="btn-welfare-action secondary" onclick="rakshakApp.openSoldierModal('${t.soldierId}')">
-              <i class="fas fa-id-card"></i> View Service Profile
-            </button>
-          `}
-        </div>
-      `;
-
-      container.appendChild(card);
-    });
-  }
-
-  handleWelfareSoldierFilter(soldierId) {
-    this.welfareSelectedSoldierId = soldierId;
-    this.renderWelfareTreatments();
-  }
-
-  filterWelfareOutcomes(mode, elem) {
-    this.welfareOutcomeFilter = mode;
-    const pills = document.querySelectorAll('#welfareFilterPills .filter-pill');
-    pills.forEach(p => p.classList.remove('active'));
-    if (elem) elem.classList.add('active');
-    this.renderWelfareTreatments();
-  }
-
-  openReportToMoModal(treatmentId, soldierId) {
-    const trt = this.welfareTreatments.find(t => t.treatmentId === treatmentId && t.soldierId === soldierId);
-    if (!trt) return;
-    this.currentReportingTreatment = trt;
-
-    const diff = trt.difference !== undefined ? trt.difference : (trt.preStressLevel - trt.postStressLevel);
-    const box = document.getElementById('reportToMoDetailsBox');
-    if (box) {
-      box.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
-          <h4 style="font-size:1.05rem; font-weight:800; color:var(--text-main); margin:0;">${trt.soldierRank} ${trt.soldierName}</h4>
-          <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">${trt.soldierId} • ${trt.soldierForce}</span>
-        </div>
-        <p style="font-size:0.85rem; color:var(--text-muted); margin:0 0 0.8rem 0;"><strong>Recent Treatment:</strong> ${trt.treatmentName} (${trt.date})</p>
-        <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
-          <span class="stress-metric-pill pre">Pre-Treatment: <strong>${trt.preStressLevel}%</strong></span>
-          <span>➔</span>
-          <span class="stress-metric-pill post">Post-Treatment: <strong>${trt.postStressLevel}%</strong></span>
-          <span class="stress-delta-badge under-25">Difference: <strong>${diff}% Drop (&lt; 25%)</strong></span>
-        </div>
-      `;
-    }
-
-    const notesInput = document.getElementById('reportToMoNotes');
-    if (notesInput) {
-      notesInput.value = `Patient experienced only a ${diff}% stress reduction following ${trt.treatmentName}. Persistent operational fatigue and sleep deficits observed. Requesting secondary clinical intervention and psychiatrist evaluation.`;
-    }
-
-    const modal = document.getElementById('reportToMoModal');
-    if (modal) modal.classList.add('active');
-  }
-
-  closeReportToMoModal() {
-    const modal = document.getElementById('reportToMoModal');
-    if (modal) modal.classList.remove('active');
-  }
-
-  async confirmReportToMedicalOfficer() {
-    if (!this.currentReportingTreatment) return;
-    const trt = this.currentReportingTreatment;
-    const notes = document.getElementById('reportToMoNotes')?.value || 'Stress delta < 25%. Escalated for further treatment.';
-
-    try {
-      const res = await fetch(`/api/personnel/${trt.soldierId}/report-to-mo`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          treatmentId: trt.treatmentId,
-          referralNotes: notes
-        })
-      });
-      const data = await res.json();
-      this.closeReportToMoModal();
-      this.showToast(`🚨 Escalation Dispatched! ${trt.soldierName} has been referred back to the Medical Officer.`);
-      await this.fetchWelfareTreatments();
-      await this.fetchPersonnel();
-    } catch(err) {
-      console.error(err);
-      this.showToast("Failed to dispatch referral to Medical Officer.");
-    }
-  }
 
   initChatbot() {
     this.chatbot = new WelfareChatbot('view_chat');

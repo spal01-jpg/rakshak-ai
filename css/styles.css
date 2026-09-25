@@ -1980,6 +1980,152 @@ body {
 }
 
 /* ============================================================== */
+/* LIVE TREATMENT INDICATION BOX (INFORMATIONAL GUIDANCE ONLY)   */
+/* ============================================================== */
+.live-treatment-indication-box {
+  margin-top: 1rem;
+  background: var(--bg-card-subtle);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.live-treatment-indication-box.highlight-glow {
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.4);
+  transform: translateY(-2px);
+}
+
+.live-treatment-indication-box.tier-immediate {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.live-treatment-indication-box.tier-high {
+  border-color: rgba(249, 115, 22, 0.5);
+  background: rgba(249, 115, 22, 0.05);
+}
+
+.live-treatment-indication-box.tier-medium {
+  border-color: rgba(234, 179, 8, 0.5);
+  background: rgba(234, 179, 8, 0.05);
+}
+
+.live-treatment-indication-box.tier-low {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.live-treatment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px dashed rgba(148, 163, 184, 0.3);
+}
+
+.treatment-priority-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.treatment-priority-pill.immediate {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.treatment-priority-pill.high {
+  background: rgba(249, 115, 22, 0.15);
+  color: #f97316;
+  border: 1px solid rgba(249, 115, 22, 0.35);
+}
+
+.treatment-priority-pill.medium {
+  background: rgba(234, 179, 8, 0.15);
+  color: #ca8a04;
+  border: 1px solid rgba(234, 179, 8, 0.35);
+}
+
+.treatment-priority-pill.low {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.treatment-advisory-tag {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.treatment-modalities-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.treatment-modalities-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.85rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.treatment-modalities-list li {
+  font-size: 0.82rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.4;
+}
+
+.treatment-modalities-list li i {
+  color: var(--primary);
+  margin-top: 0.18rem;
+  flex-shrink: 0;
+  font-size: 0.75rem;
+}
+
+.treatment-disclaimer-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(148, 163, 184, 0.08);
+  border-radius: var(--radius-sm);
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.treatment-disclaimer-note i {
+  color: #0284c7;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+/* ============================================================== */
 /* ELEVATED STRESS SUPPORT MODAL (>= 60% STRESS THRESHOLD)        */
 /* ============================================================== */
 .stress-support-modal-box {
