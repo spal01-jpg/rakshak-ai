@@ -91,6 +91,22 @@
           "timestamp": "2026-09-24 20:03:38",
           "status": "Initiated"
         }
+      ],
+      "treatmentHistory": [
+        {
+          "treatmentId": "TRT-94821-01",
+          "treatmentName": "Intensive 1-on-1 Clinical Counseling & Trauma CBT",
+          "category": "Clinical Counseling",
+          "priorityTier": "Immediate Priority",
+          "date": "2026-09-23",
+          "treatingMO": "Dr. Capt. Ananya Sharma (Unit MO)",
+          "preStressLevel": 84,
+          "postStressLevel": 72,
+          "difference": 12,
+          "status": "Under-Threshold Response",
+          "notes": "Patient reports persistent sleep onset anxiety and hyper-arousal following 16 months counter-insurgency tenure. Sub-therapeutic response.",
+          "reportedBackToMO": false
+        }
       ]
     },
     {
@@ -152,7 +168,23 @@
         "Refer land dispute details to District Welfare Liaison Officer",
         "Provide electrolyte hydration packs & afternoon shaded rest cycles"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": [
+        {
+          "treatmentId": "TRT-44120-01",
+          "treatmentName": "Trauma-Informed CBT & Autonomic Grounding Protocol",
+          "category": "Psychotherapy",
+          "priorityTier": "Immediate Priority",
+          "date": "2026-09-22",
+          "treatingMO": "Dr. Maj. S. K. Nair (Psychiatrist)",
+          "preStressLevel": 80,
+          "postStressLevel": 70,
+          "difference": 10,
+          "status": "Under-Threshold Response",
+          "notes": "Heat exhaustion and night border patrol strain. Modest reduction; still in high operational fatigue zone.",
+          "reportedBackToMO": false
+        }
+      ]
     },
     {
       "id": "ITBP-88192",
@@ -213,7 +245,8 @@
         "Ensure broadband VSAT connectivity for weekly video call with spouse",
         "Schedule recreation and tactical wellness recovery sessions"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "CISF-31908",
@@ -274,7 +307,8 @@
         "Grant 4 days compensatory rest off (CRO)",
         "Ergonomic anti-fatigue mat allocation at passenger frisking terminal"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "AR-12903",
@@ -338,7 +372,23 @@
         "In-person check-in with Battalion Psychologist or Medical Officer",
         "Peer buddy escort for transit to Dimapur railhead"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": [
+        {
+          "treatmentId": "TRT-12903-01",
+          "treatmentName": "Emergency Psychiatric Evaluation & Acute Decompression Therapy",
+          "category": "Psychiatric / Crisis Decompression",
+          "priorityTier": "Immediate Priority",
+          "date": "2026-09-21",
+          "treatingMO": "Dr. Lt. Col. R. Mehta (Chief MO)",
+          "preStressLevel": 98,
+          "postStressLevel": 86,
+          "difference": 12,
+          "status": "Under-Threshold Response",
+          "notes": "Severe acute combat stress post cross-border ambush. Heart rate variability critically depressed (19ms). Requires secondary escalation.",
+          "reportedBackToMO": false
+        }
+      ]
     },
     {
       "id": "IA-67219",
@@ -396,7 +446,8 @@
         "Continue routine high-altitude monitoring",
         "Appoint as Peer Welfare Mentor for junior soldiers in unit"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "SSB-55201",
@@ -454,7 +505,8 @@
         "Maintain current operational cadence",
         "Eligible for upcoming specialized sports/drill training camp"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "CRPF-81144",
@@ -516,7 +568,8 @@
         "De-escalate to Group Centre / Training academy instructor rotation",
         "Provide psychological debrief session with force counselor"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "NSG-10204",
@@ -574,7 +627,8 @@
         "Weekend off-station pass to visit family in Gurgaon",
         "Routine sports physiotherapy sessions"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "IN-44912",
@@ -635,7 +689,8 @@
         "Allocate satellite calling minutes quota for family calls",
         "Sound isolation earmuffs upgrade for engine room watch"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "IAF-78103",
@@ -693,7 +748,8 @@
         "Continue routine operational excellence",
         "Lead squadron welfare sports team"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "CRPF-66219",
@@ -754,7 +810,23 @@
         "Temporary rotation to administrative desk duty at Group Centre",
         "Medical review with Battalion Gynecologist & Physician"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": [
+        {
+          "treatmentId": "TRT-66219-01",
+          "treatmentName": "Sleep Restoration Protocol & Guided Biofeedback Therapy",
+          "category": "Biofeedback & Sleep",
+          "priorityTier": "Immediate Priority",
+          "date": "2026-09-20",
+          "treatingMO": "Dr. Capt. Ananya Sharma (Unit MO)",
+          "preStressLevel": 88,
+          "postStressLevel": 71,
+          "difference": 17,
+          "status": "Under-Threshold Response",
+          "notes": "Severe fragmented sleep and family separation strain. Improvement noted but under the mandatory 25% threshold.",
+          "reportedBackToMO": false
+        }
+      ]
     },
     {
       "id": "BSF-99104",
@@ -816,7 +888,23 @@
         "Sanction 18 days emergency flood rehabilitation leave",
         "Financial grant from BSF Central Welfare Fund for house repairs"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": [
+        {
+          "treatmentId": "TRT-99104-01",
+          "treatmentName": "Emergency Psychiatric Consultation & Pharmacotherapy Review",
+          "category": "Psychiatric / Medical",
+          "priorityTier": "Immediate Priority",
+          "date": "2026-09-18",
+          "treatingMO": "Dr. Lt. Col. R. Mehta (Chief MO)",
+          "preStressLevel": 95,
+          "postStressLevel": 81,
+          "difference": 14,
+          "status": "Under-Threshold Response",
+          "notes": "Severe acute exhaustion and persistent tremors. Secondary medical escalation needed.",
+          "reportedBackToMO": false
+        }
+      ]
     },
     {
       "id": "ITBP-41092",
@@ -874,7 +962,8 @@
         "Issue heated thermal boot liners from battalion depot",
         "Plan winter rotation to Joshimath transit camp"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "CISF-66710",
@@ -932,7 +1021,8 @@
         "Acoustic noise-dampening ear protection at X-ray monitors",
         "Nominated for upcoming advanced security specialist course"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "IA-90412",
@@ -992,7 +1082,8 @@
         "Sanction 15-day Medical Attendant leave for spouse surgery",
         "Rotate out of forward bunker to company headquarters depot"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "SSB-11890",
@@ -1050,7 +1141,8 @@
         "Provide psychological debrief sessions post rescue operations",
         "Commendation for high-performing trafficking interception"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "CRPF-12001",
@@ -1113,7 +1205,8 @@
         "Sanction 25-day Paternity & Special Welfare Leave with direct air transit clearance",
         "Executive medical check-up at AIIMS New Delhi en route"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "IN-99014",
@@ -1172,7 +1265,8 @@
         "Prescribe full-spectrum bright light therapy and Vitamin D3 supplementation",
         "Mandatory 7-day decompression leave post-patrol"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "BSF-33201",
@@ -1231,7 +1325,8 @@
         "Issue polarized UV protective tactical goggles",
         "Approve upcoming 15-day festival leave application for Diwali"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "IAF-22108",
@@ -1288,7 +1383,8 @@
         "Maintain current operational cadence",
         "Eligible for technical advanced instrumentation training"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "AR-44018",
@@ -1348,7 +1444,8 @@
         "Expedite 14-day emergency compassionate leave to visit daughter",
         "Knee joint orthopaedic check-up at Base Hospital"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "CRPF-55102",
@@ -1406,7 +1503,8 @@
         "Provide scheduled sauna & physical recovery sessions",
         "Maintain current leave rotation schedule"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "IA-88091",
@@ -1464,7 +1562,8 @@
         "Physiotherapy for chronic lumbar spine alignment",
         "Appoint as Senior Battalion Welfare Advisory Mentor"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "CISF-88190",
@@ -1521,7 +1620,8 @@
         "Maintain current operational cadence",
         "Eligible for fire-fighting certification refresh"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "ITBP-77002",
@@ -1581,7 +1681,8 @@
         "Sanction 15-day home leave to Leh via Gangtok transit",
         "Schedule medical check for early-stage frostnip"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "BSF-10294",
@@ -1639,7 +1740,8 @@
         "Continue current shift rotation schedule",
         "Eligible for canine handling certification"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": []
     },
     {
       "id": "CRPF-33019",
@@ -1702,7 +1804,23 @@
         "Stand down from jungle ambush operations immediately",
         "Battalion psychologist debrief before travel to railhead"
       ],
-      "actionHistory": []
+      "actionHistory": [],
+      "treatmentHistory": [
+        {
+          "treatmentId": "TRT-33019-01",
+          "treatmentName": "In-Clinic Acute Clinical Decompression & Sleep Reset Regimen",
+          "category": "Clinical Decompression",
+          "priorityTier": "Immediate Priority",
+          "date": "2026-09-19",
+          "treatingMO": "Dr. Capt. Ananya Sharma (Unit MO)",
+          "preStressLevel": 94,
+          "postStressLevel": 82,
+          "difference": 12,
+          "status": "Under-Threshold Response",
+          "notes": "Overdue leave by 210 days combined with mother critical illness in Gaya. Night terror episodes persist.",
+          "reportedBackToMO": false
+        }
+      ]
     }
   ],
   "unitStats": {

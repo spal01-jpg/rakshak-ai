@@ -2216,4 +2216,487 @@ body {
   50% { box-shadow: 0 4px 22px rgba(239, 68, 68, 0.65); transform: translateY(-1px); }
 }
 
+/* ============================================================== */
+/* MEDICAL OFFICER & WELFARE OFFICER TREATMENT CONSOLES           */
+/* ============================================================== */
+.treatment-header-banner {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(16, 185, 129, 0.05));
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 2rem;
+  margin-bottom: 1.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
+.welfare-tracker-header-banner {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(2, 132, 199, 0.05));
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 2rem;
+  margin-bottom: 1.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
+.treatment-badge-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.treatment-role-pill {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(2, 132, 199, 0.15);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.treatment-role-pill.purple {
+  background: rgba(139, 92, 246, 0.15);
+  color: #8b5cf6;
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.treatment-role-pill.live {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.btn-new-treatment-prescription {
+  padding: 0.75rem 1.4rem;
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.88rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
+  transition: all 0.2s ease;
+}
+
+.btn-new-treatment-prescription:hover {
+  background: linear-gradient(135deg, #0369a1, #1d4ed8);
+  transform: translateY(-1px);
+}
+
+.treatment-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 1.8rem;
+}
+
+@media (max-width: 992px) {
+  .treatment-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .treatment-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.treatment-kpi-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.treatment-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.treatment-kpi-card.immediate { border-left: 4px solid #ef4444; }
+.treatment-kpi-card.high { border-left: 4px solid #f97316; }
+.treatment-kpi-card.medium { border-left: 4px solid #eab308; }
+.treatment-kpi-card.low { border-left: 4px solid #10b981; }
+
+.kpi-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.kpi-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.kpi-tag.red { color: #ef4444; }
+.kpi-tag.orange { color: #f97316; }
+.kpi-tag.yellow { color: #eab308; }
+.kpi-tag.green { color: #10b981; }
+
+.kpi-thresh {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--bg-card-subtle);
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-card);
+}
+
+.kpi-count {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--text-main);
+  line-height: 1.1;
+  margin-bottom: 0.35rem;
+}
+
+.kpi-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.treatment-roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.4rem;
+  margin-top: 1.2rem;
+}
+
+.treatment-soldier-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.3rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.treatment-soldier-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.treatment-soldier-card.priority-immediate {
+  border-top: 4px solid #ef4444;
+}
+
+.treatment-soldier-card.priority-high {
+  border-top: 4px solid #f97316;
+}
+
+.treatment-soldier-card.priority-medium {
+  border-top: 4px solid #eab308;
+}
+
+.treatment-soldier-card.priority-low {
+  border-top: 4px solid #10b981;
+}
+
+.treatment-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.treatment-soldier-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border-card);
+  flex-shrink: 0;
+}
+
+.treatment-stress-meter-row {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.treatment-priority-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.25rem 0.75rem;
+  border-radius: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.treatment-priority-badge.immediate {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.treatment-priority-badge.high {
+  background: rgba(249, 115, 22, 0.15);
+  color: #f97316;
+  border: 1px solid rgba(249, 115, 22, 0.35);
+}
+
+.treatment-priority-badge.medium {
+  background: rgba(234, 179, 8, 0.15);
+  color: #eab308;
+  border: 1px solid rgba(234, 179, 8, 0.35);
+}
+
+.treatment-priority-badge.low {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.treatment-required-box {
+  background: var(--bg-card-subtle);
+  border-left: 3px solid #0284c7;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.treatment-required-box.immediate { border-left-color: #ef4444; }
+.treatment-required-box.high { border-left-color: #f97316; }
+.treatment-required-box.medium { border-left-color: #eab308; }
+.treatment-required-box.low { border-left-color: #10b981; }
+
+.treatment-required-box h5 {
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-main);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.treatment-modalities-list {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-main);
+}
+
+.treatment-card-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: auto;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border-card);
+}
+
+.welfare-stat-pill-group {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.welfare-stat-pill {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 1.1rem;
+  text-align: center;
+}
+
+.welfare-stat-pill .num {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--text-main);
+}
+
+.welfare-stat-pill .lbl {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.welfare-stat-pill.warning {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.welfare-stat-pill.warning .num {
+  color: #ef4444;
+}
+
+.welfare-treatments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 1.2rem;
+}
+
+.welfare-treatment-item-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.6rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+}
+
+.welfare-treatment-item-card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.welfare-treatment-item-card.alert-under-25 {
+  border-color: rgba(239, 68, 68, 0.45);
+  background: linear-gradient(180deg, var(--bg-card) 0%, rgba(239, 68, 68, 0.03) 100%);
+}
+
+.welfare-treatment-item-card.responsive-over-25 {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: linear-gradient(180deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.02) 100%);
+}
+
+.stress-delta-visualizer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.2rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.stress-metric-pill {
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.stress-metric-pill.pre {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.stress-metric-pill.post {
+  background: rgba(234, 179, 8, 0.12);
+  color: #eab308;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.stress-metric-pill.post-good {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.stress-delta-badge {
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+}
+
+.stress-delta-badge.under-25 {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1.5px solid #ef4444;
+  animation: pulseUnder25 2.2s infinite;
+}
+
+@keyframes pulseUnder25 {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+
+.stress-delta-badge.over-25 {
+  background: #dcfce7;
+  color: #166534;
+  border: 1.5px solid #10b981;
+}
+
+.btn-report-to-mo {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  border: none;
+  padding: 0.65rem 1.3rem;
+  border-radius: var(--radius-md);
+  font-weight: 800;
+  font-size: 0.82rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+  transition: all 0.2s ease;
+}
+
+.btn-report-to-mo:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-1px);
+}
+
+.btn-reported-done {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1.5px solid #10b981;
+  padding: 0.65rem 1.3rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: default;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+
 

@@ -116,16 +116,16 @@
           <div class="role-card-desc">Force overview, search, leave sanctions, batch actions</div>
         </div>
 
-        <div class="role-card-picker" onclick="rakshakApp.selectLoginRole('twin', this)">
+        <div class="role-card-picker" onclick="rakshakApp.selectLoginRole('welfare', this)">
           <div class="role-card-icon"><i class="fas fa-heartbeat"></i></div>
           <div class="role-card-title">Welfare Officer</div>
-          <div class="role-card-desc">Digital Welfare Twins, radar metrics, family support</div>
+          <div class="role-card-desc">Treatment outcomes tracker, 25% delta escalation, twin review</div>
         </div>
 
-        <div class="role-card-picker" onclick="rakshakApp.selectLoginRole('commander', this)">
+        <div class="role-card-picker" onclick="rakshakApp.selectLoginRole('medical', this)">
           <div class="role-card-icon"><i class="fas fa-user-md"></i></div>
           <div class="role-card-title">Medical Officer</div>
-          <div class="role-card-desc">Clinical referrals, vital trends, psychiatric support</div>
+          <div class="role-card-desc">Clinical treatment matrix, priority triage (Immediate/High/Med/Low)</div>
         </div>
       </div>
 
@@ -167,33 +167,43 @@
         </div>
 
         <ul class="sidebar-nav-list">
-          <li>
-            <a class="sidebar-nav-item active" data-view="soldier" onclick="rakshakApp.navigateToView('soldier')">
+          <li id="navLiHome">
+            <a class="sidebar-nav-item active" id="navItemHome" data-view="soldier" onclick="rakshakApp.navigateToView('soldier')">
               <i class="fas fa-home"></i> <span>Home (Check-In)</span>
             </a>
           </li>
-          <li>
-            <a class="sidebar-nav-item" data-view="twin" onclick="rakshakApp.navigateToView('twin')">
+          <li id="navLiTreatment" style="display: none;">
+            <a class="sidebar-nav-item" id="navItemTreatment" data-view="treatment" onclick="rakshakApp.navigateToView('treatment')">
+              <i class="fas fa-notes-medical"></i> <span>Treatment Center</span>
+            </a>
+          </li>
+          <li id="navLiWelfareTracker" style="display: none;">
+            <a class="sidebar-nav-item" id="navItemWelfareTracker" data-view="welfare_tracker" onclick="rakshakApp.navigateToView('welfare_tracker')">
+              <i class="fas fa-clipboard-check"></i> <span>Treatment Tracker</span>
+            </a>
+          </li>
+          <li id="navLiTwin">
+            <a class="sidebar-nav-item" id="navItemTwin" data-view="twin" onclick="rakshakApp.navigateToView('twin')">
               <i class="fas fa-brain"></i> <span>Digital Welfare Twin</span>
             </a>
           </li>
-          <li>
+          <li id="navLiCommander">
             <a class="sidebar-nav-item" id="navItemCommander" data-view="commander" onclick="rakshakApp.navigateToView('commander')">
               <i class="fas fa-user-shield"></i> <span>Commander Center</span>
             </a>
           </li>
-          <li>
-            <a class="sidebar-nav-item" data-view="resilience" onclick="rakshakApp.navigateToView('resilience')">
+          <li id="navLiResilience">
+            <a class="sidebar-nav-item" id="navItemResilience" data-view="resilience" onclick="rakshakApp.navigateToView('resilience')">
               <i class="fas fa-spa"></i> <span>Tactical Resilience</span>
             </a>
           </li>
-          <li>
-            <a class="sidebar-nav-item" data-view="chat" onclick="rakshakApp.navigateToView('chat')">
+          <li id="navLiChat">
+            <a class="sidebar-nav-item" id="navItemChat" data-view="chat" onclick="rakshakApp.navigateToView('chat')">
               <i class="fas fa-comments"></i> <span>Mitra AI Chat</span>
             </a>
           </li>
-          <li>
-            <a class="sidebar-nav-item" data-view="helpline" onclick="rakshakApp.openHelplineModal()">
+          <li id="navLiHelpline">
+            <a class="sidebar-nav-item" id="navItemHelpline" data-view="helpline" onclick="rakshakApp.openHelplineModal()">
               <i class="fas fa-phone-alt"></i> <span>24x7 Helplines</span>
             </a>
           </li>
@@ -849,6 +859,142 @@
         </div>
       </section>
 
+      <!-- ============================================================ -->
+      <!-- VIEW: MEDICAL OFFICER - CLINICAL TREATMENT CENTER            -->
+      <!-- ============================================================ -->
+      <section id="view_treatment" class="app-subview" style="display: none;">
+        <!-- Header Banner -->
+        <div class="treatment-header-banner">
+          <div>
+            <div class="treatment-badge-row">
+              <span class="treatment-role-pill"><i class="fas fa-stethoscope"></i> Medical Officer Clinical Console</span>
+              <span class="treatment-role-pill live"><i class="fas fa-heartbeat"></i> Live Stress Triage Active</span>
+            </div>
+            <h2>Clinical Treatment Center & Stress Triage Matrix</h2>
+            <p>Sorts force personnel by real-time autonomic stress and mandates priority-tiered clinical treatments, psychotherapy, and psychiatric counseling.</p>
+          </div>
+          <button class="btn-new-treatment-prescription" onclick="rakshakApp.openPrescribeModal()">
+            <i class="fas fa-plus-circle"></i> Prescribe Clinical Treatment
+          </button>
+        </div>
+
+        <!-- Priority Metric Tiers Overview Cards -->
+        <div class="treatment-kpi-grid">
+          <div class="treatment-kpi-card immediate" onclick="rakshakApp.filterTreatmentPriority('immediate')">
+            <div class="kpi-top">
+              <span class="kpi-tag red">Immediate Priority</span>
+              <span class="kpi-thresh">≥ 70% Stress</span>
+            </div>
+            <div class="kpi-count" id="countImmediatePriority">14</div>
+            <div class="kpi-desc">Urgent Psychiatric Consultation, Acute Decompression & Buddy Watch</div>
+          </div>
+
+          <div class="treatment-kpi-card high" onclick="rakshakApp.filterTreatmentPriority('high')">
+            <div class="kpi-top">
+              <span class="kpi-tag orange">High Priority</span>
+              <span class="kpi-thresh">55% - 69% Stress</span>
+            </div>
+            <div class="kpi-count" id="countHighPriority">7</div>
+            <div class="kpi-desc">Intensive 1-on-1 Counseling, Trauma CBT & Sleep Restoration Protocol</div>
+          </div>
+
+          <div class="treatment-kpi-card medium" onclick="rakshakApp.filterTreatmentPriority('medium')">
+            <div class="kpi-top">
+              <span class="kpi-tag yellow">Medium Priority</span>
+              <span class="kpi-thresh">40% - 54% Stress</span>
+            </div>
+            <div class="kpi-count" id="countMediumPriority">5</div>
+            <div class="kpi-desc">Guided Biofeedback, Peer Support Circles & Duty Fatigue Rotation</div>
+          </div>
+
+          <div class="treatment-kpi-card low" onclick="rakshakApp.filterTreatmentPriority('low')">
+            <div class="kpi-top">
+              <span class="kpi-tag green">Low Priority</span>
+              <span class="kpi-thresh">&lt; 40% Stress</span>
+            </div>
+            <div class="kpi-count" id="countLowPriority">2</div>
+            <div class="kpi-desc">Routine Resilience Fortification Workshops & Preventive Wellness</div>
+          </div>
+        </div>
+
+        <!-- Filter, Search & Sort Toolbar -->
+        <div class="commander-filter-bar">
+          <div class="search-box-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="treatmentSearchInput" class="input-commander-search" placeholder="Search soldier by name, Service ID, Force, Station..." oninput="rakshakApp.handleTreatmentSearch(this.value)" />
+          </div>
+
+          <div class="filter-pills-group" id="treatmentFilterPills">
+            <button class="filter-pill active" onclick="rakshakApp.filterTreatmentPriority('all', this)">All Personnel (28)</button>
+            <button class="filter-pill" onclick="rakshakApp.filterTreatmentPriority('immediate', this)">🔴 Immediate (70%+)</button>
+            <button class="filter-pill" onclick="rakshakApp.filterTreatmentPriority('high', this)">🟠 High (55-69%)</button>
+            <button class="filter-pill" onclick="rakshakApp.filterTreatmentPriority('medium', this)">🟡 Medium (40-54%)</button>
+            <button class="filter-pill" onclick="rakshakApp.filterTreatmentPriority('low', this)">🟢 Low (&lt;40%)</button>
+            <button class="filter-pill" onclick="rakshakApp.filterTreatmentPriority('escalated', this)">⚠️ Welfare Escalations</button>
+          </div>
+
+          <select class="sort-select-dropdown" id="treatmentSortSelect" onchange="rakshakApp.handleTreatmentSort(this.value)">
+            <option value="stress_desc">Sort: Live Stress Level (Highest First)</option>
+            <option value="stress_asc">Sort: Live Stress Level (Lowest First)</option>
+            <option value="name_asc">Sort: Soldier Name (A-Z)</option>
+          </select>
+        </div>
+
+        <!-- Treatment Roster Cards Container -->
+        <div id="treatmentRosterGrid" class="treatment-roster-grid">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- VIEW: WELFARE OFFICER - TREATMENT OUTCOMES TRACKER           -->
+      <!-- ============================================================ -->
+      <section id="view_welfare_tracker" class="app-subview" style="display: none;">
+        <!-- Header Banner -->
+        <div class="welfare-tracker-header-banner">
+          <div>
+            <div class="treatment-badge-row">
+              <span class="treatment-role-pill purple"><i class="fas fa-hand-holding-heart"></i> Welfare Officer Console</span>
+              <span class="treatment-role-pill live"><i class="fas fa-shield-alt"></i> 25% Stress Delta Threshold Rule</span>
+            </div>
+            <h2>Welfare Treatment Outcomes & Re-Referral Tracker</h2>
+            <p>Tracks soldier treatments, compares stress levels before and after intervention. If the stress reduction is less than 25%, triggers mandatory re-referral back to the Medical Officer for further clinical care.</p>
+          </div>
+          <div class="welfare-stat-pill-group">
+            <div class="welfare-stat-pill">
+              <span class="num" id="wfTotalTreatments">0</span>
+              <span class="lbl">Treatments Logged</span>
+            </div>
+            <div class="welfare-stat-pill warning">
+              <span class="num" id="wfActionRequiredCount">0</span>
+              <span class="lbl">&lt; 25% Drop (Action Required)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Soldier Filter & Quick Filters -->
+        <div class="commander-filter-bar">
+          <div class="search-box-wrapper" style="max-width:420px;">
+            <i class="fas fa-user-circle search-icon"></i>
+            <select id="welfareSoldierSelect" class="input-commander-search" style="padding-left:2.5rem; cursor:pointer;" onchange="rakshakApp.handleWelfareSoldierFilter(this.value)">
+              <option value="all">Showing All Soldiers with Treatment History</option>
+              <!-- Populated dynamically by app.js -->
+            </select>
+          </div>
+
+          <div class="filter-pills-group" id="welfareFilterPills">
+            <button class="filter-pill active" onclick="rakshakApp.filterWelfareOutcomes('all', this)">All Treatments</button>
+            <button class="filter-pill" onclick="rakshakApp.filterWelfareOutcomes('under25', this)">⚠️ Drop &lt; 25% (Requires Re-Referral)</button>
+            <button class="filter-pill" onclick="rakshakApp.filterWelfareOutcomes('over25', this)">✅ Responsive (≥ 25% Drop)</button>
+          </div>
+        </div>
+
+        <!-- Treatment History Feed / Cards Container -->
+        <div id="welfareTreatmentsList" class="welfare-treatments-list">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -986,6 +1132,105 @@
       
       <div id="soldierModalContent">
         <!-- Populated dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Prescribe & Administer Clinical Treatment (Medical Officer) -->
+  <div id="prescribeTreatmentModal" class="modal-overlay">
+    <div class="modal-content-box" style="max-width: 660px;">
+      <button class="modal-close-btn" onclick="rakshakApp.closePrescribeModal()">&times;</button>
+      <div style="display:flex; align-items:center; gap:0.9rem; margin-bottom:1.4rem;">
+        <div style="width:48px; height:48px; border-radius:12px; background:linear-gradient(135deg, #0284c7, #2563eb); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.4rem;">
+          <i class="fas fa-prescription-bottle-alt"></i>
+        </div>
+        <div>
+          <h3 style="font-size:1.3rem; font-weight:800; color:var(--text-main);">Prescribe & Administer Clinical Treatment</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted);">Medical Officer Clinical Intervention Console</p>
+        </div>
+      </div>
+
+      <form id="prescribeTreatmentForm" onsubmit="rakshakApp.submitPrescribeTreatment(event)">
+        <div class="auth-input-group" style="margin-bottom:1rem;">
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:0.4rem; display:block;">Select Personnel (Soldier)</label>
+          <select id="prescribeSoldierSelect" class="sort-select-dropdown" style="width:100%; padding:0.7rem;" onchange="rakshakApp.handlePrescribeSoldierChange(this.value)">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-bottom:1rem;">
+          <div class="auth-input-group">
+            <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:0.4rem; display:block;">Pre-Treatment Stress Level (%)</label>
+            <input type="number" id="prescribePreStress" class="input-commander-search" style="width:100%;" min="10" max="100" value="84" readonly />
+          </div>
+          <div class="auth-input-group">
+            <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:0.4rem; display:block;">Expected Post-Treatment Stress (%)</label>
+            <input type="number" id="prescribePostStress" class="input-commander-search" style="width:100%;" min="10" max="100" value="58" required />
+          </div>
+        </div>
+
+        <div class="auth-input-group" style="margin-bottom:1rem;">
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:0.4rem; display:block;">Prescribed Treatment Modality / Therapy</label>
+          <select id="prescribeTreatmentSelect" class="sort-select-dropdown" style="width:100%; padding:0.7rem;">
+            <option value="Emergency Psychiatric Consultation & Clinical Evaluation">Emergency Psychiatric Consultation & Clinical Evaluation (Immediate Priority 70%+)</option>
+            <option value="Acute Clinical Decompression Therapy (In-Clinic)">Acute Clinical Decompression Therapy (In-Clinic 70%+)</option>
+            <option value="Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate">Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate (70%+)</option>
+            <option value="Intensive 1-on-1 Clinical Counseling (Trauma-Informed CBT)">Intensive 1-on-1 Clinical Counseling (Trauma-Informed CBT 55-69%)</option>
+            <option value="Daily Guided Biofeedback & Autonomic Grounding Protocol">Daily Guided Biofeedback & Autonomic Grounding Protocol (55-69%)</option>
+            <option value="Targeted Sleep Restoration Program">Targeted Sleep Restoration Program (55-69%)</option>
+            <option value="Group Peer-Support Counseling & Stress De-escalation Circles">Group Peer-Support Counseling & Stress De-escalation Circles (40-54%)</option>
+            <option value="Guided Biofeedback Therapy & Heart-Rate Variability Coaching">Guided Biofeedback Therapy & HRV Coaching (40-54%)</option>
+            <option value="Progressive Muscle Relaxation (PMR) & 4-4-4-4 Box Breathing">Progressive Muscle Relaxation (PMR) & 4-4-4-4 Box Breathing (40-54%)</option>
+            <option value="Routine Resilience Fortification Workshop">Routine Resilience Fortification Workshop (&lt;40%)</option>
+          </select>
+        </div>
+
+        <div class="auth-input-group" style="margin-bottom:1.2rem;">
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:0.4rem; display:block;">Clinical Notes & Diagnostic Observations</label>
+          <textarea id="prescribeNotes" class="journal-textarea" rows="3" placeholder="Enter clinical assessment, diagnostic triggers, observed tremors, sleep disturbances, or medication prescribed..."></textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.8rem;">
+          <button type="button" class="btn-welfare-action secondary" onclick="rakshakApp.closePrescribeModal()">Cancel</button>
+          <button type="submit" class="btn-welfare-action primary" style="background:linear-gradient(135deg,#0284c7,#2563eb);">
+            <i class="fas fa-check-circle"></i> Save & Log Clinical Treatment
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Report Back to Medical Officer for Further Treatment (Welfare Officer) -->
+  <div id="reportToMoModal" class="modal-overlay">
+    <div class="modal-content-box stress-support-modal-box" style="max-width: 620px;">
+      <button class="modal-close-btn" onclick="rakshakApp.closeReportToMoModal()">&times;</button>
+      
+      <div class="stress-modal-header" style="text-align:left; margin-bottom:1.2rem;">
+        <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.8rem;">
+          <div style="width:48px; height:48px; border-radius:12px; background:rgba(239, 68, 68, 0.15); color:#ef4444; border:1.5px solid rgba(239, 68, 68, 0.35); display:flex; align-items:center; justify-content:center; font-size:1.4rem;">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div>
+            <h3 style="font-size:1.25rem; font-weight:800; color:var(--text-main); margin:0;">Report Back to Medical Officer</h3>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin:0.2rem 0 0 0;">Mandatory escalation: Stress difference between pre & post treatment is &lt; 25%</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="reportToMoDetailsBox" style="background:var(--bg-card-subtle); border:1px solid var(--border-card); border-radius:var(--radius-md); padding:1.2rem; margin-bottom:1.2rem;">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div class="auth-input-group" style="margin-bottom:1.4rem;">
+        <label style="font-size:0.82rem; font-weight:700; color:var(--text-main); margin-bottom:0.4rem; display:block;">Welfare Officer Escalation Rationale & Notes</label>
+        <textarea id="reportToMoNotes" class="journal-textarea" rows="3" placeholder="Explain why the treatment was insufficient (e.g., patient still reports severe insomnia, intrusive patrol thoughts, or fatigue)..."></textarea>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:0.8rem;">
+        <button type="button" class="btn-welfare-action secondary" onclick="rakshakApp.closeReportToMoModal()">Cancel</button>
+        <button type="button" class="btn-welfare-action danger" onclick="rakshakApp.confirmReportToMedicalOfficer()">
+          <i class="fas fa-paper-plane"></i> Dispatch Referral to Medical Officer
+        </button>
       </div>
     </div>
   </div>

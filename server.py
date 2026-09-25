@@ -103,6 +103,75 @@ def calculate_stress_metrics(person):
         
     return wellbeing_percentage, risk_level, total_stress_risk
 
+def get_treatment_priority(stress_pct):
+    if stress_pct >= 70:
+        return "Immediate Priority"
+    elif stress_pct >= 55:
+        return "High Priority"
+    elif stress_pct >= 40:
+        return "Medium Priority"
+    else:
+        return "Low Priority"
+
+def get_treatment_recommendations(stress_pct):
+    if stress_pct >= 70:
+        return {
+            "priority": "Immediate Priority",
+            "priorityClass": "immediate",
+            "threshold": "70% and higher",
+            "badgeColor": "#ef4444",
+            "modalities": [
+                "Emergency Psychiatric Consultation & Clinical Evaluation",
+                "Acute Clinical Decompression Therapy (In-Clinic)",
+                "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+                "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+                "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+            ],
+            "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+        }
+    elif stress_pct >= 55:
+        return {
+            "priority": "High Priority",
+            "priorityClass": "high",
+            "threshold": "55% to 69%",
+            "badgeColor": "#f97316",
+            "modalities": [
+                "Intensive 1-on-1 Clinical Counseling (Trauma-Informed CBT)",
+                "Daily Supervised Biofeedback & Autonomic Grounding Protocol",
+                "Targeted Sleep Restoration Program (7.5h minimum sleep window)",
+                "Welfare Officer Family Liaison & Compassionate Hardship Relief"
+            ],
+            "primaryFocus": "Trauma desensitization, cognitive restructuring, and preventing critical burnout."
+        }
+    elif stress_pct >= 40:
+        return {
+            "priority": "Medium Priority",
+            "priorityClass": "medium",
+            "threshold": "40% to 54%",
+            "badgeColor": "#eab308",
+            "modalities": [
+                "Guided Biofeedback Therapy & Heart-Rate Variability Coaching",
+                "Group Peer-Support Counseling & Stress De-escalation Circles",
+                "Rotational Fatigue Relief (Night shift duty capping)",
+                "Progressive Muscle Relaxation (PMR) & 4-4-4-4 Box Breathing"
+            ],
+            "primaryFocus": "Sub-acute stress management, camaraderie sharing, and sleep hygiene."
+        }
+    else:
+        return {
+            "priority": "Low Priority",
+            "priorityClass": "low",
+            "threshold": "Less than 40%",
+            "badgeColor": "#10b981",
+            "modalities": [
+                "Routine Resilience Fortification Workshops & Mental Toughness Training",
+                "Digital Self-Assessment & Sleep Telemetry Monitoring",
+                "Recreational Sports, Unit Bonding & Physical Reconditioning",
+                "Bi-Monthly Routine Medical Wellness Follow-Up"
+            ],
+            "primaryFocus": "Maintenance of high operational readiness and positive psychological health."
+        }
+
 def generate_chatbot_response(user_message, history=None):
     """
     Empathetic, culturally attuned, and playful welfare companion logic.
@@ -193,6 +262,7 @@ class RakshakRequestHandler(SimpleHTTPRequestHandler):
             q = query.get('q', [''])[0].strip().lower()
             risk_filter = query.get('risk', [''])[0].strip().lower()
             force_filter = query.get('force', [''])[0].strip().lower()
+            priority_filter = query.get('priority', [''])[0].strip().lower()
             sort_by = query.get('sort', [''])[0].strip().lower()
 
             filtered = []
@@ -201,6 +271,11 @@ class RakshakRequestHandler(SimpleHTTPRequestHandler):
                 p["wellbeingPercentage"] = wb
                 p["stressRiskLevel"] = risk
                 p["riskScore"] = score
+                p["liveStressLevel"] = score
+                p["treatmentPriority"] = get_treatment_priority(score)
+                p["treatmentRequired"] = get_treatment_recommendations(score)
+                if "treatmentHistory" not in p:
+                    p["treatmentHistory"] = []
 
                 match_q = True
                 if q:
@@ -215,22 +290,56 @@ class RakshakRequestHandler(SimpleHTTPRequestHandler):
                 if force_filter and force_filter != 'all':
                     match_force = p["force"].lower() == force_filter
 
-                if match_q and match_risk and match_force:
+                match_priority = True
+                if priority_filter and priority_filter != 'all':
+                    if priority_filter == 'escalated':
+                        match_priority = any(t.get('reportedBackToMO') or (t.get('difference', 0) < 25 and not t.get('reportedBackToMO')) for t in p.get('treatmentHistory', []))
+                    else:
+                        match_priority = priority_filter in p["treatmentPriority"].lower()
+
+                if match_q and match_risk and match_force and match_priority:
                     filtered.append(p)
 
             # Sorting
-            if sort_by == 'wellbeing_asc':
+            if sort_by == 'stress_desc' or sort_by == 'risk_desc':
+                filtered.sort(key=lambda x: x["liveStressLevel"], reverse=True)
+            elif sort_by == 'stress_asc':
+                filtered.sort(key=lambda x: x["liveStressLevel"])
+            elif sort_by == 'wellbeing_asc':
                 filtered.sort(key=lambda x: x["wellbeingPercentage"])
             elif sort_by == 'wellbeing_desc':
                 filtered.sort(key=lambda x: x["wellbeingPercentage"], reverse=True)
             elif sort_by == 'leave_desc':
                 filtered.sort(key=lambda x: x["hrIndicators"]["daysSinceLastLeave"], reverse=True)
-            elif sort_by == 'risk_desc':
-                filtered.sort(key=lambda x: x["riskScore"], reverse=True)
             elif sort_by == 'name_asc':
                 filtered.sort(key=lambda x: x["name"])
+            else:
+                filtered.sort(key=lambda x: x["liveStressLevel"], reverse=True)
 
             self.send_json_response(filtered)
+            return
+
+        # API: All Treatments Tracker (for Welfare & Medical Officers)
+        if path == '/api/treatments':
+            db = load_db()
+            all_treatments = []
+            for p in db.get("personnel", []):
+                wb, risk, score = calculate_stress_metrics(p)
+                for trt in p.get("treatmentHistory", []):
+                    item = dict(trt)
+                    item["soldierId"] = p["id"]
+                    item["soldierName"] = p["name"]
+                    item["soldierRank"] = p["rank"]
+                    item["soldierForce"] = p["force"]
+                    item["soldierUnit"] = p["unit"]
+                    item["soldierStation"] = p["station"]
+                    item["soldierPhoto"] = p.get("photo", "")
+                    item["currentLiveStress"] = score
+                    all_treatments.append(item)
+            
+            # Sort newest date first
+            all_treatments.sort(key=lambda x: x.get("date", ""), reverse=True)
+            self.send_json_response(all_treatments)
             return
 
         # API: Single Personnel Profile
@@ -243,6 +352,11 @@ class RakshakRequestHandler(SimpleHTTPRequestHandler):
                 person["wellbeingPercentage"] = wb
                 person["stressRiskLevel"] = risk
                 person["riskScore"] = score
+                person["liveStressLevel"] = score
+                person["treatmentPriority"] = get_treatment_priority(score)
+                person["treatmentRequired"] = get_treatment_recommendations(score)
+                if "treatmentHistory" not in person:
+                    person["treatmentHistory"] = []
                 self.send_json_response(person)
             else:
                 self.send_error_response(404, "Personnel not found")
@@ -450,6 +564,94 @@ class RakshakRequestHandler(SimpleHTTPRequestHandler):
             
             save_db(db)
             self.send_json_response({"success": True, "updatedCount": updated_count, "actionType": action_type})
+            return
+
+        # API: Prescribe / Administer Clinical Treatment (Medical Officer)
+        if path.startswith('/api/personnel/') and path.endswith('/treatment'):
+            parts = path.split('/')
+            pid = parts[3]
+            db = load_db()
+            person = next((p for p in db.get("personnel", []) if p["id"].lower() == pid.lower()), None)
+            if not person:
+                self.send_error_response(404, "Personnel not found")
+                return
+
+            wb, risk, score = calculate_stress_metrics(person)
+            pre_stress = float(payload.get("preStressLevel", score))
+            post_stress = float(payload.get("postStressLevel", max(15, pre_stress - 20)))
+            diff = round(pre_stress - post_stress, 1)
+            
+            status = "Responsive Recovery" if diff >= 25 else "Under-Threshold Response (<25% drop)"
+            
+            treatment_item = {
+                "treatmentId": f"TRT-{pid}-{int(datetime.now().timestamp()) % 10000:04d}",
+                "treatmentName": payload.get("treatmentName", "Intensive 1-on-1 Clinical Counseling"),
+                "category": payload.get("category", "Clinical Therapy"),
+                "priorityTier": payload.get("priorityTier", get_treatment_priority(pre_stress)),
+                "date": datetime.now().strftime("%Y-%m-%d"),
+                "treatingMO": payload.get("treatingMO", "Dr. Capt. Ananya Sharma (Unit MO)"),
+                "preStressLevel": pre_stress,
+                "postStressLevel": post_stress,
+                "difference": diff,
+                "status": status,
+                "notes": payload.get("notes", "Clinical therapy session conducted and verified."),
+                "reportedBackToMO": False
+            }
+
+            if "treatmentHistory" not in person:
+                person["treatmentHistory"] = []
+            person["treatmentHistory"].insert(0, treatment_item)
+
+            # If treatment achieved >= 25% drop, improve vitals
+            if diff >= 25:
+                if "biometrics" in person:
+                    person["biometrics"]["restingHeartRate"] = max(60, person["biometrics"].get("restingHeartRate", 75) - 6)
+                    person["biometrics"]["hrvMs"] = min(70, person["biometrics"].get("hrvMs", 35) + 12)
+
+            wb, risk, score = calculate_stress_metrics(person)
+            person["wellbeingPercentage"] = wb
+            person["stressRiskLevel"] = risk
+            person["riskScore"] = score
+            person["liveStressLevel"] = score
+
+            save_db(db)
+            self.send_json_response({"success": True, "treatment": treatment_item, "updatedPersonnel": person})
+            return
+
+        # API: Welfare Officer Report Back to Medical Officer
+        if path.startswith('/api/personnel/') and path.endswith('/report-to-mo'):
+            parts = path.split('/')
+            pid = parts[3]
+            db = load_db()
+            person = next((p for p in db.get("personnel", []) if p["id"].lower() == pid.lower()), None)
+            if not person:
+                self.send_error_response(404, "Personnel not found")
+                return
+
+            trt_id = payload.get("treatmentId", "")
+            referral_notes = payload.get("referralNotes", "Difference between pre and post stress levels is less than 25%. Escalated by Welfare Officer for further clinical intervention.")
+            
+            matched_trt = None
+            for t in person.get("treatmentHistory", []):
+                if t.get("treatmentId") == trt_id or not trt_id:
+                    t["reportedBackToMO"] = True
+                    t["reportedDate"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    t["referralNotes"] = referral_notes
+                    matched_trt = t
+                    break
+            
+            person["moReferralPending"] = True
+            if "actionHistory" not in person:
+                person["actionHistory"] = []
+            person["actionHistory"].insert(0, {
+                "actionType": "Urgent Medical Officer Re-Referral",
+                "notes": f"Welfare Officer flagged insufficient stress reduction (<25% delta): {referral_notes}",
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "status": "Escalated to MO"
+            })
+
+            save_db(db)
+            self.send_json_response({"success": True, "reportedTreatment": matched_trt, "updatedPersonnel": person})
             return
 
         self.send_error_response(404, "Endpoint not found")
