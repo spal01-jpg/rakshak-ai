@@ -296,22 +296,74 @@
                 <input type="range" id="sleepRangeInput" class="range-slider" min="0" max="12" step="0.5" value="5.5" oninput="rakshakApp.updateSleepDisplay(this.value)" />
               </div>
 
+              <!-- LIVE STRESS INDICATOR (REAL-TIME PERCENTAGE OPTION) -->
+              <div class="live-stress-indicator-card" id="liveStressCard">
+                <div class="live-stress-header">
+                  <div class="live-stress-title-group">
+                    <span class="live-stress-pulse-dot"></span>
+                    <i class="fas fa-heartbeat" style="color:#ef4444;"></i>
+                    <h4>Live Stress Indicator</h4>
+                  </div>
+                  
+                  <!-- Percentage View Option Switcher -->
+                  <div class="indicator-option-pill-group">
+                    <button type="button" id="btnOptStressPct" class="indicator-opt-btn active" onclick="rakshakApp.setStressIndicatorMode('stress')">
+                      <i class="fas fa-tachometer-alt"></i> Stress %
+                    </button>
+                    <button type="button" id="btnOptWellbeingPct" class="indicator-opt-btn" onclick="rakshakApp.setStressIndicatorMode('wellbeing')">
+                      <i class="fas fa-shield-alt"></i> Wellbeing %
+                    </button>
+                  </div>
+                </div>
+
+                <div class="live-stress-body">
+                  <div class="live-stress-metric-display">
+                    <div class="live-stress-number-wrap">
+                      <span id="liveStressNumber" class="live-stress-pct-val">42%</span>
+                      <span id="liveStressLabel" class="live-stress-pct-sub">ESTIMATED STRESS</span>
+                    </div>
+                    <div id="liveStressBadge" class="live-stress-status-badge moderate">
+                      <i class="fas fa-exclamation-circle"></i> <span>Moderate Strain</span>
+                    </div>
+                  </div>
+
+                  <!-- Dynamic Gradient Progress Meter Bar -->
+                  <div class="live-stress-track-bar">
+                    <div id="liveStressProgressBar" class="live-stress-fill-bar" style="width: 42%;"></div>
+                  </div>
+
+                  <!-- Real-time Factors Breakdown & Guidance -->
+                  <div class="live-stress-factors-row">
+                    <div class="factor-chip" id="factorMoodChip">
+                      <i class="fas fa-smile"></i> Mood Weight: <strong id="valMoodFactor">Okay (30%)</strong>
+                    </div>
+                    <div class="factor-chip" id="factorSleepChip">
+                      <i class="fas fa-bed"></i> Sleep Deficit: <strong id="valSleepFactor">5.5h (+24%)</strong>
+                    </div>
+                  </div>
+
+                  <p id="liveStressAdviceText" class="live-stress-advice">
+                    Sub-optimal sleep and moderate mood place your autonomic load in the manageable range.
+                  </p>
+                </div>
+              </div>
+
               <!-- Operational Stress Factors Checklist -->
               <p style="font-size:0.85rem; font-weight:600; margin-bottom:0.6rem; color:var(--text-main);">
                 Any specific operational strain today?
               </p>
               <div class="triggers-checklist">
                 <label class="trigger-checkbox-label">
-                  <input type="checkbox" id="chkPatrol" checked /> Border Patrol Fatigue
+                  <input type="checkbox" id="chkPatrol" checked onchange="rakshakApp.updateLiveStressIndicator()" /> Border Patrol Fatigue
                 </label>
                 <label class="trigger-checkbox-label">
-                  <input type="checkbox" id="chkFamily" checked /> Family Separation / Worry
+                  <input type="checkbox" id="chkFamily" checked onchange="rakshakApp.updateLiveStressIndicator()" /> Family Separation / Worry
                 </label>
                 <label class="trigger-checkbox-label">
-                  <input type="checkbox" id="chkAltitude" /> Extreme Climate / Hypoxia
+                  <input type="checkbox" id="chkAltitude" onchange="rakshakApp.updateLiveStressIndicator()" /> Extreme Climate / Hypoxia
                 </label>
                 <label class="trigger-checkbox-label">
-                  <input type="checkbox" id="chkLeave" checked /> Overdue Leave Anxiety
+                  <input type="checkbox" id="chkLeave" checked onchange="rakshakApp.updateLiveStressIndicator()" /> Overdue Leave Anxiety
                 </label>
               </div>
 

@@ -15,6 +15,7 @@ class RakshakApp {
     this.selectedSoldier = null;
     this.activeSoldierId = 'CRPF-94821';
     this.selectedMood = 3;
+    this.stressIndicatorMode = 'stress'; // 'stress' | 'wellbeing'
     
     // Tactical Resilience State
     this.isBreathingActive = false;
@@ -43,6 +44,7 @@ class RakshakApp {
     await this.fetchPersonnel();
     await this.fetchAnalytics();
     this.initChatbot();
+    this.updateLiveStressIndicator();
   }
 
   bindEvents() {
@@ -738,6 +740,7 @@ class RakshakApp {
     this.selectedMood = score;
     document.querySelectorAll('.mood-option-card').forEach(c => c.classList.remove('active'));
     if (elem) elem.classList.add('active');
+    this.updateLiveStressIndicator();
   }
 
   updateSleepDisplay(hours) {
@@ -748,6 +751,163 @@ class RakshakApp {
     else if (hours < 6.5) label = "Sub-optimal";
     else if (hours > 9) label = "Elevated Fatigue";
     valElem.innerText = `${hours} Hours (${label})`;
+    this.updateLiveStressIndicator();
+  }
+
+  setStressIndicatorMode(mode) {
+    this.stressIndicatorMode = mode;
+    const btnStress = document.getElementById('btnOptStressPct');
+    const btnWellbeing = document.getElementById('btnOptWellbeingPct');
+    if (btnStress && btnWellbeing) {
+      btnStress.classList.toggle('active', mode === 'stress');
+      btnWellbeing.classList.toggle('active', mode === 'wellbeing');
+    }
+    this.updateLiveStressIndicator();
+  }
+
+  updateLiveStressIndicator() {
+    const sleepInput = document.getElementById('sleepRangeInput');
+    const sleepHours = sleepInput ? parseFloat(sleepInput.value) : 5.5;
+    const mood = this.selectedMood || 3;
+
+    // 1. Mood Component (0 to 100)
+    let moodScore = 35;
+    let moodLabel = "Okay (35% load)";
+    if (mood >= 5) {
+      moodScore = 12;
+      moodLabel = "Good (12% load)";
+    } else if (mood === 3) {
+      moodScore = 35;
+      moodLabel = "Okay (35% load)";
+    } else if (mood === 2) {
+      moodScore = 68;
+      moodLabel = "Stressed (68% load)";
+    } else if (mood <= 1) {
+      moodScore = 88;
+      moodLabel = "Exhausted (88% load)";
+    }
+
+    // 2. Sleep Component (0 to 100)
+    let sleepScore = 25;
+    let sleepLabel = `${sleepHours}h (+25%)`;
+    if (sleepHours >= 7.0 && sleepHours <= 8.5) {
+      sleepScore = Math.max(8, Math.round(8 + (8.5 - sleepHours) * 5));
+      sleepLabel = `${sleepHours}h (Optimal Rest)`;
+    } else if (sleepHours > 8.5) {
+      sleepScore = Math.round(14 + (sleepHours - 8.5) * 6);
+      sleepLabel = `${sleepHours}h (Mild Fatigue)`;
+    } else if (sleepHours >= 6.0 && sleepHours < 7.0) {
+      sleepScore = Math.round(22 + (7.0 - sleepHours) * 16);
+      sleepLabel = `${sleepHours}h (Mild Deficit)`;
+    } else if (sleepHours >= 4.5 && sleepHours < 6.0) {
+      sleepScore = Math.round(40 + (6.0 - sleepHours) * 18);
+      sleepLabel = `${sleepHours}h (Sub-optimal Deficit)`;
+    } else if (sleepHours >= 3.0 && sleepHours < 4.5) {
+      sleepScore = Math.round(66 + (4.5 - sleepHours) * 12);
+      sleepLabel = `${sleepHours}h (High Insomnia)`;
+    } else {
+      sleepScore = Math.min(96, Math.round(84 + (3.0 - sleepHours) * 5));
+      sleepLabel = `${sleepHours}h (Critical Sleep Loss)`;
+    }
+
+    // 3. Operational Strain Triggers Component
+    let triggerCount = 0;
+    if (document.getElementById('chkPatrol')?.checked) triggerCount++;
+    if (document.getElementById('chkFamily')?.checked) triggerCount++;
+    if (document.getElementById('chkAltitude')?.checked) triggerCount++;
+    if (document.getElementById('chkLeave')?.checked) triggerCount++;
+    const triggerScore = triggerCount * 20;
+
+    // 4. Combined Multi-Variate Stress %
+    const stressPct = Math.min(98, Math.max(8, Math.round(
+      (moodScore * 0.52) + (sleepScore * 0.36) + (triggerScore * 0.12)
+    )));
+    const wellbeingPct = 100 - stressPct;
+
+    // 5. Update DOM Elements
+    const card = document.getElementById('liveStressCard');
+    const numElem = document.getElementById('liveStressNumber');
+    const lblElem = document.getElementById('liveStressLabel');
+    const barElem = document.getElementById('liveStressProgressBar');
+    const badgeElem = document.getElementById('liveStressBadge');
+    const moodChip = document.getElementById('valMoodFactor');
+    const sleepChip = document.getElementById('valSleepFactor');
+    const adviceElem = document.getElementById('liveStressAdviceText');
+
+    if (moodChip) moodChip.innerText = moodLabel;
+    if (sleepChip) sleepChip.innerText = sleepLabel;
+
+    // Mode-specific display (Stress % vs Wellbeing %)
+    const isStressMode = this.stressIndicatorMode === 'stress';
+    const displayVal = isStressMode ? stressPct : wellbeingPct;
+
+    if (numElem) {
+      numElem.innerText = `${displayVal}%`;
+      if (isStressMode) {
+        if (stressPct <= 35) numElem.style.color = '#10b981';
+        else if (stressPct <= 60) numElem.style.color = '#eab308';
+        else if (stressPct <= 78) numElem.style.color = '#f97316';
+        else numElem.style.color = '#ef4444';
+      } else {
+        if (wellbeingPct >= 65) numElem.style.color = '#10b981';
+        else if (wellbeingPct >= 40) numElem.style.color = '#eab308';
+        else numElem.style.color = '#ef4444';
+      }
+    }
+
+    if (lblElem) {
+      lblElem.innerText = isStressMode ? 'LIVE STRESS LEVEL' : 'LIVE WELLBEING INDEX';
+    }
+
+    if (barElem) {
+      barElem.style.width = `${displayVal}%`;
+      if (isStressMode) {
+        barElem.style.background = 'linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%)';
+      } else {
+        barElem.style.background = 'linear-gradient(90deg, #ef4444 0%, #f59e0b 50%, #10b981 100%)';
+      }
+    }
+
+    // Determine Severity Status & Advice
+    let statusClass = 'moderate';
+    let statusIcon = 'fa-info-circle';
+    let statusText = 'Moderate Strain';
+    let adviceText = 'Sub-optimal sleep and moderate mood place your autonomic load in the manageable range.';
+
+    if (stressPct <= 32) {
+      statusClass = 'low';
+      statusIcon = 'fa-check-circle';
+      statusText = 'Low Stress • Restored';
+      adviceText = 'Restorative sleep and positive outlook provide optimal cognitive focus and physical resilience.';
+    } else if (stressPct <= 58) {
+      statusClass = 'moderate';
+      statusIcon = 'fa-info-circle';
+      statusText = 'Moderate Strain • Stable';
+      adviceText = 'Autonomic load is elevated but manageable. Prioritize 7+ hours sleep and brief recovery pauses.';
+    } else if (stressPct <= 78) {
+      statusClass = 'high';
+      statusIcon = 'fa-exclamation-triangle';
+      statusText = 'High Stress • Fatigue Alert';
+      adviceText = 'Elevated operational fatigue detected. 4-4-4-4 tactical box breathing or a short rest cycle recommended.';
+    } else {
+      statusClass = 'critical';
+      statusIcon = 'fa-exclamation-circle';
+      statusText = 'Critical Stress • Action Needed';
+      adviceText = 'Severe sleep deficit and exhaustion detected. Confidential counseling or rotational recovery recommended.';
+    }
+
+    if (badgeElem) {
+      badgeElem.className = `live-stress-status-badge ${statusClass}`;
+      badgeElem.innerHTML = `<i class="fas ${statusIcon}"></i> <span>${statusText}</span>`;
+    }
+
+    if (card) {
+      card.className = `live-stress-indicator-card stress-${statusClass}`;
+    }
+
+    if (adviceElem) {
+      adviceElem.innerText = adviceText;
+    }
   }
 
   async submitCheckin() {

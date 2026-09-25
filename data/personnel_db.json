@@ -12,9 +12,9 @@
       "age": 34,
       "yearsInService": 14,
       "photo": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 25,
+      "wellbeingPercentage": 33,
       "stressRiskLevel": "High",
-      "riskScore": 75,
+      "riskScore": 67,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-09-24",
@@ -24,10 +24,10 @@
         "daysSinceLastLeave": 0,
         "consecutiveFieldDays": 240,
         "leaveApplicationsPending": 0,
-        "leaveSanctionedDaysYear": 57,
+        "leaveSanctionedDaysYear": 72,
         "leaveEntitlementRemaining": 48,
         "nightDutyShiftsPastMonth": 18,
-        "averageSleepHours": 2.0,
+        "averageSleepHours": 8.0,
         "restRecoveryScore": 32,
         "hardshipTenureMonths": 16,
         "familyEmergencyStatus": "Father hospitalized with renal failure in Rohtak"
@@ -40,14 +40,13 @@
         "bloodPressure": "138/88"
       },
       "selfAssessment": {
-        "lastCheckin": "2026-09-25",
+        "lastCheckin": "2026-09-26",
         "moodScore": 1.0,
-        "exhaustionLevel": "Critical",
+        "exhaustionLevel": "Moderate",
         "familyWorryScore": 4.0,
         "reportedSymptoms": [
           "Border Patrol Fatigue",
           "Family Separation / Worry",
-          "Extreme Climate / Hypoxia",
           "Overdue Leave Anxiety"
         ]
       },
@@ -64,6 +63,13 @@
         "Assign trusted Peer Buddy (Sahayak) from same sub-unit"
       ],
       "actionHistory": [
+        {
+          "actionType": "Sanction 15-Day Home Leave",
+          "notes": "Commander Dashboard Direct Dispatch",
+          "dispatchedBy": "Commanding Officer / Welfare Cell",
+          "timestamp": "2026-09-26 02:17:43",
+          "status": "Initiated"
+        },
         {
           "actionType": "Sanction 15-Day Welfare Leave",
           "notes": "Approved for father's hospital treatment",
