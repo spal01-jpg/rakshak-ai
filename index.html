@@ -178,7 +178,7 @@
             </a>
           </li>
           <li>
-            <a class="sidebar-nav-item" data-view="commander" onclick="rakshakApp.navigateToView('commander')">
+            <a class="sidebar-nav-item" id="navItemCommander" data-view="commander" onclick="rakshakApp.navigateToView('commander')">
               <i class="fas fa-user-shield"></i> <span>Commander Center</span>
             </a>
           </li>
@@ -345,6 +345,12 @@
                   <p id="liveStressAdviceText" class="live-stress-advice">
                     Sub-optimal sleep and moderate mood place your autonomic load in the manageable range.
                   </p>
+
+                  <div id="stressAlertTriggerBox" style="display:none; margin-top:0.85rem;">
+                    <button type="button" class="btn-open-stress-options" onclick="rakshakApp.openElevatedStressModal()">
+                      <i class="fas fa-hand-holding-heart"></i> Elevated Stress Support (Mitra AI / Phone)
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -849,6 +855,64 @@
   <!-- ============================================================== -->
   <!-- 3. MODALS                                                      -->
   <!-- ============================================================== -->
+
+  <!-- Modal: Elevated Stress Support Menu (Triggered at >= 60% Stress) -->
+  <div id="elevatedStressModal" class="modal-overlay">
+    <div class="modal-content-box stress-support-modal-box">
+      <button class="modal-close-btn" onclick="rakshakApp.closeElevatedStressModal()">&times;</button>
+      
+      <div class="stress-modal-header">
+        <div class="stress-alert-circle">
+          <i class="fas fa-heartbeat"></i>
+        </div>
+        <h3 id="stressModalTitle">Elevated Stress Level Detected (<span id="stressModalPct">68%</span>)</h3>
+        <p id="stressModalSubtitle">Your health and dignity are protected. We detected your estimated stress load is at <strong id="stressModalPctStrong">68%</strong>. Choose how you would like confidential support right now:</p>
+      </div>
+
+      <div class="stress-support-options-grid">
+        <!-- Option 1: Talk to Mitra AI -->
+        <div class="support-choice-card mitra" onclick="rakshakApp.chooseStressSupport('mitra')">
+          <div class="choice-icon-wrap mitra">
+            <i class="fas fa-robot"></i>
+            <span class="online-indicator-dot"></span>
+          </div>
+          <div class="choice-info-wrap">
+            <div class="choice-badge-row">
+              <h4>Talk to Mitra AI</h4>
+              <span class="choice-status-pill green">Instant • 24x7</span>
+            </div>
+            <p>Confidential, non-punitive listening in Hindi or English. Completely air-gapped from your ACR and service file.</p>
+            <div class="choice-action-link">
+              <span>Open Mitra Support Chat</span> <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Option 2: Talk to a Counsellor on Phone -->
+        <div class="support-choice-card phone" onclick="rakshakApp.chooseStressSupport('phone')">
+          <div class="choice-icon-wrap phone">
+            <i class="fas fa-phone-volume"></i>
+          </div>
+          <div class="choice-info-wrap">
+            <div class="choice-badge-row">
+              <h4>Talk to a Counsellor on Phone</h4>
+              <span class="choice-status-pill blue">Toll-Free • 100% Confidential</span>
+            </div>
+            <p>Direct call to a certified military psychiatrist or crisis counselor via Tele-MANAS (14416) or KIRAN helpline.</p>
+            <div class="choice-action-link">
+              <span>Connect by Phone (14416 / KIRAN)</span> <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stress-modal-footer">
+        <button type="button" class="btn-dismiss-stress-modal" onclick="rakshakApp.closeElevatedStressModal()">
+          I'm okay for now — Continue Daily Check-In
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal: Mandatory Digital Welfare Consent -->
   <div id="consentModal" class="modal-overlay">

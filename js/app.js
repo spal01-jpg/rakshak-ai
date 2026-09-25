@@ -16,6 +16,8 @@ class RakshakApp {
     this.activeSoldierId = 'CRPF-94821';
     this.selectedMood = 3;
     this.stressIndicatorMode = 'stress'; // 'stress' | 'wellbeing'
+    this.lastCalculatedStressPct = 42;
+    this.hasTriggeredStressPopup = false;
     
     // Tactical Resilience State
     this.isBreathingActive = false;
@@ -176,18 +178,32 @@ class RakshakApp {
 
   handleAuthLogin(roleOverride = null) {
     const role = roleOverride || this.selectedLoginRole;
+    this.selectedLoginRole = role;
     document.getElementById('authLandingView').style.display = 'none';
     document.getElementById('mainAppShell').style.display = 'flex';
 
-    if (role === 'commander') {
-      this.navigateToView('commander');
-    } else if (role === 'twin') {
-      this.navigateToView('twin');
-    } else {
+    // Role-Based Navigation & Access Enforcement
+    const navItemCommander = document.getElementById('navItemCommander');
+    const commanderNavLi = navItemCommander ? navItemCommander.closest('li') : null;
+
+    if (role === 'soldier') {
+      // PERSONNEL (JAWAN) DATA PRIVACY ISOLATION:
+      // Strictly hide Commander Center and force roster from jawans
+      if (commanderNavLi) commanderNavLi.style.display = 'none';
       this.navigateToView('soldier');
       this.checkSoldierConsent();
+    } else {
+      // COMMANDER & WELFARE OFFICERS:
+      // Enable full access to Commander Center and force roster
+      if (commanderNavLi) commanderNavLi.style.display = 'block';
+      if (role === 'commander') {
+        this.navigateToView('commander');
+      } else if (role === 'twin') {
+        this.navigateToView('commander');
+      }
     }
-    this.showToast(`Welcome! Logged in as: ${role.toUpperCase()}`);
+    const roleName = role === 'soldier' ? 'PERSONNEL (JAWAN)' : role === 'twin' ? 'WELFARE OFFICER' : 'COMMANDER';
+    this.showToast(`Welcome! Logged in as: ${roleName}`);
   }
 
   logoutToLanding() {
@@ -198,6 +214,13 @@ class RakshakApp {
   }
 
   navigateToView(viewName) {
+    // PERSONNEL DATA PRIVACY PROTECTION:
+    // If logged in as personnel/soldier, deny access to the commander view & other personnel data!
+    if (viewName === 'commander' && this.selectedLoginRole === 'soldier') {
+      this.showToast("🔒 Access Restricted: Personnel force roster is restricted to Commanding & Welfare Officers.");
+      return;
+    }
+
     this.currentView = viewName;
 
     document.querySelectorAll('.sidebar-nav-item').forEach(item => {
@@ -822,6 +845,7 @@ class RakshakApp {
     const stressPct = Math.min(98, Math.max(8, Math.round(
       (moodScore * 0.52) + (sleepScore * 0.36) + (triggerScore * 0.12)
     )));
+    this.lastCalculatedStressPct = stressPct;
     const wellbeingPct = 100 - stressPct;
 
     // 5. Update DOM Elements
@@ -907,6 +931,69 @@ class RakshakApp {
 
     if (adviceElem) {
       adviceElem.innerText = adviceText;
+    }
+
+    // 6. Elevated Stress Support Trigger (>= 60% Threshold)
+    const alertBox = document.getElementById('stressAlertTriggerBox');
+    if (stressPct >= 60) {
+      if (alertBox) alertBox.style.display = 'block';
+      if (!this.hasTriggeredStressPopup) {
+        this.hasTriggeredStressPopup = true;
+        setTimeout(() => {
+          this.openElevatedStressModal(stressPct);
+        }, 300);
+      }
+    } else {
+      if (stressPct < 55) {
+        if (alertBox) alertBox.style.display = 'none';
+        this.hasTriggeredStressPopup = false;
+      }
+    }
+  }
+
+  // ==========================================================
+  // ELEVATED STRESS MODAL & SUPPORT ACTIONS
+  // ==========================================================
+  openElevatedStressModal(pct = null) {
+    const stressVal = pct !== null ? pct : (this.lastCalculatedStressPct || 68);
+    const pctSpan = document.getElementById('stressModalPct');
+    const pctStrong = document.getElementById('stressModalPctStrong');
+    if (pctSpan) pctSpan.innerText = `${stressVal}%`;
+    if (pctStrong) pctStrong.innerText = `${stressVal}%`;
+
+    const modal = document.getElementById('elevatedStressModal');
+    if (modal) modal.classList.add('active');
+  }
+
+  closeElevatedStressModal() {
+    const modal = document.getElementById('elevatedStressModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  chooseStressSupport(choice) {
+    this.closeElevatedStressModal();
+    const stressVal = this.lastCalculatedStressPct || 68;
+
+    if (choice === 'mitra') {
+      this.navigateToView('chat');
+      if (this.chatbot && typeof this.chatbot.renderMessage === 'function') {
+        setTimeout(() => {
+          this.chatbot.renderMessage({
+            sender: 'bot',
+            text: `**Namaste Rajesh.** I noticed your live stress level is currently elevated at **${stressVal}%**. I am right here with you.\n\nEverything we share is strictly confidential, non-punitive, and 100% air-gapped from your service records. How are you feeling right now? Would you like to share what's on your mind, or do a 2-minute tactical breathing exercise together?`,
+            quickReplies: [
+              "Start 4-4-4-4 Box Breathing 🧘",
+              "Duty ki thakaan aur family chinta",
+              "Ek mazedaar Fauji joke sunao 😄",
+              "I just need a moment of peace"
+            ]
+          });
+        }, 200);
+      }
+      this.showToast("Connected to Mitra AI. Your support session is 100% confidential.");
+    } else if (choice === 'phone') {
+      this.openHelplineModal();
+      this.showToast("Opening 24x7 confidential military phone helplines...");
     }
   }
 
