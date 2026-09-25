@@ -1,6 +1,67 @@
 {
   "personnel": [
     {
+      "id": "P-204",
+      "name": "Constable Rajesh Kumar",
+      "rank": "Constable",
+      "force": "BSF",
+      "unit": "Bravo Unit",
+      "station": "Border Outpost Bravo",
+      "deploymentZone": "Border Patrol High Risk",
+      "monthsInZone": 8,
+      "age": 29,
+      "yearsInService": 7,
+      "photo": "assets/prototype_avatar_rajesh.png",
+      "wellbeingPercentage": 55,
+      "stressRiskLevel": "High",
+      "riskScore": 72,
+      "consentStatus": {
+        "consented": true,
+        "consentDate": "2025-04-10",
+        "voluntaryBiometrics": true
+      },
+      "hrIndicators": {
+        "daysSinceLastLeave": 120,
+        "consecutiveFieldDays": 63,
+        "leaveApplicationsPending": 1,
+        "leaveSanctionedDaysYear": 20,
+        "leaveEntitlementRemaining": 40,
+        "nightDutyShiftsPastMonth": 16,
+        "averageSleepHours": 5.2,
+        "restRecoveryScore": 42,
+        "hardshipTenureMonths": 8,
+        "familyEmergencyStatus": "Normal"
+      },
+      "biometrics": {
+        "restingHeartRate": 78,
+        "hrvMs": 34,
+        "sleepQuality": "Declining",
+        "dailySteps": 14200,
+        "bloodPressure": "130/85"
+      },
+      "selfAssessment": {
+        "lastCheckin": "2025-04-22",
+        "moodScore": 2.0,
+        "exhaustionLevel": "High",
+        "familyWorryScore": 3.0,
+        "reportedSymptoms": [
+          "Continuous Deployment Fatigue",
+          "Sleep Deprivation"
+        ]
+      },
+      "aiRiskFactors": [
+        "63 days deployment",
+        "No leave in 4 months",
+        "High fatigue score"
+      ],
+      "welfareRecommendations": [
+        "Counseling Session",
+        "Recovery Leave",
+        "Reduced Night Duty",
+        "Wellness Follow-Up"
+      ]
+    },
+    {
       "id": "CRPF-94821",
       "name": "Havildar Rajesh Kumar",
       "rank": "Havildar",
