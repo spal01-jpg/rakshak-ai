@@ -499,6 +499,18 @@ class RakshakRequestHandler(SimpleHTTPRequestHandler):
                     save_db(db)
                     self.send_json_response({"success": True, "personnel": p, "metrics": {"wellbeing": wb, "risk": risk, "score": score}})
                     return
+
+            # Commander leadership check-in support
+            if person_id.lower().startswith("cmd") or "commander" in person_id.lower():
+                score = int(max(10, min(95, (5 - mood) * 15 + (8 - min(8, sleep_hours)) * 8)))
+                wb = 100 - score
+                risk = "High" if score >= 60 else "Moderate" if score >= 35 else "Low"
+                self.send_json_response({
+                    "success": True, 
+                    "personnel": {"id": person_id, "name": "Col. Virendra Saxena", "rank": "Colonel", "role": "Commanding Officer"}, 
+                    "metrics": {"wellbeing": wb, "risk": risk, "score": score}
+                })
+                return
             
             self.send_error_response(404, "Personnel not found")
             return

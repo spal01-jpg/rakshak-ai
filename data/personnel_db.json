@@ -12,9 +12,9 @@
       "age": 34,
       "yearsInService": 14,
       "photo": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 33,
-      "stressRiskLevel": "High",
-      "riskScore": 67,
+      "wellbeingPercentage": 43,
+      "stressRiskLevel": "Moderate",
+      "riskScore": 57,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-09-24",
@@ -27,7 +27,7 @@
         "leaveSanctionedDaysYear": 72,
         "leaveEntitlementRemaining": 48,
         "nightDutyShiftsPastMonth": 18,
-        "averageSleepHours": 8.0,
+        "averageSleepHours": 6.0,
         "restRecoveryScore": 32,
         "hardshipTenureMonths": 16,
         "familyEmergencyStatus": "Father hospitalized with renal failure in Rohtak"
@@ -41,14 +41,10 @@
       },
       "selfAssessment": {
         "lastCheckin": "2026-09-26",
-        "moodScore": 1.0,
+        "moodScore": 3.0,
         "exhaustionLevel": "Moderate",
         "familyWorryScore": 4.0,
-        "reportedSymptoms": [
-          "Border Patrol Fatigue",
-          "Family Separation / Worry",
-          "Overdue Leave Anxiety"
-        ]
+        "reportedSymptoms": []
       },
       "aiRiskFactors": [
         "220 days since last home visit with active father medical crisis",
@@ -63,6 +59,12 @@
         "Assign trusted Peer Buddy (Sahayak) from same sub-unit"
       ],
       "actionHistory": [
+        {
+          "actionType": "Urgent Medical Officer Re-Referral",
+          "notes": "Welfare Officer flagged insufficient stress reduction (<25% delta): Patient experienced only a 12% stress reduction following Intensive 1-on-1 Clinical Counseling & Trauma CBT. Persistent operational fatigue and sleep deficits observed. Requesting secondary clinical intervention and psychiatrist evaluation.",
+          "timestamp": "2026-09-26 02:57:57",
+          "status": "Escalated to MO"
+        },
         {
           "actionType": "Sanction 15-Day Home Leave",
           "notes": "Commander Dashboard Direct Dispatch",
@@ -105,9 +107,12 @@
           "difference": 12,
           "status": "Under-Threshold Response",
           "notes": "Patient reports persistent sleep onset anxiety and hyper-arousal following 16 months counter-insurgency tenure. Sub-therapeutic response.",
-          "reportedBackToMO": false
+          "reportedBackToMO": true,
+          "reportedDate": "2026-09-26 02:57:57",
+          "referralNotes": "Patient experienced only a 12% stress reduction following Intensive 1-on-1 Clinical Counseling & Trauma CBT. Persistent operational fatigue and sleep deficits observed. Requesting secondary clinical intervention and psychiatrist evaluation."
         }
-      ]
+      ],
+      "moReferralPending": true
     },
     {
       "id": "BSF-44120",
@@ -168,7 +173,14 @@
         "Refer land dispute details to District Welfare Liaison Officer",
         "Provide electrolyte hydration packs & afternoon shaded rest cycles"
       ],
-      "actionHistory": [],
+      "actionHistory": [
+        {
+          "actionType": "Urgent Medical Officer Re-Referral",
+          "notes": "Welfare Officer flagged insufficient stress reduction (<25% delta): Patient experienced only a 10% stress reduction following Trauma-Informed CBT & Autonomic Grounding Protocol. Persistent operational fatigue and sleep deficits observed. Requesting secondary clinical intervention and psychiatrist evaluation.",
+          "timestamp": "2026-09-26 02:58:09",
+          "status": "Escalated to MO"
+        }
+      ],
       "treatmentHistory": [
         {
           "treatmentId": "TRT-44120-01",
@@ -182,9 +194,12 @@
           "difference": 10,
           "status": "Under-Threshold Response",
           "notes": "Heat exhaustion and night border patrol strain. Modest reduction; still in high operational fatigue zone.",
-          "reportedBackToMO": false
+          "reportedBackToMO": true,
+          "reportedDate": "2026-09-26 02:58:09",
+          "referralNotes": "Patient experienced only a 10% stress reduction following Trauma-Informed CBT & Autonomic Grounding Protocol. Persistent operational fatigue and sleep deficits observed. Requesting secondary clinical intervention and psychiatrist evaluation."
         }
-      ]
+      ],
+      "moReferralPending": true
     },
     {
       "id": "ITBP-88192",
@@ -322,9 +337,9 @@
       "age": 29,
       "yearsInService": 8,
       "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 34,
+      "wellbeingPercentage": 5,
       "stressRiskLevel": "Critical",
-      "riskScore": 92,
+      "riskScore": 95,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-04-10",
@@ -343,8 +358,8 @@
         "familyEmergencyStatus": "Wife delivered newborn baby 6 weeks ago; yet to meet child"
       },
       "biometrics": {
-        "restingHeartRate": 89,
-        "hrvMs": 22,
+        "restingHeartRate": 83,
+        "hrvMs": 34,
         "sleepQuality": "Critical Deficit",
         "dailySteps": 21000,
         "bloodPressure": "142/92"
@@ -375,6 +390,34 @@
       "actionHistory": [],
       "treatmentHistory": [
         {
+          "treatmentId": "TRT-AR-12903-1791",
+          "treatmentName": "Progressive Muscle Relaxation (PMR) & 4-4-4-4 Box Breathing",
+          "category": "Clinical Therapy",
+          "priorityTier": "Immediate Priority",
+          "date": "2026-09-26",
+          "treatingMO": "Dr. Capt. Ananya Sharma (Unit MO)",
+          "preStressLevel": 98.0,
+          "postStressLevel": 71.0,
+          "difference": 27.0,
+          "status": "Responsive Recovery",
+          "notes": "Clinical therapy session conducted and logged.",
+          "reportedBackToMO": false
+        },
+        {
+          "treatmentId": "TRT-AR-12903-1763",
+          "treatmentName": "Emergency Psychiatric Consultation & Clinical Evaluation",
+          "category": "Clinical Therapy",
+          "priorityTier": "Immediate Priority",
+          "date": "2026-09-26",
+          "treatingMO": "Dr. Capt. Ananya Sharma (Unit MO)",
+          "preStressLevel": 98.0,
+          "postStressLevel": 76.0,
+          "difference": 22.0,
+          "status": "Under-Threshold Response (<25% drop)",
+          "notes": "Clinical therapy session conducted and logged.",
+          "reportedBackToMO": false
+        },
+        {
           "treatmentId": "TRT-12903-01",
           "treatmentName": "Emergency Psychiatric Evaluation & Acute Decompression Therapy",
           "category": "Psychiatric / Crisis Decompression",
@@ -388,7 +431,8 @@
           "notes": "Severe acute combat stress post cross-border ambush. Heart rate variability critically depressed (19ms). Requires secondary escalation.",
           "reportedBackToMO": false
         }
-      ]
+      ],
+      "liveStressLevel": 95
     },
     {
       "id": "IA-67219",
@@ -1156,9 +1200,9 @@
       "age": 32,
       "yearsInService": 9,
       "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 36,
+      "wellbeingPercentage": 5,
       "stressRiskLevel": "Critical",
-      "riskScore": 90,
+      "riskScore": 97,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-04-14",
@@ -1206,7 +1250,23 @@
         "Executive medical check-up at AIIMS New Delhi en route"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [
+        {
+          "treatmentId": "TRT-CRPF-12001-1829",
+          "treatmentName": "Progressive Muscle Relaxation (PMR) & 4-4-4-4 Box Breathing",
+          "category": "Clinical Therapy",
+          "priorityTier": "Immediate Priority",
+          "date": "2026-09-26",
+          "treatingMO": "Dr. Capt. Ananya Sharma (Unit MO)",
+          "preStressLevel": 97.0,
+          "postStressLevel": 75.0,
+          "difference": 22.0,
+          "status": "Under-Threshold Response (<25% drop)",
+          "notes": "Clinical therapy session conducted and logged.",
+          "reportedBackToMO": false
+        }
+      ],
+      "liveStressLevel": 97
     },
     {
       "id": "IN-99014",

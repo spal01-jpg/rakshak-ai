@@ -113,13 +113,13 @@
         <div class="role-card-picker" onclick="rakshakApp.selectLoginRole('commander', this)">
           <div class="role-card-icon"><i class="fas fa-user-shield"></i></div>
           <div class="role-card-title">Commander</div>
-          <div class="role-card-desc">Force overview, search, leave sanctions, batch actions</div>
+          <div class="role-card-desc">Force overview, personal live stress check, leave sanctions</div>
         </div>
 
         <div class="role-card-picker" onclick="rakshakApp.selectLoginRole('welfare', this)">
           <div class="role-card-icon"><i class="fas fa-heartbeat"></i></div>
           <div class="role-card-title">Welfare Officer</div>
-          <div class="role-card-desc">Treatment outcomes tracker, 25% delta escalation, twin review</div>
+          <div class="role-card-desc">Treatment outcomes tracker, 25% delta escalation, rehabilitation monitoring</div>
         </div>
 
         <div class="role-card-picker" onclick="rakshakApp.selectLoginRole('medical', this)">
@@ -275,7 +275,7 @@
               </div>
 
               <!-- Mood Selection -->
-              <p style="font-size:0.85rem; font-weight:600; margin-bottom:0.6rem; color:var(--text-main);">
+              <p id="checkinGreetingText" style="font-size:0.85rem; font-weight:600; margin-bottom:0.6rem; color:var(--text-main);">
                 How are you feeling today, Veer?
               </p>
               <div class="mood-picker-grid">
@@ -553,6 +553,22 @@
       <!-- ============================================================ -->
       <section id="view_commander" class="app-subview" style="display: none;">
         
+        <!-- Commander Leadership Stress Check Quick Banner -->
+        <div style="background:linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(99, 102, 241, 0.08)); border:1px solid rgba(2, 132, 199, 0.25); border-radius:var(--radius-lg); padding:1rem 1.25rem; margin-bottom:1.25rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+          <div style="display:flex; align-items:center; gap:0.85rem;">
+            <div style="width:42px; height:42px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0;">
+              <i class="fas fa-heartbeat"></i>
+            </div>
+            <div>
+              <h4 style="font-size:0.98rem; font-weight:800; color:var(--text-main); margin-bottom:0.15rem;">Commander Leadership Wellness & Live Stress Assessment</h4>
+              <p style="font-size:0.82rem; color:var(--text-muted); margin:0;">Operational resilience starts at the top. Check and track your personal live stress level anytime.</p>
+            </div>
+          </div>
+          <button type="button" class="btn-welfare-action primary" onclick="rakshakApp.navigateToView('soldier')" style="box-shadow:var(--shadow-sm);">
+            <i class="fas fa-stethoscope"></i> Check My Live Stress Level
+          </button>
+        </div>
+
         <!-- 4 Top KPI Cards from Canva Screen 4 -->
         <div class="kpi-cards-grid">
           <div class="kpi-metric-card monitored">

@@ -201,46 +201,50 @@ class RakshakApp {
     const navLiWelfareTracker = document.getElementById('navLiWelfareTracker');
     const navLiCommander = document.getElementById('navLiCommander');
     const navLiTwin = document.getElementById('navLiTwin');
+    const navHomeText = document.querySelector('#navItemHome span');
 
     if (role === 'soldier') {
       // PERSONNEL (JAWAN) VIEW:
       // Only sees own daily check-in, live stress indicator & own twin
+      if (navHomeText) navHomeText.innerText = 'Home (Check-In)';
       if (navLiHome) navLiHome.style.display = 'block';
       if (navLiTreatment) navLiTreatment.style.display = 'none';
       if (navLiWelfareTracker) navLiWelfareTracker.style.display = 'none';
       if (navLiCommander) navLiCommander.style.display = 'none';
-      if (navLiTwin) navLiTwin.style.display = 'block';
+      if (navLiTwin) navLiTwin.style.display = 'block'; // ONLY PERSONNEL HAS TWIN!
 
       this.navigateToView('soldier');
       this.checkSoldierConsent();
     } else if (role === 'medical') {
       // MEDICAL OFFICER VIEW:
-      // Removed personal stress checker! Views all personnel & Clinical Treatment Center
+      // Removed personal stress checker & twin! Views all personnel & Clinical Treatment Center
       if (navLiHome) navLiHome.style.display = 'none';
       if (navLiTreatment) navLiTreatment.style.display = 'block';
       if (navLiWelfareTracker) navLiWelfareTracker.style.display = 'none';
       if (navLiCommander) navLiCommander.style.display = 'block';
-      if (navLiTwin) navLiTwin.style.display = 'block';
+      if (navLiTwin) navLiTwin.style.display = 'none'; // REMOVED FROM ALL EXCEPT PERSONNEL
 
       this.navigateToView('treatment');
     } else if (role === 'welfare') {
       // WELFARE OFFICER VIEW:
-      // Removed personal stress checker! Views all personnel & Welfare Treatment Tracker
+      // Removed personal stress checker & twin! Views all personnel & Welfare Treatment Tracker
       if (navLiHome) navLiHome.style.display = 'none';
       if (navLiTreatment) navLiTreatment.style.display = 'none';
       if (navLiWelfareTracker) navLiWelfareTracker.style.display = 'block';
       if (navLiCommander) navLiCommander.style.display = 'block';
-      if (navLiTwin) navLiTwin.style.display = 'block';
+      if (navLiTwin) navLiTwin.style.display = 'none'; // REMOVED FROM ALL EXCEPT PERSONNEL
 
       this.navigateToView('welfare_tracker');
     } else {
       // COMMANDER VIEW:
-      // Removed personal stress checker! Full operations center
-      if (navLiHome) navLiHome.style.display = 'none';
+      // Can check his own live stress level & accesses Commander Operations Center
+      // Twin panel removed from all except personnel!
+      if (navHomeText) navHomeText.innerText = 'Personal Stress Check';
+      if (navLiHome) navLiHome.style.display = 'block'; // COMMANDER ALLOWED TO CHECK LIVE STRESS!
       if (navLiTreatment) navLiTreatment.style.display = 'none';
       if (navLiWelfareTracker) navLiWelfareTracker.style.display = 'none';
       if (navLiCommander) navLiCommander.style.display = 'block';
-      if (navLiTwin) navLiTwin.style.display = 'block';
+      if (navLiTwin) navLiTwin.style.display = 'none'; // REMOVED FROM ALL EXCEPT PERSONNEL
 
       this.navigateToView('commander');
     }
@@ -271,9 +275,17 @@ class RakshakApp {
       }
     }
 
-    // Officers cannot access personal check-in
-    if (viewName === 'soldier' && this.selectedLoginRole !== 'soldier') {
-      this.showToast("Personal check-in is restricted to active personnel/jawans.");
+    // DIGITAL WELFARE TWIN RESTRICTION:
+    // "remove digital welfare twin panel from all except personnel"
+    if (viewName === 'twin' && this.selectedLoginRole !== 'soldier') {
+      this.showToast("🔒 Access Restricted: Digital Welfare Twin panel is only accessible to active Personnel.");
+      return;
+    }
+
+    // MEDICAL & WELFARE OFFICERS cannot access personal check-in
+    // Commander and Personnel CAN check live stress level
+    if (viewName === 'soldier' && (this.selectedLoginRole === 'medical' || this.selectedLoginRole === 'welfare')) {
+      this.showToast("Personal check-in is disabled for Medical and Welfare Officers.");
       return;
     }
 
@@ -295,13 +307,24 @@ class RakshakApp {
     const avatar = document.getElementById('topbarAvatar');
     const uName = document.getElementById('topbarUserName');
     const uRole = document.getElementById('topbarUserRole');
+    const checkinGreeting = document.getElementById('checkinGreetingText');
 
     if (viewName === 'soldier') {
-      if (title) title.innerText = "Good Morning, Rajesh 👋";
-      if (subtitle) subtitle.innerText = "Take a moment. Your well-being matters.";
-      if (avatar) avatar.src = "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150";
-      if (uName) uName.innerText = "Rajesh Kumar";
-      if (uRole) uRole.innerText = "Havildar (CRPF)";
+      if (this.selectedLoginRole === 'commander') {
+        if (title) title.innerText = "Good Morning, Commander Saxena 👋";
+        if (subtitle) subtitle.innerText = "Check your personal operational stress level & wellbeing metrics.";
+        if (avatar) avatar.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150";
+        if (uName) uName.innerText = "Col. V. Saxena";
+        if (uRole) uRole.innerText = "Commanding Officer";
+        if (checkinGreeting) checkinGreeting.innerText = "How is your operational strain today, Commander?";
+      } else {
+        if (title) title.innerText = "Good Morning, Rajesh 👋";
+        if (subtitle) subtitle.innerText = "Take a moment. Your well-being matters.";
+        if (avatar) avatar.src = "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150";
+        if (uName) uName.innerText = "Rajesh Kumar";
+        if (uRole) uRole.innerText = "Havildar (CRPF)";
+        if (checkinGreeting) checkinGreeting.innerText = "How are you feeling today, Veer?";
+      }
     } else if (viewName === 'twin') {
       if (title) title.innerText = "Digital Welfare Twin";
       if (subtitle) subtitle.innerText = "Multi-dimensional resilience radar & longitudinal trends";
@@ -608,6 +631,10 @@ class RakshakApp {
     } catch(e) {
       console.error(e);
     }
+  }
+
+  openSoldierModal(pid) {
+    return this.openPersonnelModal(pid);
   }
 
   async dispatchWelfareAction(pid, actionType) {
@@ -1078,12 +1105,14 @@ class RakshakApp {
     if (document.getElementById('chkAltitude')?.checked) symptoms.push("Extreme Climate / Hypoxia");
     if (document.getElementById('chkLeave')?.checked) symptoms.push("Overdue Leave Anxiety");
 
+    const pid = this.selectedLoginRole === 'commander' ? 'CMD-01' : this.activeSoldierId;
+
     try {
       const res = await fetch('/api/self-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          personnelId: this.activeSoldierId,
+          personnelId: pid,
           moodScore: this.selectedMood,
           sleepHours: sleep,
           exhaustionLevel: sleep < 5 ? "Critical" : "Moderate",
@@ -1091,7 +1120,11 @@ class RakshakApp {
         })
       });
       const data = await res.json();
-      this.showToast("Check-In Submitted! Your resilience twin has been updated.");
+      if (this.selectedLoginRole === 'commander') {
+        this.showToast("Personal Assessment Logged! Commander live stress level registered.");
+      } else {
+        this.showToast("Check-In Submitted! Your resilience record has been updated.");
+      }
 
       // Add to recent check-ins table
       const tbody = document.getElementById('recentCheckinsBody');
@@ -1626,7 +1659,7 @@ class RakshakApp {
               Stress drop satisfies mandatory ≥ 25% recovery threshold. Soldier responding favorably to treatment.
             </div>
             <button type="button" class="btn-welfare-action secondary" onclick="rakshakApp.openSoldierModal('${t.soldierId}')">
-              <i class="fas fa-id-card"></i> View Full Digital Twin
+              <i class="fas fa-id-card"></i> View Service Profile
             </button>
           `}
         </div>
