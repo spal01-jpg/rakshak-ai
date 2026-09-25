@@ -12,9 +12,9 @@
       "age": 34,
       "yearsInService": 14,
       "photo": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 43,
-      "stressRiskLevel": "Moderate",
-      "riskScore": 57,
+      "wellbeingPercentage": 32,
+      "stressRiskLevel": "High",
+      "riskScore": 68,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-09-24",
@@ -27,7 +27,7 @@
         "leaveSanctionedDaysYear": 72,
         "leaveEntitlementRemaining": 48,
         "nightDutyShiftsPastMonth": 18,
-        "averageSleepHours": 6.0,
+        "averageSleepHours": 5.5,
         "restRecoveryScore": 32,
         "hardshipTenureMonths": 16,
         "familyEmergencyStatus": "Father hospitalized with renal failure in Rohtak"
@@ -41,10 +41,14 @@
       },
       "selfAssessment": {
         "lastCheckin": "2026-09-26",
-        "moodScore": 3.0,
+        "moodScore": 2.0,
         "exhaustionLevel": "Moderate",
         "familyWorryScore": 4.0,
-        "reportedSymptoms": []
+        "reportedSymptoms": [
+          "Border Patrol Fatigue",
+          "Family Separation / Worry",
+          "Overdue Leave Anxiety"
+        ]
       },
       "aiRiskFactors": [
         "220 days since last home visit with active father medical crisis",
@@ -112,7 +116,22 @@
           "referralNotes": "Patient experienced only a 12% stress reduction following Intensive 1-on-1 Clinical Counseling & Trauma CBT. Persistent operational fatigue and sleep deficits observed. Requesting secondary clinical intervention and psychiatrist evaluation."
         }
       ],
-      "moReferralPending": true
+      "moReferralPending": true,
+      "welfareAdvisory": {
+        "isValidated": true,
+        "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
+        "validationDate": "2026-09-26",
+        "ratingStatus": "Validated",
+        "activeRecommendation": {
+          "actionType": "Sanction Leave & 1-to-1 Personal Care",
+          "suggestedAction": "Sanction 14-day emergency compassionate leave immediately; arrange 1-to-1 personal care & buddy debrief for 3 days prior to departure.",
+          "severityLevel": "Critical",
+          "notes": "210 days without leave combined with father in ICU in Bihar. High risk of burnout and severe sleep fragmentation.",
+          "dispatchedAt": "2026-09-25 11:30",
+          "status": "Pending Commander Approval"
+        },
+        "validationNotes": "Stress rating reviewed and clinically verified against duty logs."
+      }
     },
     {
       "id": "BSF-44120",
@@ -126,9 +145,9 @@
       "age": 38,
       "yearsInService": 17,
       "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 46,
+      "wellbeingPercentage": 29,
       "stressRiskLevel": "High",
-      "riskScore": 74,
+      "riskScore": 71,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-07-15",
@@ -140,15 +159,15 @@
         "leaveApplicationsPending": 1,
         "leaveSanctionedDaysYear": 18,
         "leaveEntitlementRemaining": 42,
-        "nightDutyShiftsPastMonth": 15,
+        "nightDutyShiftsPastMonth": 9,
         "averageSleepHours": 5.0,
         "restRecoveryScore": 41,
         "hardshipTenureMonths": 14,
         "familyEmergencyStatus": "Agricultural land dispute back home in Alwar"
       },
       "biometrics": {
-        "restingHeartRate": 78,
-        "hrvMs": 35,
+        "restingHeartRate": 73,
+        "hrvMs": 45,
         "sleepQuality": "Moderate",
         "dailySteps": 18200,
         "bloodPressure": "130/84"
@@ -175,6 +194,13 @@
       ],
       "actionHistory": [
         {
+          "actionType": "Commander Sanction: Reduce Workload & Shift Cap",
+          "notes": "Approved Welfare Advisory: Cap night patrol duties to max 3 per month and remove from desert perimeter ambush rotations.. Decision Notes: Approved as recommended by Welfare Officer. Shift cap enacted immediately.",
+          "dispatchedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "timestamp": "2026-09-26 03:44:37",
+          "status": "Sanctioned"
+        },
+        {
           "actionType": "Urgent Medical Officer Re-Referral",
           "notes": "Welfare Officer flagged insufficient stress reduction (<25% delta): Patient experienced only a 10% stress reduction following Trauma-Informed CBT & Autonomic Grounding Protocol. Persistent operational fatigue and sleep deficits observed. Requesting secondary clinical intervention and psychiatrist evaluation.",
           "timestamp": "2026-09-26 02:58:09",
@@ -199,7 +225,25 @@
           "referralNotes": "Patient experienced only a 10% stress reduction following Trauma-Informed CBT & Autonomic Grounding Protocol. Persistent operational fatigue and sleep deficits observed. Requesting secondary clinical intervention and psychiatrist evaluation."
         }
       ],
-      "moReferralPending": true
+      "moReferralPending": true,
+      "welfareAdvisory": {
+        "isValidated": true,
+        "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
+        "validationDate": "2026-09-26",
+        "ratingStatus": "Validated",
+        "activeRecommendation": {
+          "actionType": "Reduce Workload & Shift Cap",
+          "suggestedAction": "Cap night patrol duties to max 3 per month and remove from desert perimeter ambush rotations.",
+          "severityLevel": "High",
+          "notes": "Extreme thermal fatigue from 48-degree Jaisalmer summer patrol.",
+          "dispatchedAt": "2026-09-26 03:44:31",
+          "status": "Approved & Sanctioned",
+          "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "approvedAt": "2026-09-26 03:44:37",
+          "decisionNotes": "Approved as recommended by Welfare Officer. Shift cap enacted immediately."
+        }
+      },
+      "liveStressLevel": 71
     },
     {
       "id": "ITBP-88192",
@@ -261,7 +305,14 @@
         "Schedule recreation and tactical wellness recovery sessions"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "CISF-31908",
@@ -323,7 +374,14 @@
         "Ergonomic anti-fatigue mat allocation at passenger frisking terminal"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "AR-12903",
@@ -432,7 +490,21 @@
           "reportedBackToMO": false
         }
       ],
-      "liveStressLevel": 95
+      "liveStressLevel": 95,
+      "welfareAdvisory": {
+        "isValidated": true,
+        "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
+        "validationDate": "2026-09-25",
+        "ratingStatus": "Validated",
+        "activeRecommendation": {
+          "actionType": "Arrange 1-to-1 Personal Care & Duty Relief",
+          "suggestedAction": "Immediate temporary relief from border outpost duty and arrange dedicated 1-to-1 personal care & peer observation at Battalion HQ for 5 days.",
+          "severityLevel": "Critical",
+          "notes": "Recent counter-insurgency cross-border engagement. Critical physiological stress index (98%). Immediate personal care and close observation required.",
+          "dispatchedAt": "2026-09-26 01:15",
+          "status": "Pending Commander Approval"
+        }
+      }
     },
     {
       "id": "IA-67219",
@@ -491,7 +563,14 @@
         "Appoint as Peer Welfare Mentor for junior soldiers in unit"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "SSB-55201",
@@ -550,7 +629,14 @@
         "Eligible for upcoming specialized sports/drill training camp"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "CRPF-81144",
@@ -613,7 +699,14 @@
         "Provide psychological debrief session with force counselor"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "NSG-10204",
@@ -672,7 +765,14 @@
         "Routine sports physiotherapy sessions"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "IN-44912",
@@ -734,7 +834,14 @@
         "Sound isolation earmuffs upgrade for engine room watch"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "IAF-78103",
@@ -793,7 +900,14 @@
         "Lead squadron welfare sports team"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "CRPF-66219",
@@ -870,7 +984,14 @@
           "notes": "Severe fragmented sleep and family separation strain. Improvement noted but under the mandatory 25% threshold.",
           "reportedBackToMO": false
         }
-      ]
+      ],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "BSF-99104",
@@ -948,7 +1069,14 @@
           "notes": "Severe acute exhaustion and persistent tremors. Secondary medical escalation needed.",
           "reportedBackToMO": false
         }
-      ]
+      ],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "ITBP-41092",
@@ -1007,7 +1135,14 @@
         "Plan winter rotation to Joshimath transit camp"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "CISF-66710",
@@ -1066,7 +1201,14 @@
         "Nominated for upcoming advanced security specialist course"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "IA-90412",
@@ -1127,7 +1269,14 @@
         "Rotate out of forward bunker to company headquarters depot"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "SSB-11890",
@@ -1186,7 +1335,14 @@
         "Commendation for high-performing trafficking interception"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "CRPF-12001",
@@ -1266,7 +1422,14 @@
           "reportedBackToMO": false
         }
       ],
-      "liveStressLevel": 97
+      "liveStressLevel": 97,
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "IN-99014",
@@ -1326,7 +1489,14 @@
         "Mandatory 7-day decompression leave post-patrol"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "BSF-33201",
@@ -1386,7 +1556,14 @@
         "Approve upcoming 15-day festival leave application for Diwali"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "IAF-22108",
@@ -1444,7 +1621,14 @@
         "Eligible for technical advanced instrumentation training"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "AR-44018",
@@ -1505,7 +1689,14 @@
         "Knee joint orthopaedic check-up at Base Hospital"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "CRPF-55102",
@@ -1564,7 +1755,14 @@
         "Maintain current leave rotation schedule"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "IA-88091",
@@ -1623,7 +1821,14 @@
         "Appoint as Senior Battalion Welfare Advisory Mentor"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "CISF-88190",
@@ -1681,7 +1886,14 @@
         "Eligible for fire-fighting certification refresh"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "ITBP-77002",
@@ -1742,7 +1954,14 @@
         "Schedule medical check for early-stage frostnip"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "BSF-10294",
@@ -1801,7 +2020,14 @@
         "Eligible for canine handling certification"
       ],
       "actionHistory": [],
-      "treatmentHistory": []
+      "treatmentHistory": [],
+      "welfareAdvisory": {
+        "isValidated": false,
+        "validatedBy": null,
+        "validationDate": null,
+        "ratingStatus": "Pending Validation",
+        "activeRecommendation": null
+      }
     },
     {
       "id": "CRPF-33019",
@@ -1880,7 +2106,21 @@
           "notes": "Overdue leave by 210 days combined with mother critical illness in Gaya. Night terror episodes persist.",
           "reportedBackToMO": false
         }
-      ]
+      ],
+      "welfareAdvisory": {
+        "isValidated": true,
+        "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
+        "validationDate": "2026-09-24",
+        "ratingStatus": "Validated",
+        "activeRecommendation": {
+          "actionType": "Sanction Leave & Decompression",
+          "suggestedAction": "Sanction 20 days special compassionate leave and rotate out of jungle patrol operations.",
+          "severityLevel": "Critical",
+          "notes": "Overdue leave by 210 days; mother critical illness in Gaya. Persistent combat hypervigilance.",
+          "dispatchedAt": "2026-09-24 16:20",
+          "status": "Pending Commander Approval"
+        }
+      }
     }
   ],
   "unitStats": {

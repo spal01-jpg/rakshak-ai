@@ -666,6 +666,135 @@ class RakshakRequestHandler(SimpleHTTPRequestHandler):
             self.send_json_response({"success": True, "reportedTreatment": matched_trt, "updatedPersonnel": person})
             return
 
+        # API: Welfare Officer Validates Personnel Stress Rating
+        if path.startswith('/api/personnel/') and path.endswith('/welfare-validate'):
+            parts = path.split('/')
+            pid = parts[3]
+            db = load_db()
+            person = next((p for p in db.get("personnel", []) if p["id"].lower() == pid.lower()), None)
+            if not person:
+                self.send_error_response(404, "Personnel not found")
+                return
+
+            validated_by = payload.get("validatedBy", "Maj. Sunita Rao (Welfare Officer)")
+            rating_status = payload.get("ratingStatus", "Validated")
+            val_notes = payload.get("notes", "Stress rating reviewed and clinically verified against duty logs.")
+
+            if "welfareAdvisory" not in person:
+                person["welfareAdvisory"] = {}
+
+            person["welfareAdvisory"]["isValidated"] = True
+            person["welfareAdvisory"]["validatedBy"] = validated_by
+            person["welfareAdvisory"]["validationDate"] = datetime.now().strftime("%Y-%m-%d")
+            person["welfareAdvisory"]["ratingStatus"] = rating_status
+            person["welfareAdvisory"]["validationNotes"] = val_notes
+
+            save_db(db)
+            self.send_json_response({"success": True, "personnel": person, "welfareAdvisory": person["welfareAdvisory"]})
+            return
+
+        # API: Welfare Officer Dispatches Advisory / Suggestion to Commander
+        if path.startswith('/api/personnel/') and path.endswith('/welfare-advisory'):
+            parts = path.split('/')
+            pid = parts[3]
+            db = load_db()
+            person = next((p for p in db.get("personnel", []) if p["id"].lower() == pid.lower()), None)
+            if not person:
+                self.send_error_response(404, "Personnel not found")
+                return
+
+            action_type = payload.get("actionType", "Reduce Workload & 1-to-1 Care")
+            suggested_action = payload.get("suggestedAction", "")
+            severity_level = payload.get("severityLevel", "High")
+            notes = payload.get("notes", "")
+            validated_by = payload.get("validatedBy", "Maj. Sunita Rao (Welfare Officer)")
+
+            if "welfareAdvisory" not in person:
+                person["welfareAdvisory"] = {}
+
+            person["welfareAdvisory"]["isValidated"] = True
+            person["welfareAdvisory"]["validatedBy"] = validated_by
+            person["welfareAdvisory"]["validationDate"] = datetime.now().strftime("%Y-%m-%d")
+            person["welfareAdvisory"]["ratingStatus"] = "Validated"
+            person["welfareAdvisory"]["activeRecommendation"] = {
+                "actionType": action_type,
+                "suggestedAction": suggested_action,
+                "severityLevel": severity_level,
+                "notes": notes,
+                "dispatchedAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "status": "Pending Commander Approval"
+            }
+
+            save_db(db)
+            self.send_json_response({"success": True, "personnel": person, "welfareAdvisory": person["welfareAdvisory"]})
+            return
+
+        # API: Commander Approves & Sanctions Welfare Advisory
+        if path.startswith('/api/personnel/') and path.endswith('/commander-approve-advisory'):
+            parts = path.split('/')
+            pid = parts[3]
+            db = load_db()
+            person = next((p for p in db.get("personnel", []) if p["id"].lower() == pid.lower()), None)
+            if not person:
+                self.send_error_response(404, "Personnel not found")
+                return
+
+            approved_by = payload.get("approvedBy", "Col. Virendra Saxena (Commanding Officer)")
+            decision_notes = payload.get("decisionNotes", "Approved as advised by Welfare Officer.")
+
+            welfare_adv = person.get("welfareAdvisory", {})
+            rec = welfare_adv.get("activeRecommendation")
+
+            if not rec:
+                self.send_error_response(400, "No active welfare recommendation found for this personnel")
+                return
+
+            rec["status"] = "Approved & Sanctioned"
+            rec["approvedBy"] = approved_by
+            rec["approvedAt"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            rec["decisionNotes"] = decision_notes
+
+            action_type = rec.get("actionType", "Welfare Action Sanction")
+            action_log = {
+                "actionType": f"Commander Sanction: {action_type}",
+                "notes": f"Approved Welfare Advisory: {rec.get('suggestedAction', '')}. Decision Notes: {decision_notes}",
+                "dispatchedBy": approved_by,
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "status": "Sanctioned"
+            }
+
+            if "actionHistory" not in person:
+                person["actionHistory"] = []
+            person["actionHistory"].insert(0, action_log)
+
+            # Apply HR Operational Adjustments based on approved action
+            act_lower = (action_type + " " + rec.get("suggestedAction", "")).lower()
+            if "leave" in act_lower:
+                person["hrIndicators"]["daysSinceLastLeave"] = 0
+                person["hrIndicators"]["leaveApplicationsPending"] = 0
+                person["hrIndicators"]["leaveSanctionedDaysYear"] = person["hrIndicators"].get("leaveSanctionedDaysYear", 0) + 14
+            
+            if "workload" in act_lower or "shift" in act_lower or "care" in act_lower:
+                person["hrIndicators"]["nightDutyShiftsPastMonth"] = max(3, person["hrIndicators"].get("nightDutyShiftsPastMonth", 8) - 6)
+                if "biometrics" in person:
+                    person["biometrics"]["restingHeartRate"] = max(62, person["biometrics"].get("restingHeartRate", 76) - 5)
+                    person["biometrics"]["hrvMs"] = min(65, person["biometrics"].get("hrvMs", 35) + 10)
+
+            wb, risk, score = calculate_stress_metrics(person)
+            person["wellbeingPercentage"] = wb
+            person["stressRiskLevel"] = risk
+            person["riskScore"] = score
+            person["liveStressLevel"] = score
+
+            save_db(db)
+            self.send_json_response({
+                "success": True, 
+                "personnel": person, 
+                "activeRecommendation": rec,
+                "actionHistory": person["actionHistory"]
+            })
+            return
+
         self.send_error_response(404, "Endpoint not found")
 
     def send_json_response(self, data, status_code=200):

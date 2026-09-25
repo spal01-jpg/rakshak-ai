@@ -6,9 +6,9 @@
 
 class RakshakApp {
   constructor() {
-    this.currentView = 'soldier'; // 'soldier' | 'twin' | 'commander' | 'treatment' | 'welfare_tracker' | 'resilience' | 'chat'
+    this.currentView = 'soldier'; // 'soldier' | 'twin' | 'commander' | 'welfare' | 'resilience' | 'chat'
     this.currentTheme = 'clean'; // 'clean' | 'cyber'
-    this.selectedLoginRole = 'soldier';
+    this.selectedLoginRole = 'soldier'; // 'soldier' | 'commander' | 'welfare'
     this.personnelList = [];
     this.activeFilter = 'all';
     this.currentSortKey = 'default';
@@ -19,17 +19,11 @@ class RakshakApp {
     this.lastCalculatedStressPct = 42;
     this.hasTriggeredStressPopup = false;
 
-    // Medical Officer Treatment Matrix State
-    this.treatmentPriorityFilter = 'all';
-    this.treatmentSearchText = '';
-    this.treatmentSortOrder = 'stress_desc';
-    this.treatmentPersonnelList = [];
-
-    // Welfare Officer Treatment Outcomes State
-    this.welfareTreatments = [];
-    this.welfareOutcomeFilter = 'all';
-    this.welfareSelectedSoldierId = 'all';
-    this.currentReportingTreatment = null;
+    // Welfare Officer Advisory & Validation Console State
+    this.welfareActiveFilter = 'all';
+    this.welfareSortKey = 'stress_desc';
+    this.welfareSearchText = '';
+    this.currentAdviseTargetPid = null;
     
     // Tactical Resilience State
     this.isBreathingActive = false;
@@ -176,7 +170,7 @@ class RakshakApp {
   // AUTH & ROLE DISPATCHER
   // ==========================================================
   selectLoginRole(role, elem) {
-    if (role !== 'soldier' && role !== 'commander') role = 'soldier';
+    if (role !== 'soldier' && role !== 'commander' && role !== 'welfare') role = 'soldier';
     this.selectedLoginRole = role;
     document.querySelectorAll('.role-card-picker').forEach(c => c.classList.remove('active'));
     if (elem) elem.classList.add('active');
@@ -184,13 +178,14 @@ class RakshakApp {
     const usernameInput = document.getElementById('loginUsernameInput');
     if (usernameInput) {
       if (role === 'soldier') usernameInput.value = 'CRPF-94821 (Rajesh Kumar)';
+      else if (role === 'welfare') usernameInput.value = 'WEL-04 (Maj. Sunita Rao - Unit Welfare Officer)';
       else if (role === 'commander') usernameInput.value = 'CMD-01 (Col. Virendra Saxena)';
     }
   }
 
   handleAuthLogin(roleOverride = null) {
     let role = roleOverride || this.selectedLoginRole;
-    if (role !== 'soldier' && role !== 'commander') role = 'soldier';
+    if (role !== 'soldier' && role !== 'commander' && role !== 'welfare') role = 'soldier';
     this.selectedLoginRole = role;
     document.getElementById('authLandingView').style.display = 'none';
     document.getElementById('mainAppShell').style.display = 'flex';
@@ -198,6 +193,7 @@ class RakshakApp {
     // Role-Based Navigation & Access Enforcement
     const navLiHome = document.getElementById('navLiHome');
     const navLiCommander = document.getElementById('navLiCommander');
+    const navLiWelfare = document.getElementById('navLiWelfare');
     const navLiTwin = document.getElementById('navLiTwin');
     const navHomeText = document.querySelector('#navItemHome span');
 
@@ -207,10 +203,21 @@ class RakshakApp {
       if (navHomeText) navHomeText.innerText = 'Home (Check-In)';
       if (navLiHome) navLiHome.style.display = 'block';
       if (navLiCommander) navLiCommander.style.display = 'none';
+      if (navLiWelfare) navLiWelfare.style.display = 'none';
       if (navLiTwin) navLiTwin.style.display = 'block'; // ONLY PERSONNEL HAS TWIN!
 
       this.navigateToView('soldier');
       this.checkSoldierConsent();
+    } else if (role === 'welfare') {
+      // WELFARE OFFICER VIEW:
+      // Reviews all personnel stress ratings, validates them & advises Commander
+      // Strictly no personal check-in or digital twin
+      if (navLiHome) navLiHome.style.display = 'none';
+      if (navLiCommander) navLiCommander.style.display = 'none';
+      if (navLiWelfare) navLiWelfare.style.display = 'block';
+      if (navLiTwin) navLiTwin.style.display = 'none'; // REMOVED FROM ALL EXCEPT PERSONNEL
+
+      this.navigateToView('welfare');
     } else {
       // COMMANDER VIEW:
       // Can check his own live stress level & accesses Commander Operations Center
@@ -218,6 +225,7 @@ class RakshakApp {
       if (navHomeText) navHomeText.innerText = 'Personal Stress Check';
       if (navLiHome) navLiHome.style.display = 'block'; // COMMANDER ALLOWED TO CHECK LIVE STRESS!
       if (navLiCommander) navLiCommander.style.display = 'block';
+      if (navLiWelfare) navLiWelfare.style.display = 'none';
       if (navLiTwin) navLiTwin.style.display = 'none'; // REMOVED FROM ALL EXCEPT PERSONNEL
 
       this.navigateToView('commander');
@@ -225,6 +233,7 @@ class RakshakApp {
 
     const roleTitles = {
       soldier: 'PERSONNEL (JAWAN)',
+      welfare: 'WELFARE OFFICER',
       commander: 'COMMANDING OFFICER'
     };
     this.showToast(`Welcome! Logged in as: ${roleTitles[role] || role.toUpperCase()}`);
@@ -239,9 +248,15 @@ class RakshakApp {
 
   navigateToView(viewName) {
     // PERSONNEL DATA PRIVACY PROTECTION:
-    // If logged in as personnel/soldier, deny access to commander operations roster!
-    if (this.selectedLoginRole === 'soldier' && viewName === 'commander') {
-      this.showToast("🔒 Access Restricted: Personnel force roster is restricted to Commanding Officers.");
+    // If logged in as personnel/soldier, deny access to commander operations roster & welfare console!
+    if (this.selectedLoginRole === 'soldier' && (viewName === 'commander' || viewName === 'welfare')) {
+      this.showToast("🔒 Access Restricted: Force roster & welfare advisory backchannel is restricted to Officers.");
+      return;
+    }
+
+    // WELFARE OFFICER ACCESS CONTROL:
+    if (this.selectedLoginRole === 'welfare' && (viewName === 'commander' || viewName === 'soldier' || viewName === 'twin')) {
+      this.showToast("🔒 Access Restricted: Operational command & personal check-ins are restricted.");
       return;
     }
 
@@ -288,6 +303,13 @@ class RakshakApp {
         if (uRole) uRole.innerText = "Havildar (CRPF)";
         if (checkinGreeting) checkinGreeting.innerText = "How are you feeling today, Veer?";
       }
+    } else if (viewName === 'welfare') {
+      if (title) title.innerText = "Welfare Officer Advisory Console";
+      if (subtitle) subtitle.innerText = "Validate force stress ratings & dispatch action suggestions to Commanding Officer.";
+      if (avatar) avatar.src = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150";
+      if (uName) uName.innerText = "Maj. Sunita Rao";
+      if (uRole) uRole.innerText = "Unit Welfare Officer";
+      this.renderWelfareConsole();
     } else if (viewName === 'twin') {
       if (title) title.innerText = "Digital Welfare Twin";
       if (subtitle) subtitle.innerText = "Multi-dimensional resilience radar & longitudinal trends";
@@ -349,7 +371,7 @@ class RakshakApp {
     tbody.innerHTML = '';
 
     if (!list || list.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--text-muted);">No personnel matched your search criteria.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-muted);">No personnel matched your search criteria.</td></tr>`;
       return;
     }
 
@@ -364,6 +386,39 @@ class RakshakApp {
 
       const leaveDays = p.hrIndicators ? p.hrIndicators.daysSinceLastLeave : 45;
       const leaveAlert = leaveDays > 120 ? `style="color:#ef4444; font-weight:700;"` : '';
+
+      // Welfare Advisory Column Content
+      let advisoryHtml = `<span style="font-size:0.75rem; color:var(--text-muted);"><i class="fas fa-minus"></i> Routine Roster</span>`;
+      const wAdv = p.welfareAdvisory;
+      if (wAdv && wAdv.activeRecommendation) {
+        const rec = wAdv.activeRecommendation;
+        const isPending = rec.status === 'Pending Commander Approval';
+        const isApproved = rec.status === 'Approved & Sanctioned';
+        
+        if (isPending) {
+          advisoryHtml = `
+            <div class="commander-advisory-cell">
+              <div class="commander-advisory-badge pending" title="${rec.suggestedAction || ''}">
+                <i class="fas fa-paper-plane" style="color:#f97316;"></i> <strong>${rec.actionType}</strong>
+              </div>
+              <div style="margin-top:0.25rem;">
+                <button class="btn-commander-approve-pill" onclick="rakshakApp.commanderApproveAdvisory('${p.id}')">
+                  <i class="fas fa-check"></i> Approve & Sanction
+                </button>
+              </div>
+            </div>
+          `;
+        } else if (isApproved) {
+          advisoryHtml = `
+            <div class="commander-advisory-cell">
+              <div class="commander-advisory-badge approved" title="${rec.suggestedAction || ''}">
+                <i class="fas fa-check-circle" style="color:#10b981;"></i> <strong>${rec.actionType}</strong>
+              </div>
+              <div style="font-size:0.7rem; color:#10b981; font-weight:600;"><i class="fas fa-user-check"></i> Sanctioned by CO</div>
+            </div>
+          `;
+        }
+      }
 
       tr.innerHTML = `
         <td><input type="checkbox" class="roster-row-checkbox" value="${p.id}" onchange="rakshakApp.updateBatchSelection()" /></td>
@@ -382,6 +437,7 @@ class RakshakApp {
         </td>
         <td ${leaveAlert}>${leaveDays} days</td>
         <td><span class="risk-badge ${riskClass}">${p.stressRiskLevel}</span></td>
+        <td>${advisoryHtml}</td>
         <td>
           <div class="wellbeing-bar-cell">
             <span style="font-weight:700; font-size:0.85rem; width:35px;">${wbPct}%</span>
@@ -544,6 +600,35 @@ class RakshakApp {
             <div style="margin-top:0.4rem;"><span class="risk-badge ${riskClass}">${p.stressRiskLevel}</span></div>
           </div>
         </div>
+
+        ${p.welfareAdvisory?.activeRecommendation ? `
+          <div style="background:rgba(2, 132, 199, 0.08); border:1.5px solid rgba(2, 132, 199, 0.3); border-radius:var(--radius-md); padding:1rem; margin-bottom:1.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+              <span style="font-weight:800; font-size:0.9rem; color:#0284c7;">
+                <i class="fas fa-hand-holding-heart"></i> Welfare Officer Recommendation:
+              </span>
+              <span class="commander-advisory-badge ${p.welfareAdvisory.activeRecommendation.status === 'Approved & Sanctioned' ? 'approved' : 'pending'}">
+                ${p.welfareAdvisory.activeRecommendation.status}
+              </span>
+            </div>
+            <div style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:0.25rem;">
+              Action: ${p.welfareAdvisory.activeRecommendation.actionType} (${p.welfareAdvisory.activeRecommendation.severityLevel || 'High'} Severity)
+            </div>
+            <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.4; margin-bottom:0.4rem;">
+              ${p.welfareAdvisory.activeRecommendation.suggestedAction}
+            </div>
+            <div style="font-size:0.75rem; color:var(--text-muted); font-style:italic;">
+              Officer Rationale: "${p.welfareAdvisory.activeRecommendation.notes}" — ${p.welfareAdvisory.validatedBy || 'Maj. Sunita Rao'}
+            </div>
+            ${p.welfareAdvisory.activeRecommendation.status === 'Pending Commander Approval' ? `
+              <div style="margin-top:0.75rem;">
+                <button class="btn-commander-approve-pill" style="font-size:0.8rem; padding:0.4rem 1rem;" onclick="rakshakApp.commanderApproveAdvisory('${p.id}'); document.getElementById('personnelDetailModal').classList.remove('active');">
+                  <i class="fas fa-check-circle"></i> Approve & Sanction Welfare Recommendation
+                </button>
+              </div>
+            ` : ''}
+          </div>
+        ` : ''}
 
         <div style="margin-bottom:1.5rem;">
           <h4 style="font-size:0.95rem; font-weight:700; color:var(--text-main); margin-bottom:0.5rem;"><i class="fas fa-microchip" style="color:#ef4444;"></i> AI Diagnostic Strain Drivers:</h4>
@@ -1288,6 +1373,422 @@ class RakshakApp {
     }
   }
 
+
+  // ==========================================================
+  // WELFARE OFFICER ADVISORY & VALIDATION CONSOLE
+  // ==========================================================
+  renderWelfareConsole() {
+    const list = this.personnelList || [];
+    
+    // 1. Calculate Welfare KPIs
+    const totalCount = list.length;
+    const validatedCount = list.filter(p => p.welfareAdvisory && p.welfareAdvisory.isValidated).length;
+    const criticalCount = list.filter(p => (p.liveStressLevel || p.riskScore || 0) >= 70).length;
+    const advisoriesCount = list.filter(p => p.welfareAdvisory && p.welfareAdvisory.activeRecommendation).length;
+
+    const elTot = document.getElementById('kWelfareTotal');
+    const elVal = document.getElementById('kWelfareValidated');
+    const elCrit = document.getElementById('kWelfareCritical');
+    const elAdv = document.getElementById('kWelfareAdvisories');
+    if (elTot) elTot.innerText = totalCount;
+    if (elVal) elVal.innerText = validatedCount;
+    if (elCrit) elCrit.innerText = criticalCount;
+    if (elAdv) elAdv.innerText = advisoriesCount;
+
+    // 2. Filter list
+    let filtered = list.filter(p => {
+      const stress = p.liveStressLevel || p.riskScore || 0;
+      const wAdv = p.welfareAdvisory;
+
+      if (this.welfareActiveFilter === 'pending_validation') {
+        if (wAdv && wAdv.isValidated) return false;
+      } else if (this.welfareActiveFilter === 'has_advisory') {
+        if (!wAdv || !wAdv.activeRecommendation) return false;
+      } else if (this.welfareActiveFilter === 'critical') {
+        if (stress < 70) return false;
+      } else if (this.welfareActiveFilter === 'high') {
+        if (stress < 55 || stress >= 70) return false;
+      } else if (this.welfareActiveFilter === 'moderate') {
+        if (stress < 40 || stress >= 55) return false;
+      } else if (this.welfareActiveFilter === 'low') {
+        if (stress >= 40) return false;
+      }
+
+      if (this.welfareSearchText) {
+        const q = this.welfareSearchText.toLowerCase();
+        const searchable = `${p.name} ${p.id} ${p.rank} ${p.force} ${p.unit} ${p.station}`.toLowerCase();
+        if (!searchable.includes(q)) return false;
+      }
+
+      return true;
+    });
+
+    // 3. Sort list
+    if (this.welfareSortKey === 'stress_desc') {
+      filtered.sort((a, b) => (b.liveStressLevel || b.riskScore || 0) - (a.liveStressLevel || a.riskScore || 0));
+    } else if (this.welfareSortKey === 'stress_asc') {
+      filtered.sort((a, b) => (a.liveStressLevel || a.riskScore || 0) - (b.liveStressLevel || b.riskScore || 0));
+    } else if (this.welfareSortKey === 'leave_desc') {
+      filtered.sort((a, b) => (b.hrIndicators?.daysSinceLastLeave || 0) - (a.hrIndicators?.daysSinceLastLeave || 0));
+    } else if (this.welfareSortKey === 'name_asc') {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    // 4. Render cards into #welfarePersonnelContainer
+    const container = document.getElementById('welfarePersonnelContainer');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align:center; padding:3rem; background:var(--bg-card); border-radius:var(--radius-lg); border:1px solid var(--border-card);">
+          <div style="font-size:2.5rem; color:#94a3b8; margin-bottom:0.75rem;"><i class="fas fa-user-slash"></i></div>
+          <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-bottom:0.3rem;">No Personnel Found</h4>
+          <p style="font-size:0.85rem; color:var(--text-muted);">No soldiers matched the selected criteria in the Welfare Console.</p>
+        </div>
+      `;
+      return;
+    }
+
+    filtered.forEach(p => {
+      const stress = p.liveStressLevel || p.riskScore || 50;
+      let borderClass = 'low-border';
+      let riskPillClass = 'low';
+      let riskText = 'Low Stress';
+      if (stress >= 70) {
+        borderClass = 'critical-border';
+        riskPillClass = 'critical';
+        riskText = 'Critical Stress';
+      } else if (stress >= 55) {
+        borderClass = 'high-border';
+        riskPillClass = 'high';
+        riskText = 'High Stress';
+      } else if (stress >= 40) {
+        borderClass = 'moderate-border';
+        riskPillClass = 'moderate';
+        riskText = 'Moderate Stress';
+      }
+
+      const wAdv = p.welfareAdvisory;
+      const isValidated = wAdv && wAdv.isValidated;
+      const validatedBadge = isValidated 
+        ? `<span class="badge-validated"><i class="fas fa-check-circle"></i> Rating Validated (${wAdv.validatedBy ? wAdv.validatedBy.split(' ')[1] : 'Officer'})</span>`
+        : `<span class="badge-pending-val"><i class="fas fa-clock"></i> Rating Pending Validation</span>`;
+
+      // Advisory section
+      let advisoryHtml = '';
+      if (wAdv && wAdv.activeRecommendation) {
+        const rec = wAdv.activeRecommendation;
+        const isApproved = rec.status === 'Approved & Sanctioned';
+        const boxClass = isApproved ? 'status-approved' : 'status-pending';
+        const statusIcon = isApproved ? 'fa-check-double' : 'fa-hourglass-half';
+        const statusColor = isApproved ? '#10b981' : '#f97316';
+        
+        advisoryHtml = `
+          <div class="welfare-advisory-display-box ${boxClass}">
+            <div class="welfare-advisory-title-line">
+              <span><i class="fas fa-paper-plane" style="color:${statusColor};"></i> Advisory: ${rec.actionType}</span>
+              <span style="font-size:0.7rem; color:${statusColor}; font-weight:700;">
+                <i class="fas ${statusIcon}"></i> ${rec.status}
+              </span>
+            </div>
+            <div class="welfare-advisory-text">
+              <strong>Suggestion to Commander:</strong> ${rec.suggestedAction || 'Operational relief advised.'}
+            </div>
+            ${rec.notes ? `<div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem; font-style:italic;">"${rec.notes}"</div>` : ''}
+          </div>
+        `;
+      } else {
+        advisoryHtml = `
+          <div class="welfare-advisory-display-box" style="background:var(--bg-card-subtle); border-style:dashed;">
+            <div style="font-size:0.75rem; color:var(--text-muted); display:flex; align-items:center; gap:0.4rem;">
+              <i class="fas fa-info-circle"></i> No Commander advisory dispatched yet. Review stress & advise action if needed.
+            </div>
+          </div>
+        `;
+      }
+
+      const leaveDays = p.hrIndicators ? p.hrIndicators.daysSinceLastLeave : 45;
+      const sleepHours = p.hrIndicators ? p.hrIndicators.averageSleepHours : 6.0;
+      const nightShifts = p.hrIndicators ? p.hrIndicators.nightDutyShiftsPastMonth : 8;
+      const emergency = p.hrIndicators?.familyEmergencyStatus || p.aiRiskFactors?.[0] || 'No critical family emergency';
+
+      const card = document.createElement('div');
+      card.className = `welfare-soldier-card ${borderClass}`;
+      card.innerHTML = `
+        <div class="welfare-card-top-row">
+          <img src="${p.photo || 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=150'}" class="welfare-soldier-avatar" alt="Avatar" />
+          <div class="welfare-soldier-info">
+            <div class="welfare-soldier-name">${p.name}</div>
+            <div class="welfare-soldier-sub">${p.rank} • ${p.force} (${p.id})</div>
+            <div class="welfare-soldier-sub" style="font-size:0.72rem; margin-top:0.15rem;">
+              <i class="fas fa-map-marker-alt" style="color:#0284c7;"></i> ${p.station || 'Field Post'} • ${p.deploymentZone || 'Operational Zone'}
+            </div>
+          </div>
+        </div>
+
+        <div class="welfare-stress-rating-bar-wrap">
+          <div class="welfare-stress-rating-header">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Live Stress Rating</span>
+            <div style="display:flex; align-items:center; gap:0.4rem;">
+              <span class="welfare-stress-rating-val" style="color:${stress >= 70 ? '#ef4444' : stress >= 55 ? '#f97316' : stress >= 40 ? '#eab308' : '#10b981'};">${stress}%</span>
+              <span class="risk-badge ${riskPillClass}" style="font-size:0.7rem; padding:0.15rem 0.5rem;">${riskText}</span>
+            </div>
+          </div>
+          <div class="progress-track" style="height:6px; background:var(--border-card);">
+            <div class="progress-fill" style="width:${stress}%; background:linear-gradient(90deg, #10b981, #f59e0b, #ef4444);"></div>
+          </div>
+        </div>
+
+        <div class="welfare-vitals-grid">
+          <div class="welfare-vital-box">
+            <span class="welfare-vital-label">Days w/o Leave</span>
+            <span class="welfare-vital-val" style="${leaveDays > 120 ? 'color:#ef4444;' : ''}">${leaveDays}d</span>
+          </div>
+          <div class="welfare-vital-box">
+            <span class="welfare-vital-label">Avg Sleep</span>
+            <span class="welfare-vital-val">${sleepHours}h</span>
+          </div>
+          <div class="welfare-vital-box">
+            <span class="welfare-vital-label">Night Shifts</span>
+            <span class="welfare-vital-val">${nightShifts}</span>
+          </div>
+        </div>
+
+        <div style="font-size:0.75rem; color:var(--text-muted); background:var(--bg-card-subtle); padding:0.5rem 0.65rem; border-radius:var(--radius-sm); border:1px solid var(--border-card); line-height:1.4;">
+          <strong style="color:var(--text-main);"><i class="fas fa-stethoscope" style="color:#0284c7;"></i> Hardship Flag:</strong> ${emergency}
+        </div>
+
+        <div class="welfare-status-badges-row">
+          ${validatedBadge}
+          <span style="font-size:0.72rem; color:var(--text-muted);"><i class="fas fa-user-secret"></i> Air-Gapped</span>
+        </div>
+
+        ${advisoryHtml}
+
+        <div class="welfare-action-btn-row">
+          <button class="btn-welfare-val ${isValidated ? 'validated' : ''}" onclick="rakshakApp.validatePersonnelRating('${p.id}')">
+            <i class="fas ${isValidated ? 'fa-check' : 'fa-clipboard-check'}"></i> ${isValidated ? 'Re-Validate Rating' : 'Validate Rating'}
+          </button>
+          <button class="btn-welfare-advise" onclick="rakshakApp.openWelfareAdviseModal('${p.id}')">
+            <i class="fas fa-paper-plane"></i> Advise Commander
+          </button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  handleWelfareSearch(val) {
+    this.welfareSearchText = val.trim();
+    this.renderWelfareConsole();
+  }
+
+  filterWelfare(filterKey, elem) {
+    this.welfareActiveFilter = filterKey;
+    document.querySelectorAll('#view_welfare .filter-pill').forEach(btn => btn.classList.remove('active'));
+    if (elem) elem.classList.add('active');
+    this.renderWelfareConsole();
+  }
+
+  handleWelfareSortChange(sortKey) {
+    this.welfareSortKey = sortKey;
+    this.renderWelfareConsole();
+  }
+
+  async validatePersonnelRating(pid) {
+    try {
+      const res = await fetch(`/api/personnel/${pid}/welfare-validate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          validatedBy: "Maj. Sunita Rao (Welfare Officer)",
+          ratingStatus: "Validated",
+          notes: "Stress rating reviewed and verified against field duty roster and biometric telemetry."
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const p = this.personnelList.find(x => x.id.toLowerCase() === pid.toLowerCase());
+        if (p) {
+          p.welfareAdvisory = data.welfareAdvisory;
+        }
+        this.renderWelfareConsole();
+        this.showToast(`Stress rating for ${p ? p.name : pid} validated by Welfare Officer!`);
+      }
+    } catch(e) {
+      this.showToast("Rating validation failed.");
+    }
+  }
+
+  openWelfareAdviseModal(pid) {
+    const p = this.personnelList.find(x => x.id.toLowerCase() === pid.toLowerCase());
+    if (!p) return;
+    this.currentAdviseTargetPid = pid;
+
+    const nameElem = document.getElementById('wModalSoldierName');
+    const idElem = document.getElementById('wModalSoldierId');
+    const stressElem = document.getElementById('wModalStressPct');
+    const leaveElem = document.getElementById('wModalLeaveDays');
+    const shiftsElem = document.getElementById('wModalNightShifts');
+    const valElem = document.getElementById('wModalValidationStatus');
+    const inputPid = document.getElementById('wAdviseSoldierId');
+    const selectAction = document.getElementById('wAdviseActionType');
+    const selectSev = document.getElementById('wAdviseSeverity');
+    const textAction = document.getElementById('wAdviseSuggestedAction');
+    const textNotes = document.getElementById('wAdviseNotes');
+
+    const stress = p.liveStressLevel || p.riskScore || 50;
+    const leaveDays = p.hrIndicators ? p.hrIndicators.daysSinceLastLeave : 45;
+    const shifts = p.hrIndicators ? p.hrIndicators.nightDutyShiftsPastMonth : 8;
+    const isValidated = p.welfareAdvisory && p.welfareAdvisory.isValidated;
+
+    if (nameElem) nameElem.innerText = p.name;
+    if (idElem) idElem.innerText = p.id;
+    if (stressElem) stressElem.innerText = `${stress}% (${stress >= 70 ? 'Critical' : stress >= 55 ? 'High' : 'Moderate'})`;
+    if (leaveElem) leaveElem.innerText = `${leaveDays} Days`;
+    if (shiftsElem) shiftsElem.innerText = `${shifts} Shifts`;
+    if (valElem) {
+      valElem.innerText = isValidated ? "Validated" : "Pending Validation";
+      valElem.style.color = isValidated ? "#10b981" : "#f59e0b";
+    }
+    if (inputPid) inputPid.value = p.id;
+
+    // Check if existing recommendation
+    const activeRec = p.welfareAdvisory?.activeRecommendation;
+    if (activeRec) {
+      if (selectAction) selectAction.value = activeRec.actionType;
+      if (selectSev) selectSev.value = activeRec.severityLevel || "High";
+      if (textAction) textAction.value = activeRec.suggestedAction || "";
+      if (textNotes) textNotes.value = activeRec.notes || "";
+    } else {
+      // Smart Auto-Populate based on soldier context
+      let defaultActionType = "Sanction Emergency Leave & 1-to-1 Personal Care";
+      let defaultSev = stress >= 70 ? "Critical" : stress >= 55 ? "High" : "Moderate";
+      
+      if (leaveDays > 120 && stress >= 65) {
+        defaultActionType = "Sanction Emergency Leave & 1-to-1 Personal Care";
+      } else if (shifts >= 14) {
+        defaultActionType = "Reduce Workload & Shift Duty Cap";
+      } else if (stress >= 70) {
+        defaultActionType = "Arrange 1-to-1 Personal Care for 3-5 Days";
+      } else {
+        defaultActionType = "Sanction 14-Day Compassionate Leave";
+      }
+
+      if (selectAction) selectAction.value = defaultActionType;
+      if (selectSev) selectSev.value = defaultSev;
+      this.handleAdvisoryTypeSelect(defaultActionType, p);
+    }
+
+    const modal = document.getElementById('welfareAdviseModal');
+    if (modal) modal.classList.add('active');
+  }
+
+  closeWelfareAdviseModal() {
+    const modal = document.getElementById('welfareAdviseModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  handleAdvisoryTypeSelect(actionType, soldierObj = null) {
+    const p = soldierObj || this.personnelList.find(x => x.id === this.currentAdviseTargetPid) || {};
+    const textAction = document.getElementById('wAdviseSuggestedAction');
+    const textNotes = document.getElementById('wAdviseNotes');
+    const leaveDays = p.hrIndicators?.daysSinceLastLeave || 90;
+    const emergency = p.hrIndicators?.familyEmergencyStatus || "Operational duty burnout";
+
+    const presets = {
+      "Sanction Emergency Leave & 1-to-1 Personal Care": {
+        suggested: `Sanction 14-day emergency compassionate leave immediately; arrange dedicated sub-unit buddy for 1-to-1 personal care & debrief for 3 days prior to departure.`,
+        notes: `Soldier has reached ${leaveDays} days without leave with active distress flags (${emergency}). Immediate compassionate home leave and peer support are necessary to prevent crisis.`
+      },
+      "Sanction 14-Day Compassionate Leave": {
+        suggested: `Sanction 14-day priority compassionate leave to Rohtak/home station with travel allowance clearance.`,
+        notes: `High leave deficit (${leaveDays} days overdue) causing acute sleep fragmentation. Sanctioning leave will restore autonomic balance.`
+      },
+      "Reduce Workload & Shift Duty Cap": {
+        suggested: `Immediately cap night patrol duty to maximum 4 shifts per month; withdraw from frontline weapon-bearing posts for 7-day rest rotation.`,
+        notes: `Severe operational circadian exhaustion observed. Capping workload will facilitate REM sleep restoration and autonomic recovery.`
+      },
+      "Arrange 1-to-1 Personal Care for 3-5 Days": {
+        suggested: `Assign trusted senior buddy and Unit Welfare Officer for daily 1-to-1 personal care check-ins and operational decompression over the next 5 days.`,
+        notes: `Soldier exhibiting symptoms of acute post-incident stress and emotional isolation. 1-to-1 dedicated personal care protocol advised.`
+      },
+      "Rotational Peace Station Transfer": {
+        suggested: `Initiate administrative recommendation for fast-track rotational posting to a Category 'A' peace station.`,
+        notes: `Prolonged hardship zone tenure (exceeding recommended deployment limit). Rotational posting recommended on compassionate welfare grounds.`
+      },
+      "Sub-Unit Decompression & Rest Rotation": {
+        suggested: `Withdraw from tactical field operations for a mandatory 48-hour sub-unit rest and recovery regimen at base camp.`,
+        notes: `High cumulative fatigue index detected. Brief operational pause advised.`
+      }
+    };
+
+    const sel = presets[actionType] || presets["Sanction Emergency Leave & 1-to-1 Personal Care"];
+    if (textAction) textAction.value = sel.suggested;
+    if (textNotes) textNotes.value = sel.notes;
+  }
+
+  async submitWelfareAdvisory(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const pid = document.getElementById('wAdviseSoldierId')?.value || this.currentAdviseTargetPid;
+    const actionType = document.getElementById('wAdviseActionType')?.value;
+    const severity = document.getElementById('wAdviseSeverity')?.value;
+    const suggestedAction = document.getElementById('wAdviseSuggestedAction')?.value;
+    const notes = document.getElementById('wAdviseNotes')?.value;
+
+    try {
+      const res = await fetch(`/api/personnel/${pid}/welfare-advisory`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          actionType: actionType,
+          suggestedAction: suggestedAction,
+          severityLevel: severity,
+          notes: notes,
+          validatedBy: "Maj. Sunita Rao (Welfare Officer)"
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const p = this.personnelList.find(x => x.id.toLowerCase() === pid.toLowerCase());
+        if (p) {
+          p.welfareAdvisory = data.welfareAdvisory;
+        }
+        this.closeWelfareAdviseModal();
+        this.renderWelfareConsole();
+        this.showToast(`Advisory dispatched to Commanding Officer for ${p ? p.name : pid}! (Air-gapped from soldier)`);
+      }
+    } catch(e) {
+      this.showToast("Failed to dispatch advisory.");
+    }
+  }
+
+  async commanderApproveAdvisory(pid) {
+    try {
+      const res = await fetch(`/api/personnel/${pid}/commander-approve-advisory`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          approvedBy: "Col. Virendra Saxena (Commanding Officer)",
+          decisionNotes: "Approved and sanctioned as advised by Welfare Officer."
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const idx = this.personnelList.findIndex(x => x.id.toLowerCase() === pid.toLowerCase());
+        if (idx !== -1) {
+          this.personnelList[idx] = data.personnel;
+        }
+        await this.fetchPersonnel();
+        await this.fetchAnalytics();
+        this.renderCommanderTable(this.personnelList);
+        this.showToast(`Advisory Approved! Welfare sanction executed for ${data.personnel.name}.`);
+      }
+    } catch(e) {
+      this.showToast("Advisory approval failed.");
+    }
+  }
 
   initChatbot() {
     this.chatbot = new WelfareChatbot('view_chat');

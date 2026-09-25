@@ -102,7 +102,7 @@
         Select Operational Role
       </p>
 
-      <!-- 2 Operational Roles: Personnel (Jawan) and Commander -->
+      <!-- 3 Operational Roles: Personnel (Jawan), Welfare Officer, and Commander -->
       <div class="role-cards-grid">
         <div class="role-card-picker active" onclick="rakshakApp.selectLoginRole('soldier', this)">
           <div class="role-card-icon"><i class="fas fa-user"></i></div>
@@ -110,10 +110,16 @@
           <div class="role-card-desc">Daily check-in, real-time stress assessment & treatment indication</div>
         </div>
 
+        <div class="role-card-picker" onclick="rakshakApp.selectLoginRole('welfare', this)">
+          <div class="role-card-icon"><i class="fas fa-hand-holding-heart"></i></div>
+          <div class="role-card-title">Welfare Officer</div>
+          <div class="role-card-desc">Review stress ratings, validate severity & advise Commander actions</div>
+        </div>
+
         <div class="role-card-picker" onclick="rakshakApp.selectLoginRole('commander', this)">
           <div class="role-card-icon"><i class="fas fa-user-shield"></i></div>
           <div class="role-card-title">Commander</div>
-          <div class="role-card-desc">Force overview, personal live stress check & treatment indication</div>
+          <div class="role-card-desc">Force overview, personal live stress check & approve welfare actions</div>
         </div>
       </div>
 
@@ -159,9 +165,15 @@
             <a class="sidebar-nav-item active" id="navItemHome" data-view="soldier" onclick="rakshakApp.navigateToView('soldier')">
               <i class="fas fa-home"></i> <span>Home (Check-In)</span>
             </a>
+          </li>
           <li id="navLiTwin">
             <a class="sidebar-nav-item" id="navItemTwin" data-view="twin" onclick="rakshakApp.navigateToView('twin')">
               <i class="fas fa-brain"></i> <span>Digital Welfare Twin</span>
+            </a>
+          </li>
+          <li id="navLiWelfare" style="display: none;">
+            <a class="sidebar-nav-item" id="navItemWelfare" data-view="welfare" onclick="rakshakApp.navigateToView('welfare')">
+              <i class="fas fa-hand-holding-heart"></i> <span>Welfare Console</span>
             </a>
           </li>
           <li id="navLiCommander">
@@ -647,6 +659,7 @@
                 <th>Station / Hardship Zone</th>
                 <th>Days Since Leave</th>
                 <th>Stress Risk Level</th>
+                <th>Welfare Advisory (Suggestion)</th>
                 <th>Wellbeing %</th>
                 <th>Actions</th>
               </tr>
@@ -666,6 +679,104 @@
           <div class="chart-canvas-box" style="height: 280px;">
             <canvas id="cmdTrendsCanvas"></canvas>
           </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- VIEW: WELFARE OFFICER ADVISORY & VALIDATION CONSOLE          -->
+      <!-- ============================================================ -->
+      <section id="view_welfare" class="app-subview" style="display: none;">
+        
+        <!-- Welfare Header Banner -->
+        <div class="welfare-console-header-card">
+          <div class="welfare-console-header-left">
+            <div class="welfare-badge-circle">
+              <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <div>
+              <div class="welfare-title-row">
+                <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-main); margin-bottom:0.2rem;">Welfare Officer Advisory & Force Validation Console</h3>
+                <span class="welfare-airgap-pill"><i class="fas fa-user-secret"></i> Air-Gapped Confidential Backchannel</span>
+              </div>
+              <p style="font-size:0.83rem; color:var(--text-muted); margin:0;">Review live stress ratings across all 28 force personnel, validate clinical severity, and pass confidential action suggestions to the Commanding Officer. <em>All advisories are completely isolated from personnel files.</em></p>
+            </div>
+          </div>
+          <div class="welfare-officer-signature-pill">
+            <i class="fas fa-user-check" style="color:#10b981; font-size:1.4rem;"></i>
+            <div>
+              <strong style="display:block; font-size:0.88rem; color:var(--text-main);">Maj. Sunita Rao</strong>
+              <span style="font-size:0.75rem; color:var(--text-muted);">Unit Welfare Officer</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Top KPI Cards for Welfare Console -->
+        <div class="kpi-cards-grid">
+          <div class="kpi-metric-card monitored">
+            <div class="kpi-metric-info">
+              <h5>Personnel Under Review</h5>
+              <div id="kWelfareTotal" class="kpi-metric-val">28</div>
+              <span class="kpi-metric-badge" style="color:#0284c7;">Active Roster</span>
+            </div>
+            <div class="kpi-icon-badge blue"><i class="fas fa-users"></i></div>
+          </div>
+
+          <div class="kpi-metric-card mod">
+            <div class="kpi-metric-info">
+              <h5>Ratings Validated</h5>
+              <div id="kWelfareValidated" class="kpi-metric-val">24</div>
+              <span class="kpi-metric-badge" style="color:#10b981;">Clinically Verified</span>
+            </div>
+            <div class="kpi-icon-badge green"><i class="fas fa-check-double"></i></div>
+          </div>
+
+          <div class="kpi-metric-card critical">
+            <div class="kpi-metric-info">
+              <h5>Critical Stress (≥70%)</h5>
+              <div id="kWelfareCritical" class="kpi-metric-val">3</div>
+              <span class="kpi-metric-badge" style="color:#ef4444;">Urgent Intervention</span>
+            </div>
+            <div class="kpi-icon-badge red"><i class="fas fa-exclamation-triangle"></i></div>
+          </div>
+
+          <div class="kpi-metric-card high">
+            <div class="kpi-metric-info">
+              <h5>Advisories to Commander</h5>
+              <div id="kWelfareAdvisories" class="kpi-metric-val">5</div>
+              <span class="kpi-metric-badge" style="color:#f97316;">Action Dispatched</span>
+            </div>
+            <div class="kpi-icon-badge orange"><i class="fas fa-paper-plane"></i></div>
+          </div>
+        </div>
+
+        <!-- Welfare Filter & Search Bar -->
+        <div class="commander-filter-bar">
+          <div class="search-box-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="welfareSearchInput" class="input-commander-search" placeholder="Search soldier by name, Service ID (e.g. 'Rajesh', 'CRPF-94821', 'BSF')..." oninput="rakshakApp.handleWelfareSearch(this.value)" />
+          </div>
+
+          <div class="filter-pills-group">
+            <button class="filter-pill active" onclick="rakshakApp.filterWelfare('all', this)">All (28)</button>
+            <button class="filter-pill" onclick="rakshakApp.filterWelfare('pending_validation', this)">⏳ Pending Validation</button>
+            <button class="filter-pill" onclick="rakshakApp.filterWelfare('has_advisory', this)">📩 Active Advisories</button>
+            <button class="filter-pill" onclick="rakshakApp.filterWelfare('critical', this)">🔴 Critical (≥70%)</button>
+            <button class="filter-pill" onclick="rakshakApp.filterWelfare('high', this)">🟠 High (55-69%)</button>
+            <button class="filter-pill" onclick="rakshakApp.filterWelfare('moderate', this)">🟡 Moderate</button>
+            <button class="filter-pill" onclick="rakshakApp.filterWelfare('low', this)">🟢 Low</button>
+          </div>
+
+          <select class="sort-select-dropdown" onchange="rakshakApp.handleWelfareSortChange(this.value)">
+            <option value="stress_desc">Sort: Stress % (Highest First) ⚠️</option>
+            <option value="stress_asc">Sort: Stress % (Lowest First)</option>
+            <option value="leave_desc">Days Without Leave (Longest First) ✈️</option>
+            <option value="name_asc">Soldier Name (A to Z)</option>
+          </select>
+        </div>
+
+        <!-- Welfare Personnel Review Roster Cards / Grid -->
+        <div id="welfarePersonnelContainer" class="welfare-cards-grid">
+          <!-- Populated dynamically by app.js -->
         </div>
       </section>
 
@@ -998,6 +1109,98 @@
       <div id="soldierModalContent">
         <!-- Populated dynamically by app.js -->
       </div>
+    </div>
+  </div>
+
+  <!-- Modal: Welfare Officer Advise Commander Modal -->
+  <div id="welfareAdviseModal" class="modal-overlay">
+    <div class="modal-content-box welfare-modal-box" style="max-width: 680px;">
+      <button class="modal-close-btn" onclick="rakshakApp.closeWelfareAdviseModal()">&times;</button>
+      
+      <div class="welfare-modal-header">
+        <div class="welfare-modal-icon-badge">
+          <i class="fas fa-paper-plane"></i>
+        </div>
+        <div>
+          <h3 style="font-size:1.25rem; font-weight:800; color:var(--text-main); margin-bottom:0.2rem;">Pass Action Advisory to Commanding Officer</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Confidential Welfare Recommendation for <strong id="wModalSoldierName">Havildar Rajesh Kumar</strong> (<span id="wModalSoldierId">CRPF-94821</span>)</p>
+        </div>
+      </div>
+
+      <!-- Personnel Stress Summary Strip -->
+      <div class="welfare-modal-soldier-summary">
+        <div class="wmodal-summary-item">
+          <span class="wmodal-label">Current Live Stress</span>
+          <span class="wmodal-value highlight" id="wModalStressPct">84% (Critical)</span>
+        </div>
+        <div class="wmodal-summary-item">
+          <span class="wmodal-label">Overdue Leave</span>
+          <span class="wmodal-value" id="wModalLeaveDays">210 Days</span>
+        </div>
+        <div class="wmodal-summary-item">
+          <span class="wmodal-label">Night Duty Shifts</span>
+          <span class="wmodal-value" id="wModalNightShifts">18 Shifts</span>
+        </div>
+        <div class="wmodal-summary-item">
+          <span class="wmodal-label">Rating Validation</span>
+          <span class="wmodal-value" id="wModalValidationStatus" style="color:#10b981;">Validated</span>
+        </div>
+      </div>
+
+      <form id="welfareAdviseForm" onsubmit="rakshakApp.submitWelfareAdvisory(event)">
+        <input type="hidden" id="wAdviseSoldierId" value="" />
+
+        <!-- Form Field 1: Action Type -->
+        <div class="auth-input-group" style="margin-bottom: 1rem;">
+          <label style="font-weight:700; font-size:0.85rem; margin-bottom:0.4rem; display:block;"><i class="fas fa-tasks" style="color:#0284c7;"></i> Recommended Commander Action Type</label>
+          <select id="wAdviseActionType" class="auth-input-field" onchange="rakshakApp.handleAdvisoryTypeSelect(this.value)" required>
+            <option value="Sanction Emergency Leave & 1-to-1 Personal Care">Sanction Emergency Leave & 1-to-1 Personal Care (Urgent Dual-Action)</option>
+            <option value="Sanction 14-Day Compassionate Leave">Sanction 14-Day Compassionate Leave</option>
+            <option value="Reduce Workload & Shift Duty Cap">Reduce Workload & Shift Duty Cap (Night patrol restriction)</option>
+            <option value="Arrange 1-to-1 Personal Care for 3-5 Days">Arrange 1-to-1 Personal Care for 3-5 Days (Dedicated Buddy & Welfare Supervision)</option>
+            <option value="Rotational Peace Station Transfer">Recommend Rotational Peace Station Transfer</option>
+            <option value="Sub-Unit Decompression & Rest Rotation">Sub-Unit Decompression & Rest Rotation (48h Mandate)</option>
+          </select>
+        </div>
+
+        <!-- Form Field 2: Severity Level -->
+        <div class="auth-input-group" style="margin-bottom: 1rem;">
+          <label style="font-weight:700; font-size:0.85rem; margin-bottom:0.4rem; display:block;"><i class="fas fa-exclamation-triangle" style="color:#f97316;"></i> Action Urgency & Severity Level</label>
+          <select id="wAdviseSeverity" class="auth-input-field" required>
+            <option value="Critical">Critical - Immediate Commander Intervention Required</option>
+            <option value="High">High Priority - Action Within 24-48 Hours</option>
+            <option value="Moderate">Moderate Priority - Implement in Next Roster Cycle</option>
+            <option value="Routine">Routine - Maintain Proactive Monitoring</option>
+          </select>
+        </div>
+
+        <!-- Form Field 3: Specific Suggested Action Description -->
+        <div class="auth-input-group" style="margin-bottom: 1rem;">
+          <label style="font-weight:700; font-size:0.85rem; margin-bottom:0.4rem; display:block;"><i class="fas fa-clipboard-list" style="color:#10b981;"></i> Suggested Action Details for Commander</label>
+          <textarea id="wAdviseSuggestedAction" class="auth-input-field" rows="2" placeholder="e.g. Sanction 14-day emergency leave immediately; assign sub-unit buddy for 1-to-1 personal care prior to travel..." required></textarea>
+        </div>
+
+        <!-- Form Field 4: Welfare Officer Confidential Notes & Justification -->
+        <div class="auth-input-group" style="margin-bottom: 1.2rem;">
+          <label style="font-weight:700; font-size:0.85rem; margin-bottom:0.4rem; display:block;"><i class="fas fa-comment-medical" style="color:#8b5cf6;"></i> Welfare Officer Clinical Assessment & Confidential Notes</label>
+          <textarea id="wAdviseNotes" class="auth-input-field" rows="3" placeholder="Explain the ground reality, family emergency status, sleep debt, or reasons behind this recommendation..." required></textarea>
+        </div>
+
+        <!-- Air-Gap Privacy Guarantee Notice -->
+        <div class="welfare-airgap-notice-box">
+          <i class="fas fa-user-secret" style="color:#0284c7; font-size:1.3rem; flex-shrink:0;"></i>
+          <div style="font-size:0.8rem; line-height:1.5; color:var(--text-main);">
+            <strong>Strict Confidentiality Guarantee:</strong> This advisory is delivered directly to the Commanding Officer's Operations Console. None of this advisory data, validation status, or rationale will pass to the personnel directly, preserving morale and eliminating operational stigma.
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.8rem; margin-top: 1.25rem; justify-content: flex-end;">
+          <button type="button" class="btn-dismiss-stress-modal" onclick="rakshakApp.closeWelfareAdviseModal()">Cancel</button>
+          <button type="submit" class="btn-auth-submit" style="margin-top:0; width:auto; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #0284c7, #2563eb);">
+            <i class="fas fa-paper-plane"></i> Dispatch Advisory to Commander
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
