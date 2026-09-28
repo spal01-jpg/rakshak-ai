@@ -1,0 +1,24 @@
+{
+  "features": [
+    "average_sleep_hours",
+    "mood_score",
+    "resting_heart_rate",
+    "hrv_ms",
+    "days_since_last_leave",
+    "consecutive_field_days",
+    "night_duty_shifts",
+    "family_worry_score",
+    "family_emergency",
+    "reported_symptoms_count",
+    "moca_score",
+    "reaction_time_s",
+    "switch_cost_s",
+    "backward_errors"
+  ],
+  "class_labels": [
+    "Low Priority",
+    "Medium Priority",
+    "High Priority",
+    "Immediate Priority"
+  ]
+}

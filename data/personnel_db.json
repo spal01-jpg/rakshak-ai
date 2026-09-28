@@ -12,9 +12,9 @@
       "age": 34,
       "yearsInService": 14,
       "photo": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 32,
-      "stressRiskLevel": "High",
-      "riskScore": 68,
+      "wellbeingPercentage": 5,
+      "stressRiskLevel": "Critical",
+      "riskScore": 98,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-09-24",
@@ -27,7 +27,7 @@
         "leaveSanctionedDaysYear": 72,
         "leaveEntitlementRemaining": 48,
         "nightDutyShiftsPastMonth": 18,
-        "averageSleepHours": 5.5,
+        "averageSleepHours": 3.5,
         "restRecoveryScore": 32,
         "hardshipTenureMonths": 16,
         "familyEmergencyStatus": "Father hospitalized with renal failure in Rohtak"
@@ -40,14 +40,14 @@
         "bloodPressure": "138/88"
       },
       "selfAssessment": {
-        "lastCheckin": "2026-09-26",
-        "moodScore": 2.0,
-        "exhaustionLevel": "Moderate",
-        "familyWorryScore": 4.0,
+        "lastCheckin": "2026-09-29",
+        "moodScore": 1.0,
+        "exhaustionLevel": "Critical",
+        "familyWorryScore": 9.0,
         "reportedSymptoms": [
-          "Border Patrol Fatigue",
-          "Family Separation / Worry",
-          "Overdue Leave Anxiety"
+          "Severe Insomnia",
+          "Tremors",
+          "Hyper-Vigilance"
         ]
       },
       "aiRiskFactors": [
@@ -131,7 +131,24 @@
           "status": "Pending Commander Approval"
         },
         "validationNotes": "Stress rating reviewed and clinically verified against duty logs."
-      }
+      },
+      "liveStressLevel": 98,
+      "treatmentPriority": "Immediate Priority",
+      "treatmentRequired": {
+        "priority": "Immediate Priority",
+        "priorityClass": "immediate",
+        "threshold": "70% and higher",
+        "badgeColor": "#ef4444",
+        "modalities": [
+          "Emergency Psychiatric Consultation & Clinical Evaluation",
+          "Acute Clinical Decompression Therapy (In-Clinic)",
+          "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+          "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+          "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+        ],
+        "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+      },
+      "stressClassification": "Immediate Priority"
     },
     {
       "id": "BSF-44120",
