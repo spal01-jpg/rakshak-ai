@@ -304,13 +304,6 @@
                     <h4>Live Stress Indicator</h4>
                   </div>
                   
-                  <!-- ML Grounding Provenance Badge -->
-                  <div class="ml-provenance-badge" onclick="rakshakApp.openMlModelModal()" title="View Empirical ICPSR ML Model Diagnostics">
-                    <i class="fas fa-microchip"></i>
-                    <span>ML: ICPSR 39815 (R² 0.940)</span>
-                    <i class="fas fa-info-circle"></i>
-                  </div>
-                  
                   <!-- Percentage View Option Switcher -->
                   <div class="indicator-option-pill-group">
                     <button type="button" id="btnOptStressPct" class="indicator-opt-btn active" onclick="rakshakApp.setStressIndicatorMode('stress')">
@@ -1208,107 +1201,6 @@
           </button>
         </div>
       </form>
-    </div>
-  <!-- ============================================================ -->
-  <!-- MODAL: ICPSR 39815 ML MODEL BENCHMARK & DIAGNOSTICS          -->
-  <!-- ============================================================ -->
-  <div id="mlModelModal" class="modal-overlay">
-    <div class="modal-box" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
-      <button class="modal-close-btn" onclick="rakshakApp.closeMlModelModal()">&times;</button>
-      <div class="welfare-modal-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.2rem;">
-        <div class="welfare-modal-icon-badge" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">
-          <i class="fas fa-microchip"></i>
-        </div>
-        <div>
-          <h3 style="font-size:1.25rem; font-weight:800; color:var(--text-main); margin-bottom:0.2rem;">Empirical Machine Learning Engine</h3>
-          <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Trained on ICPSR Study 39815 (MIDUS Refresher 2: Cognitive Project, N=1,934)</p>
-        </div>
-      </div>
-
-      <!-- Model KPI Metrics Strip -->
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.25rem;">
-        <div style="background: var(--bg-hover); padding: 0.8rem; border-radius: 8px; text-align: center; border: 1px solid var(--border-color);">
-          <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Regression R²</span>
-          <strong style="font-size: 1.25rem; color: #10b981; font-weight: 800;">0.9403</strong>
-        </div>
-        <div style="background: var(--bg-hover); padding: 0.8rem; border-radius: 8px; text-align: center; border: 1px solid var(--border-color);">
-          <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Mean Abs Error</span>
-          <strong style="font-size: 1.25rem; color: #0284c7; font-weight: 800;">2.58%</strong>
-        </div>
-        <div style="background: var(--bg-hover); padding: 0.8rem; border-radius: 8px; text-align: center; border: 1px solid var(--border-color);">
-          <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Triage Accuracy</span>
-          <strong style="font-size: 1.25rem; color: #8b5cf6; font-weight: 800;">88.37%</strong>
-        </div>
-        <div style="background: var(--bg-hover); padding: 0.8rem; border-radius: 8px; text-align: center; border: 1px solid var(--border-color);">
-          <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Cohort Size (N)</span>
-          <strong style="font-size: 1.25rem; color: #f59e0b; font-weight: 800;">1,934</strong>
-        </div>
-      </div>
-
-      <!-- Top Empirical Feature Drivers -->
-      <div style="margin-bottom: 1.25rem;">
-        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text-main);">
-          <i class="fas fa-chart-bar" style="color: #3b82f6;"></i> Top Stress & Cognitive Fatigue Drivers (Gradient Boosting Weights):
-        </h4>
-        <div style="display: flex; flex-direction: column; gap: 0.45rem;">
-          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem;">
-            <span>Continuous Field Days Deployment</span>
-            <strong style="color: #ef4444;">47.09%</strong>
-          </div>
-          <div style="background: var(--border-color); height: 6px; border-radius: 3px; overflow: hidden;">
-            <div style="background: #ef4444; width: 47.09%; height: 100%;"></div>
-          </div>
-
-          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; margin-top: 0.2rem;">
-            <span>Days Since Last Authorized Leave</span>
-            <strong style="color: #f97316;">24.38%</strong>
-          </div>
-          <div style="background: var(--border-color); height: 6px; border-radius: 3px; overflow: hidden;">
-            <div style="background: #f97316; width: 24.38%; height: 100%;"></div>
-          </div>
-
-          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; margin-top: 0.2rem;">
-            <span>Resting Heart Rate (Autonomic Strain)</span>
-            <strong style="color: #eab308;">7.73%</strong>
-          </div>
-          <div style="background: var(--border-color); height: 6px; border-radius: 3px; overflow: hidden;">
-            <div style="background: #eab308; width: 7.73%; height: 100%;"></div>
-          </div>
-
-          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; margin-top: 0.2rem;">
-            <span>Heart Rate Variability (Autonomic Tone HRV)</span>
-            <strong style="color: #10b981;">6.07%</strong>
-          </div>
-          <div style="background: var(--border-color); height: 6px; border-radius: 3px; overflow: hidden;">
-            <div style="background: #10b981; width: 6.07%; height: 100%;"></div>
-          </div>
-
-          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; margin-top: 0.2rem;">
-            <span>Subjective Mood & Daily Affect</span>
-            <strong style="color: #0284c7;">3.76%</strong>
-          </div>
-          <div style="background: var(--border-color); height: 6px; border-radius: 3px; overflow: hidden;">
-            <div style="background: #0284c7; width: 3.76%; height: 100%;"></div>
-          </div>
-
-          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; margin-top: 0.2rem;">
-            <span>Cognitive Switch Cost & Latency Under Load (BTACT)</span>
-            <strong style="color: #8b5cf6;">2.99%</strong>
-          </div>
-          <div style="background: var(--border-color); height: 6px; border-radius: 3px; overflow: hidden;">
-            <div style="background: #8b5cf6; width: 2.99%; height: 100%;"></div>
-          </div>
-        </div>
-      </div>
-
-      <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 8px; padding: 0.8rem; font-size: 0.8rem; line-height: 1.5; color: var(--text-main);">
-        <i class="fas fa-shield-alt" style="color: #10b981; font-size: 1rem; margin-right: 0.4rem;"></i>
-        <strong>ml-best-practices Validated:</strong> Strictly verified using 5-fold cross-validation on held-out test cohort ($N=1,934$). Zero data leakage, independent scaling fit only on training splits, and complete multi-model comparison against naive baselines.
-      </div>
-
-      <div style="text-align: right; margin-top: 1rem;">
-        <button type="button" class="btn-auth-submit" style="width: auto; padding: 0.6rem 1.4rem;" onclick="rakshakApp.closeMlModelModal()">Close Diagnostics</button>
-      </div>
     </div>
   </div>
 

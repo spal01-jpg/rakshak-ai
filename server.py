@@ -40,119 +40,58 @@ def save_db(data):
         print(f"Error saving database: {e}")
         return False
 
-# Load Trained ICPSR 39815 Machine Learning Model Bundle
-MODEL_BUNDLE_PATH = os.path.join(BASE_DIR, 'model', 'rakshak_model_bundle.json')
-ML_MODEL = None
-try:
-    if os.path.exists(MODEL_BUNDLE_PATH):
-        with open(MODEL_BUNDLE_PATH, 'r', encoding='utf-8') as f:
-            ML_MODEL = json.load(f)
-        print("✓ Rakshak ML Model Bundle loaded successfully (ICPSR Study 39815 Empirical Baseline, R²=0.940).")
-except Exception as e:
-    print(f"Warning: Could not load ML model bundle: {e}")
-
 def calculate_stress_metrics(person):
     """
     Advanced Multi-Variate Predictive Analytics Engine:
-    Empirically Grounded on ICPSR Study 39815 (MIDUS Refresher 2 Cognitive Project, N=1,934).
     Computes Wellbeing Percentage (0-100%) and Stress Risk Level (Low, Moderate, High, Critical)
-    incorporating empirical feature weights, autonomic HRV strain, and non-linear operational penalties.
+    incorporating non-linear tenure strain penalties and autonomic fatigue detection.
     """
     hr = person.get("hrIndicators", {})
     bio = person.get("biometrics", {})
     self_assess = person.get("selfAssessment", {})
     
-    days_leave = float(hr.get("daysSinceLastLeave", 60))
-    field_days = float(hr.get("consecutiveFieldDays", 60))
-    night_shifts = float(hr.get("nightDutyShiftsPastMonth", 8))
-    sleep_hrs = float(hr.get("averageSleepHours", 6.5))
-    
-    has_fam_crisis = 1.0 if bool(hr.get("familyEmergencyStatus") and 
-                                 "Normal" not in hr.get("familyEmergencyStatus", "") and 
-                                 "Stable" not in hr.get("familyEmergencyStatus", "")) else 0.0
-                                 
-    rhr = float(bio.get("restingHeartRate", 70))
-    hrv = float(bio.get("hrvMs", 50))
-    
-    mood = float(self_assess.get("moodScore", 3.5)) # Scale 1 to 5
-    fam_worry = float(self_assess.get("familyWorryScore", 3.0)) # 1-10
-    symptoms_cnt = float(len(self_assess.get("reportedSymptoms", [])))
-    
-    moca = float(person.get("mocaScore", 18.2))
-    reaction_time = float(person.get("reactionTimeS", 1.32))
-    switch_cost = float(person.get("switchCostS", 0.41))
-    bk_errors = float(person.get("backwardErrors", 0.0))
-
-    if ML_MODEL:
-        try:
-            feat_cols = ML_MODEL['feature_cols']
-            medians = ML_MODEL['imputer_medians']
-            means = ML_MODEL['scaler_means']
-            scales = ML_MODEL['scaler_scales']
-            intercept = ML_MODEL['ridge_intercept']
-            coefs = ML_MODEL['ridge_coefficients']
-            
-            val_map = {
-                'average_sleep_hours': sleep_hrs,
-                'mood_score': mood,
-                'resting_heart_rate': rhr,
-                'hrv_ms': hrv,
-                'days_since_last_leave': days_leave,
-                'consecutive_field_days': field_days,
-                'night_duty_shifts': night_shifts,
-                'family_worry_score': fam_worry,
-                'family_emergency': has_fam_crisis,
-                'reported_symptoms_count': symptoms_cnt,
-                'moca_score': moca,
-                'reaction_time_s': reaction_time,
-                'switch_cost_s': switch_cost,
-                'backward_errors': bk_errors
-            }
-            
-            score = intercept
-            for col in feat_cols:
-                v = val_map.get(col, medians.get(col, 0.0))
-                m = means.get(col, 0.0)
-                s = scales.get(col, 1.0)
-                z = (v - m) / (s if s != 0 else 1.0)
-                score += coefs.get(col, 0.0) * z
-                
-            total_stress_risk = int(round(max(5.0, min(98.0, score))))
-            wellbeing_percentage = max(5, min(98, 100 - total_stress_risk))
-            
-            if total_stress_risk >= 80:
-                risk_level = "Critical"
-            elif total_stress_risk >= 65:
-                risk_level = "High"
-            elif total_stress_risk >= 45:
-                risk_level = "Moderate"
-            else:
-                risk_level = "Low"
-                
-            return wellbeing_percentage, risk_level, total_stress_risk
-        except Exception as e:
-            print(f"ML inference fallback due to error: {e}")
-
-    # Fallback multi-variate heuristic if model bundle is unavailable
+    # 1. Operational & HR Hardship Factors (Max 42 points)
+    days_leave = hr.get("daysSinceLastLeave", 60)
     leave_pts = min(16, (days_leave / 180) * 16)
+    
+    field_days = hr.get("consecutiveFieldDays", 60)
     field_pts = min(10, (field_days / 200) * 10)
+    
+    night_shifts = hr.get("nightDutyShiftsPastMonth", 8)
     shift_pts = min(9, (night_shifts / 20) * 9)
+    
+    # Family emergency crisis factor
+    has_fam_crisis = bool(hr.get("familyEmergencyStatus") and 
+                          "Normal" not in hr.get("familyEmergencyStatus", "") and 
+                          "Stable" not in hr.get("familyEmergencyStatus", ""))
     fam_pts = 7 if has_fam_crisis else 0
+    
     hr_stress = leave_pts + field_pts + shift_pts + fam_pts
-
+    
+    # 2. Biometric Autonomic Strain Factors (Max 28 points)
+    rhr = bio.get("restingHeartRate", 70)
     rhr_pts = max(0, min(10, (rhr - 60) * 0.4))
+    
+    hrv = bio.get("hrvMs", 50)
     hrv_pts = max(0, min(10, (65 - hrv) * 0.25))
+    
+    sleep_hrs = hr.get("averageSleepHours", 6.5)
     sleep_pts = max(0, min(8, (7.0 - sleep_hrs) * 3.0))
+    
     bio_stress = rhr_pts + hrv_pts + sleep_pts
-
-    mood_pts = (5 - mood) * 3.5
-    worry_pts = (fam_worry / 10) * 10
-    symptom_pts = min(6, symptoms_cnt * 2)
+    
+    # 3. Subjective Self-Assessment Factors (Max 30 points)
+    mood = self_assess.get("moodScore", 3.5) # Scale 1 to 5
+    mood_pts = (5 - mood) * 3.5 # Up to 14 points
+    fam_worry = self_assess.get("familyWorryScore", 3) # 1-10
+    worry_pts = (fam_worry / 10) * 10 # Up to 10 points
+    symptom_pts = min(6, len(self_assess.get("reportedSymptoms", [])) * 2)
+    
     self_stress = mood_pts + worry_pts + symptom_pts
-
+    
     total_stress_risk = min(100, max(5, int(hr_stress + bio_stress + self_stress)))
     wellbeing_percentage = max(5, min(98, 100 - total_stress_risk))
-
+    
     if total_stress_risk >= 80:
         risk_level = "Critical"
     elif total_stress_risk >= 65:
@@ -161,7 +100,7 @@ def calculate_stress_metrics(person):
         risk_level = "Moderate"
     else:
         risk_level = "Low"
-
+        
     return wellbeing_percentage, risk_level, total_stress_risk
 
 def get_treatment_priority(stress_pct):
@@ -315,38 +254,6 @@ class RakshakRequestHandler(SimpleHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
         query = urllib.parse.parse_qs(parsed.query)
-
-        # API: Trained ML Model Info & Metrics (ICPSR Study 39815)
-        if path == '/api/ml-model':
-            if ML_MODEL:
-                reg_perf = ML_MODEL.get('performance_summary', {}).get('regression', {}).get('Linear Baseline (Ridge)', {})
-                gb_perf = ML_MODEL.get('performance_summary', {}).get('regression', {}).get('Gradient Boosting', {})
-                clf_perf = ML_MODEL.get('performance_summary', {}).get('classification', {}).get('Logistic Regression', {})
-                self.send_json_response({
-                    "success": True,
-                    "modelVersion": ML_MODEL.get("model_version", "1.0.0-ICPSR-39815"),
-                    "trainedDate": ML_MODEL.get("trained_date", ""),
-                    "datasetSource": ML_MODEL.get("dataset_source", "ICPSR Study 39815 (MIDUS Refresher 2: Cognitive Project)"),
-                    "totalSamples": ML_MODEL.get("n_training_samples", 1547) + ML_MODEL.get("n_test_samples", 387),
-                    "trainingSamples": ML_MODEL.get("n_training_samples", 1547),
-                    "testSamples": ML_MODEL.get("n_test_samples", 387),
-                    "metrics": {
-                        "ridgeR2": round(reg_perf.get("Test_R2", 0.9403), 4),
-                        "ridgeMAE": round(reg_perf.get("Test_MAE", 2.58), 2),
-                        "ridgeRMSE": round(reg_perf.get("Test_RMSE", 3.30), 2),
-                        "gradientBoostingR2": round(gb_perf.get("Test_R2", 0.9302), 4),
-                        "classificationAccuracy": round(clf_perf.get("Test_Accuracy", 0.8837) * 100, 2),
-                        "classificationF1Weighted": round(clf_perf.get("Test_F1_Weighted", 0.8824), 4)
-                    },
-                    "featureImportances": ML_MODEL.get("feature_importances", {}),
-                    "featureCols": ML_MODEL.get("feature_cols", [])
-                })
-            else:
-                self.send_json_response({
-                    "success": False,
-                    "message": "ML Model bundle not currently loaded."
-                })
-            return
 
         # API: Search, Filter & Sort Personnel
         if path == '/api/personnel':
