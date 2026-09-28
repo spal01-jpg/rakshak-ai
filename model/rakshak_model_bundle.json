@@ -1,0 +1,356 @@
+{
+  "model_version": "1.0.0-ICPSR-39815",
+  "trained_date": "2026-09-28T22:43:39.226276",
+  "dataset_source": "ICPSR Study 39815 (MIDUS Refresher 2: Cognitive Project)",
+  "n_training_samples": 1547,
+  "n_test_samples": 387,
+  "feature_cols": [
+    "average_sleep_hours",
+    "mood_score",
+    "resting_heart_rate",
+    "hrv_ms",
+    "days_since_last_leave",
+    "consecutive_field_days",
+    "night_duty_shifts",
+    "family_worry_score",
+    "family_emergency",
+    "reported_symptoms_count",
+    "moca_score",
+    "reaction_time_s",
+    "switch_cost_s",
+    "backward_errors"
+  ],
+  "imputer_medians": {
+    "average_sleep_hours": 6.7,
+    "mood_score": 3.4,
+    "resting_heart_rate": 70.5,
+    "hrv_ms": 55.7,
+    "days_since_last_leave": 65.0,
+    "consecutive_field_days": 31.0,
+    "night_duty_shifts": 7.0,
+    "family_worry_score": 3.9,
+    "family_emergency": 0.0,
+    "reported_symptoms_count": 1.0,
+    "moca_score": 19.0,
+    "reaction_time_s": 1.319,
+    "switch_cost_s": 0.41,
+    "backward_errors": 0.0
+  },
+  "scaler_means": {
+    "average_sleep_hours": 6.670135746606335,
+    "mood_score": 3.3951519069166123,
+    "resting_heart_rate": 70.6054945054945,
+    "hrv_ms": 55.552424046541695,
+    "days_since_last_leave": 74.13897866839044,
+    "consecutive_field_days": 43.96056884292178,
+    "night_duty_shifts": 7.713639301874596,
+    "family_worry_score": 4.046670976082741,
+    "family_emergency": 0.01616031027795734,
+    "reported_symptoms_count": 0.9495798319327731,
+    "moca_score": 18.201680672268907,
+    "reaction_time_s": 1.3213632837750484,
+    "switch_cost_s": 0.41272462831286366,
+    "backward_errors": 1.3167420814479638
+  },
+  "scaler_scales": {
+    "average_sleep_hours": 0.6880737995650195,
+    "mood_score": 0.5529106384218647,
+    "resting_heart_rate": 5.932418538834868,
+    "hrv_ms": 6.670015026882623,
+    "days_since_last_leave": 47.76574436323803,
+    "consecutive_field_days": 42.73639979328109,
+    "night_duty_shifts": 3.0012001704823783,
+    "family_worry_score": 1.5090912507384964,
+    "family_emergency": 0.12609185005256085,
+    "reported_symptoms_count": 0.9431367525419193,
+    "moca_score": 2.7887338715800407,
+    "reaction_time_s": 0.228145325364757,
+    "switch_cost_s": 0.2883122350085599,
+    "backward_errors": 3.735328669816314
+  },
+  "ridge_intercept": 37.64770523594053,
+  "ridge_coefficients": {
+    "average_sleep_hours": -0.1290489487003118,
+    "mood_score": -2.2493515725493043,
+    "resting_heart_rate": 2.3154811189584423,
+    "hrv_ms": -1.8485983176520455,
+    "days_since_last_leave": 3.8647304945917806,
+    "consecutive_field_days": 2.7735690525297474,
+    "night_duty_shifts": 1.4347416431081579,
+    "family_worry_score": 1.6027446851863678,
+    "family_emergency": 0.4841639587662246,
+    "reported_symptoms_count": 2.3197111317326353,
+    "moca_score": -0.015341706862918282,
+    "reaction_time_s": 0.0023440779203895198,
+    "switch_cost_s": 2.109423926893076,
+    "backward_errors": 1.2755873369895225
+  },
+  "logistic_classes": [
+    "High Priority",
+    "Immediate Priority",
+    "Low Priority",
+    "Medium Priority"
+  ],
+  "logistic_intercepts": [
+    -0.9253097565590384,
+    -13.478785856653184,
+    7.821613289045319,
+    6.582482324166923
+  ],
+  "logistic_coefficients": [
+    [
+      0.08827279317058384,
+      -0.6706287899781355,
+      0.6010415530026141,
+      -0.33795480485040685,
+      0.7487697131788817,
+      1.1354136891816031,
+      0.37037566817908335,
+      0.4632983644017457,
+      -0.10449603644750843,
+      0.42042376932701403,
+      -0.18617799430116058,
+      -0.0330149007815629,
+      0.5232631768639862,
+      0.36332331937714935
+    ],
+    [
+      0.15380872511010518,
+      -1.675494683095845,
+      1.878757472740457,
+      -1.8214369945799038,
+      1.7560930689544232,
+      1.5153439615950912,
+      0.3145305884645333,
+      1.0078999885001596,
+      0.473763068324345,
+      1.9034875425078646,
+      0.2663498404726801,
+      -0.3531792091507174,
+      1.2631162573067918,
+      0.4852615195313231
+    ],
+    [
+      -0.06373435933065544,
+      1.8495466406205177,
+      -1.8126629115867836,
+      1.5705685354510988,
+      -2.2322343686303316,
+      -2.1311796552759805,
+      -0.7163748140616331,
+      -1.1385758436210465,
+      -0.2791949745205621,
+      -1.7236956960243859,
+      -0.017551881166638698,
+      0.2149908171127813,
+      -1.492367100927895,
+      -1.070371569032648
+    ],
+    [
+      -0.17834715895003583,
+      0.49657683245346634,
+      -0.6671361141562804,
+      0.5888232639792108,
+      -0.27262841350298217,
+      -0.5195779955007186,
+      0.03146855741801805,
+      -0.3326225092808588,
+      -0.09007205735627677,
+      -0.6002156158104903,
+      -0.06261996500488244,
+      0.17120329281950042,
+      -0.2940123332428783,
+      0.22178673012417552
+    ]
+  ],
+  "feature_importances": {
+    "consecutive_field_days": 0.47088385528558574,
+    "days_since_last_leave": 0.24380497407044402,
+    "resting_heart_rate": 0.07727582358915257,
+    "hrv_ms": 0.06067407967015986,
+    "mood_score": 0.03764742079570051,
+    "switch_cost_s": 0.029915409554518657,
+    "reported_symptoms_count": 0.022811183615508875,
+    "backward_errors": 0.02037551521871751,
+    "family_worry_score": 0.018507720796378538,
+    "night_duty_shifts": 0.008539512925302448,
+    "average_sleep_hours": 0.0062495343590714975,
+    "family_emergency": 0.0016850943195199468,
+    "reaction_time_s": 0.0010511914824391248,
+    "moca_score": 0.0005786843175008638
+  },
+  "performance_summary": {
+    "regression": {
+      "Naive Baseline (Mean)": {
+        "CV_R2_Mean": -0.003506973095651045,
+        "CV_R2_Std": 0.002086829538091999,
+        "Test_R2": -0.00010100360194331692,
+        "Test_MAE": 11.07122512690228,
+        "Test_RMSE": 13.926328576055502,
+        "Train_Time_s": 0.007451772689819336
+      },
+      "Linear Baseline (Ridge)": {
+        "CV_R2_Mean": 0.940345854655957,
+        "CV_R2_Std": 0.0030039381995937654,
+        "Test_R2": 0.9439607226626334,
+        "Test_MAE": 2.5760936143706363,
+        "Test_RMSE": 3.296559882501835,
+        "Train_Time_s": 0.011049032211303711
+      },
+      "Random Forest": {
+        "CV_R2_Mean": 0.895700715644163,
+        "CV_R2_Std": 0.009437739556163382,
+        "Test_R2": 0.8977713355518657,
+        "Test_MAE": 3.471217595753495,
+        "Test_RMSE": 4.4524704889205795,
+        "Train_Time_s": 2.2539174556732178
+      },
+      "Gradient Boosting": {
+        "CV_R2_Mean": 0.9322623031644787,
+        "CV_R2_Std": 0.005656240724711172,
+        "Test_R2": 0.9302221642329926,
+        "Test_MAE": 2.820681247977264,
+        "Test_RMSE": 3.678522812786776,
+        "Train_Time_s": 1.7375431060791016
+      }
+    },
+    "classification": {
+      "Naive Baseline (Prior)": {
+        "CV_F1_Macro_Mean": 0.19777403414517075,
+        "CV_F1_Macro_Std": 0.004804314563726579,
+        "Test_Accuracy": 0.6537467700258398,
+        "Test_F1_Macro": 0.19765625,
+        "Test_F1_Weighted": 0.5168685400516796,
+        "Confusion_Matrix": [
+          [
+            253,
+            0,
+            0,
+            0
+          ],
+          [
+            87,
+            0,
+            0,
+            0
+          ],
+          [
+            34,
+            0,
+            0,
+            0
+          ],
+          [
+            13,
+            0,
+            0,
+            0
+          ]
+        ],
+        "Train_Time_s": 0.017203330993652344
+      },
+      "Logistic Regression": {
+        "CV_F1_Macro_Mean": 0.8537961289876556,
+        "CV_F1_Macro_Std": 0.020629689455614438,
+        "Test_Accuracy": 0.8837209302325582,
+        "Test_F1_Macro": 0.7442474266752064,
+        "Test_F1_Weighted": 0.882350981104138,
+        "Confusion_Matrix": [
+          [
+            239,
+            14,
+            0,
+            0
+          ],
+          [
+            11,
+            72,
+            4,
+            0
+          ],
+          [
+            0,
+            6,
+            26,
+            2
+          ],
+          [
+            0,
+            0,
+            8,
+            5
+          ]
+        ],
+        "Train_Time_s": 0.10995841026306152
+      },
+      "Random Forest": {
+        "CV_F1_Macro_Mean": 0.8036327950588043,
+        "CV_F1_Macro_Std": 0.04696029703947782,
+        "Test_Accuracy": 0.8449612403100775,
+        "Test_F1_Macro": 0.611809931035523,
+        "Test_F1_Weighted": 0.8328023445757271,
+        "Confusion_Matrix": [
+          [
+            242,
+            11,
+            0,
+            0
+          ],
+          [
+            24,
+            60,
+            3,
+            0
+          ],
+          [
+            0,
+            10,
+            24,
+            0
+          ],
+          [
+            0,
+            0,
+            12,
+            1
+          ]
+        ],
+        "Train_Time_s": 1.07293701171875
+      },
+      "Gradient Boosting": {
+        "CV_F1_Macro_Mean": 0.7909610628085746,
+        "CV_F1_Macro_Std": 0.04170518354485937,
+        "Test_Accuracy": 0.8475452196382429,
+        "Test_F1_Macro": 0.6981965266906907,
+        "Test_F1_Weighted": 0.8457939656075534,
+        "Confusion_Matrix": [
+          [
+            239,
+            14,
+            0,
+            0
+          ],
+          [
+            17,
+            63,
+            7,
+            0
+          ],
+          [
+            0,
+            11,
+            20,
+            3
+          ],
+          [
+            0,
+            0,
+            7,
+            6
+          ]
+        ],
+        "Train_Time_s": 7.9701032638549805
+      }
+    }
+  }
+}

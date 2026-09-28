@@ -12,9 +12,9 @@
       "age": 34,
       "yearsInService": 14,
       "photo": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 32,
+      "wellbeingPercentage": 29,
       "stressRiskLevel": "High",
-      "riskScore": 68,
+      "riskScore": 71,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-09-24",
@@ -24,30 +24,29 @@
         "daysSinceLastLeave": 0,
         "consecutiveFieldDays": 240,
         "leaveApplicationsPending": 0,
-        "leaveSanctionedDaysYear": 72,
+        "leaveSanctionedDaysYear": 86,
         "leaveEntitlementRemaining": 48,
-        "nightDutyShiftsPastMonth": 18,
-        "averageSleepHours": 5.5,
+        "nightDutyShiftsPastMonth": 12,
+        "averageSleepHours": 4.5,
         "restRecoveryScore": 32,
         "hardshipTenureMonths": 16,
         "familyEmergencyStatus": "Father hospitalized with renal failure in Rohtak"
       },
       "biometrics": {
-        "restingHeartRate": 84,
-        "hrvMs": 28,
+        "restingHeartRate": 79,
+        "hrvMs": 38,
         "sleepQuality": "Fragmented (Insomnia)",
         "dailySteps": 16500,
         "bloodPressure": "138/88"
       },
       "selfAssessment": {
-        "lastCheckin": "2026-09-26",
+        "lastCheckin": "2026-09-28",
         "moodScore": 2.0,
-        "exhaustionLevel": "Moderate",
-        "familyWorryScore": 4.0,
+        "exhaustionLevel": "High",
+        "familyWorryScore": 8.0,
         "reportedSymptoms": [
-          "Border Patrol Fatigue",
-          "Family Separation / Worry",
-          "Overdue Leave Anxiety"
+          "Fatigue",
+          "Insomnia"
         ]
       },
       "aiRiskFactors": [
@@ -63,6 +62,13 @@
         "Assign trusted Peer Buddy (Sahayak) from same sub-unit"
       ],
       "actionHistory": [
+        {
+          "actionType": "Commander Sanction: Sanction Leave & 1-to-1 Personal Care",
+          "notes": "Approved Welfare Advisory: Sanction 14-day emergency compassionate leave immediately; arrange 1-to-1 personal care & buddy debrief for 3 days prior to departure.. Decision Notes: Approved and sanctioned as advised by Welfare Officer.",
+          "dispatchedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "timestamp": "2026-09-26 03:48:50",
+          "status": "Sanctioned"
+        },
         {
           "actionType": "Urgent Medical Officer Re-Referral",
           "notes": "Welfare Officer flagged insufficient stress reduction (<25% delta): Patient experienced only a 12% stress reduction following Intensive 1-on-1 Clinical Counseling & Trauma CBT. Persistent operational fatigue and sleep deficits observed. Requesting secondary clinical intervention and psychiatrist evaluation.",
@@ -128,10 +134,14 @@
           "severityLevel": "Critical",
           "notes": "210 days without leave combined with father in ICU in Bihar. High risk of burnout and severe sleep fragmentation.",
           "dispatchedAt": "2026-09-25 11:30",
-          "status": "Pending Commander Approval"
+          "status": "Approved & Sanctioned",
+          "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "approvedAt": "2026-09-26 03:48:50",
+          "decisionNotes": "Approved and sanctioned as advised by Welfare Officer."
         },
         "validationNotes": "Stress rating reviewed and clinically verified against duty logs."
-      }
+      },
+      "liveStressLevel": 61
     },
     {
       "id": "BSF-44120",
@@ -395,9 +405,9 @@
       "age": 29,
       "yearsInService": 8,
       "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 5,
+      "wellbeingPercentage": 12,
       "stressRiskLevel": "Critical",
-      "riskScore": 95,
+      "riskScore": 88,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-04-10",
@@ -409,15 +419,15 @@
         "leaveApplicationsPending": 2,
         "leaveSanctionedDaysYear": 8,
         "leaveEntitlementRemaining": 52,
-        "nightDutyShiftsPastMonth": 20,
+        "nightDutyShiftsPastMonth": 14,
         "averageSleepHours": 4.1,
         "restRecoveryScore": 25,
         "hardshipTenureMonths": 18,
         "familyEmergencyStatus": "Wife delivered newborn baby 6 weeks ago; yet to meet child"
       },
       "biometrics": {
-        "restingHeartRate": 83,
-        "hrvMs": 34,
+        "restingHeartRate": 78,
+        "hrvMs": 44,
         "sleepQuality": "Critical Deficit",
         "dailySteps": 21000,
         "bloodPressure": "142/92"
@@ -445,7 +455,15 @@
         "In-person check-in with Battalion Psychologist or Medical Officer",
         "Peer buddy escort for transit to Dimapur railhead"
       ],
-      "actionHistory": [],
+      "actionHistory": [
+        {
+          "actionType": "Commander Sanction: Arrange 1-to-1 Personal Care & Duty Relief",
+          "notes": "Approved Welfare Advisory: Immediate temporary relief from border outpost duty and arrange dedicated 1-to-1 personal care & peer observation at Battalion HQ for 5 days.. Decision Notes: Approved and sanctioned as advised by Welfare Officer.",
+          "dispatchedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "timestamp": "2026-09-26 03:48:44",
+          "status": "Sanctioned"
+        }
+      ],
       "treatmentHistory": [
         {
           "treatmentId": "TRT-AR-12903-1791",
@@ -490,7 +508,7 @@
           "reportedBackToMO": false
         }
       ],
-      "liveStressLevel": 95,
+      "liveStressLevel": 88,
       "welfareAdvisory": {
         "isValidated": true,
         "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
@@ -502,7 +520,10 @@
           "severityLevel": "Critical",
           "notes": "Recent counter-insurgency cross-border engagement. Critical physiological stress index (98%). Immediate personal care and close observation required.",
           "dispatchedAt": "2026-09-26 01:15",
-          "status": "Pending Commander Approval"
+          "status": "Approved & Sanctioned",
+          "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "approvedAt": "2026-09-26 03:48:44",
+          "decisionNotes": "Approved and sanctioned as advised by Welfare Officer."
         }
       }
     },
@@ -650,9 +671,9 @@
       "age": 37,
       "yearsInService": 15,
       "photo": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 41,
-      "stressRiskLevel": "High",
-      "riskScore": 78,
+      "wellbeingPercentage": 20,
+      "stressRiskLevel": "Critical",
+      "riskScore": 80,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-05-12",
@@ -664,15 +685,15 @@
         "leaveApplicationsPending": 1,
         "leaveSanctionedDaysYear": 10,
         "leaveEntitlementRemaining": 50,
-        "nightDutyShiftsPastMonth": 17,
+        "nightDutyShiftsPastMonth": 11,
         "averageSleepHours": 4.8,
         "restRecoveryScore": 36,
         "hardshipTenureMonths": 15,
         "familyEmergencyStatus": "Mother suffering from chronic arthritis; lives alone in village"
       },
       "biometrics": {
-        "restingHeartRate": 82,
-        "hrvMs": 31,
+        "restingHeartRate": 77,
+        "hrvMs": 41,
         "sleepQuality": "Fragmented",
         "dailySteps": 19500,
         "bloodPressure": "136/88"
@@ -698,15 +719,35 @@
         "De-escalate to Group Centre / Training academy instructor rotation",
         "Provide psychological debrief session with force counselor"
       ],
-      "actionHistory": [],
+      "actionHistory": [
+        {
+          "actionType": "Commander Sanction: Reduce Workload & Shift Duty Cap",
+          "notes": "Approved Welfare Advisory: Immediately cap night patrol duty to maximum 4 shifts per month; withdraw from frontline weapon-bearing posts for 7-day rest rotation.. Decision Notes: Approved and sanctioned as advised by Welfare Officer.",
+          "dispatchedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "timestamp": "2026-09-26 09:43:48",
+          "status": "Sanctioned"
+        }
+      ],
       "treatmentHistory": [],
       "welfareAdvisory": {
-        "isValidated": false,
-        "validatedBy": null,
-        "validationDate": null,
-        "ratingStatus": "Pending Validation",
-        "activeRecommendation": null
-      }
+        "isValidated": true,
+        "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
+        "validationDate": "2026-09-26",
+        "ratingStatus": "Validated",
+        "activeRecommendation": {
+          "actionType": "Reduce Workload & Shift Duty Cap",
+          "suggestedAction": "Immediately cap night patrol duty to maximum 4 shifts per month; withdraw from frontline weapon-bearing posts for 7-day rest rotation.",
+          "severityLevel": "Critical",
+          "notes": "Severe operational circadian exhaustion observed. Capping workload will facilitate REM sleep restoration and autonomic recovery.",
+          "dispatchedAt": "2026-09-26 09:43:30",
+          "status": "Approved & Sanctioned",
+          "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "approvedAt": "2026-09-26 09:43:48",
+          "decisionNotes": "Approved and sanctioned as advised by Welfare Officer."
+        },
+        "validationNotes": "Stress rating reviewed and verified against field duty roster and biometric telemetry."
+      },
+      "liveStressLevel": 80
     },
     {
       "id": "NSG-10204",
@@ -1005,19 +1046,19 @@
       "age": 35,
       "yearsInService": 13,
       "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 39,
-      "stressRiskLevel": "Critical",
-      "riskScore": 87,
+      "wellbeingPercentage": 21,
+      "stressRiskLevel": "High",
+      "riskScore": 79,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-05-04",
         "voluntaryBiometrics": true
       },
       "hrIndicators": {
-        "daysSinceLastLeave": 215,
+        "daysSinceLastLeave": 0,
         "consecutiveFieldDays": 230,
-        "leaveApplicationsPending": 2,
-        "leaveSanctionedDaysYear": 12,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 26,
         "leaveEntitlementRemaining": 48,
         "nightDutyShiftsPastMonth": 19,
         "averageSleepHours": 4.4,
@@ -1053,7 +1094,15 @@
         "Sanction 18 days emergency flood rehabilitation leave",
         "Financial grant from BSF Central Welfare Fund for house repairs"
       ],
-      "actionHistory": [],
+      "actionHistory": [
+        {
+          "actionType": "Commander Sanction: Sanction 14-Day Compassionate Leave",
+          "notes": "Approved Welfare Advisory: Sanction 14-day priority compassionate leave to Rohtak/home station with travel allowance clearance.. Decision Notes: Approved and sanctioned as advised by Welfare Officer.",
+          "dispatchedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "timestamp": "2026-09-26 03:54:22",
+          "status": "Sanctioned"
+        }
+      ],
       "treatmentHistory": [
         {
           "treatmentId": "TRT-99104-01",
@@ -1071,12 +1120,24 @@
         }
       ],
       "welfareAdvisory": {
-        "isValidated": false,
-        "validatedBy": null,
-        "validationDate": null,
-        "ratingStatus": "Pending Validation",
-        "activeRecommendation": null
-      }
+        "isValidated": true,
+        "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
+        "validationDate": "2026-09-26",
+        "ratingStatus": "Validated",
+        "activeRecommendation": {
+          "actionType": "Sanction 14-Day Compassionate Leave",
+          "suggestedAction": "Sanction 14-day priority compassionate leave to Rohtak/home station with travel allowance clearance.",
+          "severityLevel": "Critical",
+          "notes": "High leave deficit (215 days overdue) causing acute sleep fragmentation. Sanctioning leave will restore autonomic balance.",
+          "dispatchedAt": "2026-09-26 03:53:42",
+          "status": "Approved & Sanctioned",
+          "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "approvedAt": "2026-09-26 03:54:22",
+          "decisionNotes": "Approved and sanctioned as advised by Welfare Officer."
+        },
+        "validationNotes": "Stress rating reviewed and verified against field duty roster and biometric telemetry."
+      },
+      "liveStressLevel": 79
     },
     {
       "id": "ITBP-41092",
@@ -1405,7 +1466,15 @@
         "Sanction 25-day Paternity & Special Welfare Leave with direct air transit clearance",
         "Executive medical check-up at AIIMS New Delhi en route"
       ],
-      "actionHistory": [],
+      "actionHistory": [
+        {
+          "actionType": "Schedule Urgent Medical Officer Counseling",
+          "notes": "Commander Dashboard Direct Dispatch",
+          "dispatchedBy": "Commanding Officer / Welfare Cell",
+          "timestamp": "2026-09-26 03:53:00",
+          "status": "Initiated"
+        }
+      ],
       "treatmentHistory": [
         {
           "treatmentId": "TRT-CRPF-12001-1829",
@@ -1424,11 +1493,12 @@
       ],
       "liveStressLevel": 97,
       "welfareAdvisory": {
-        "isValidated": false,
-        "validatedBy": null,
-        "validationDate": null,
-        "ratingStatus": "Pending Validation",
-        "activeRecommendation": null
+        "isValidated": true,
+        "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
+        "validationDate": "2026-09-26",
+        "ratingStatus": "Validated",
+        "activeRecommendation": null,
+        "validationNotes": "Stress rating reviewed and verified against field duty roster and biometric telemetry."
       }
     },
     {
@@ -1642,9 +1712,9 @@
       "age": 36,
       "yearsInService": 15,
       "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 47,
+      "wellbeingPercentage": 31,
       "stressRiskLevel": "High",
-      "riskScore": 72,
+      "riskScore": 69,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-06-25",
@@ -1656,15 +1726,15 @@
         "leaveApplicationsPending": 1,
         "leaveSanctionedDaysYear": 15,
         "leaveEntitlementRemaining": 45,
-        "nightDutyShiftsPastMonth": 16,
+        "nightDutyShiftsPastMonth": 10,
         "averageSleepHours": 5.1,
         "restRecoveryScore": 43,
         "hardshipTenureMonths": 14,
         "familyEmergencyStatus": "Teenage daughter hospitalized with severe dengue in Aizawl"
       },
       "biometrics": {
-        "restingHeartRate": 77,
-        "hrvMs": 37,
+        "restingHeartRate": 72,
+        "hrvMs": 47,
         "sleepQuality": "Moderate",
         "dailySteps": 19200,
         "bloodPressure": "130/84"
@@ -1688,15 +1758,35 @@
         "Expedite 14-day emergency compassionate leave to visit daughter",
         "Knee joint orthopaedic check-up at Base Hospital"
       ],
-      "actionHistory": [],
+      "actionHistory": [
+        {
+          "actionType": "Commander Sanction: Arrange 1-to-1 Personal Care for 3-5 Days",
+          "notes": "Approved Welfare Advisory: Assign trusted senior buddy and Unit Welfare Officer for daily 1-to-1 personal care check-ins and operational decompression over the next 5 days.. Decision Notes: Approved and sanctioned as advised by Welfare Officer.",
+          "dispatchedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "timestamp": "2026-09-26 03:54:30",
+          "status": "Sanctioned"
+        }
+      ],
       "treatmentHistory": [],
       "welfareAdvisory": {
-        "isValidated": false,
-        "validatedBy": null,
-        "validationDate": null,
-        "ratingStatus": "Pending Validation",
-        "activeRecommendation": null
-      }
+        "isValidated": true,
+        "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
+        "validationDate": "2026-09-26",
+        "ratingStatus": "Validated",
+        "activeRecommendation": {
+          "actionType": "Arrange 1-to-1 Personal Care for 3-5 Days",
+          "suggestedAction": "Assign trusted senior buddy and Unit Welfare Officer for daily 1-to-1 personal care check-ins and operational decompression over the next 5 days.",
+          "severityLevel": "Critical",
+          "notes": "Soldier exhibiting symptoms of acute post-incident stress and emotional isolation. 1-to-1 dedicated personal care protocol advised.",
+          "dispatchedAt": "2026-09-26 03:53:58",
+          "status": "Approved & Sanctioned",
+          "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "approvedAt": "2026-09-26 03:54:30",
+          "decisionNotes": "Approved and sanctioned as advised by Welfare Officer."
+        },
+        "validationNotes": "Stress rating reviewed and verified against field duty roster and biometric telemetry."
+      },
+      "liveStressLevel": 69
     },
     {
       "id": "CRPF-55102",
@@ -2041,19 +2131,19 @@
       "age": 31,
       "yearsInService": 10,
       "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 35,
+      "wellbeingPercentage": 19,
       "stressRiskLevel": "Critical",
-      "riskScore": 91,
+      "riskScore": 81,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-05-02",
         "voluntaryBiometrics": true
       },
       "hrIndicators": {
-        "daysSinceLastLeave": 235,
+        "daysSinceLastLeave": 0,
         "consecutiveFieldDays": 250,
-        "leaveApplicationsPending": 2,
-        "leaveSanctionedDaysYear": 8,
+        "leaveApplicationsPending": 0,
+        "leaveSanctionedDaysYear": 22,
         "leaveEntitlementRemaining": 52,
         "nightDutyShiftsPastMonth": 20,
         "averageSleepHours": 4.1,
@@ -2090,7 +2180,15 @@
         "Stand down from jungle ambush operations immediately",
         "Battalion psychologist debrief before travel to railhead"
       ],
-      "actionHistory": [],
+      "actionHistory": [
+        {
+          "actionType": "Commander Sanction: Sanction Leave & Decompression",
+          "notes": "Approved Welfare Advisory: Sanction 20 days special compassionate leave and rotate out of jungle patrol operations.. Decision Notes: Approved and sanctioned as advised by Welfare Officer.",
+          "dispatchedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "timestamp": "2026-09-26 03:48:41",
+          "status": "Sanctioned"
+        }
+      ],
       "treatmentHistory": [
         {
           "treatmentId": "TRT-33019-01",
@@ -2118,9 +2216,13 @@
           "severityLevel": "Critical",
           "notes": "Overdue leave by 210 days; mother critical illness in Gaya. Persistent combat hypervigilance.",
           "dispatchedAt": "2026-09-24 16:20",
-          "status": "Pending Commander Approval"
+          "status": "Approved & Sanctioned",
+          "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
+          "approvedAt": "2026-09-26 03:48:41",
+          "decisionNotes": "Approved and sanctioned as advised by Welfare Officer."
         }
-      }
+      },
+      "liveStressLevel": 81
     }
   ],
   "unitStats": {

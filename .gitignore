@@ -12,6 +12,17 @@ __pycache__/
 *.env
 venv/
 ENV/
+.venv/
+*.html
+!index.html
+scratch_*.py
+check_*.py
+parse_*.py
+inspect_*.py
+test_*.py
+extracted_dataset/
+*.jsonl
+
 
 # IDE & OS
 .vscode/
