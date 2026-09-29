@@ -27,7 +27,7 @@
         "leaveSanctionedDaysYear": 72,
         "leaveEntitlementRemaining": 48,
         "nightDutyShiftsPastMonth": 18,
-        "averageSleepHours": 3.5,
+        "averageSleepHours": 5.5,
         "restRecoveryScore": 32,
         "hardshipTenureMonths": 16,
         "familyEmergencyStatus": "Father hospitalized with renal failure in Rohtak"
@@ -41,13 +41,14 @@
       },
       "selfAssessment": {
         "lastCheckin": "2026-09-29",
-        "moodScore": 1.0,
-        "exhaustionLevel": "Critical",
-        "familyWorryScore": 9.0,
+        "moodScore": 2.0,
+        "exhaustionLevel": "Moderate",
+        "familyWorryScore": 4.0,
         "reportedSymptoms": [
-          "Severe Insomnia",
-          "Tremors",
-          "Hyper-Vigilance"
+          "Border Patrol Fatigue",
+          "Family Separation / Worry",
+          "Extreme Climate / Hypoxia",
+          "Overdue Leave Anxiety"
         ]
       },
       "aiRiskFactors": [
@@ -100,6 +101,33 @@
       ],
       "treatmentHistory": [
         {
+          "treatmentId": "TRT-1790625284",
+          "modality": "1-on-1 Clinical Counseling (Trauma-Informed CBT)",
+          "status": "Undergoing Treatment",
+          "date": "2026-09-29 01:24",
+          "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+          "notes": "Acute combat exhaustion. Initiating trauma-informed CBT sessions.",
+          "stressLevelAtTreatment": 98
+        },
+        {
+          "treatmentId": "TRT-1790623272",
+          "modality": "Clinical Therapy Sessions & Supervised Biofeedback",
+          "status": "Undergoing Treatment",
+          "date": "2026-09-29 00:51",
+          "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+          "notes": "Acute combat exhaustion. Initiating trauma-informed CBT sessions.",
+          "stressLevelAtTreatment": 98
+        },
+        {
+          "treatmentId": "TRT-1790623205",
+          "modality": "1-on-1 Clinical Counseling (Trauma-Informed CBT)",
+          "status": "Undergoing Treatment",
+          "date": "2026-09-29 00:50",
+          "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+          "notes": "Acute combat exhaustion. Initiating trauma-informed CBT sessions.",
+          "stressLevelAtTreatment": 98
+        },
+        {
           "treatmentId": "TRT-94821-01",
           "treatmentName": "Intensive 1-on-1 Clinical Counseling & Trauma CBT",
           "category": "Clinical Counseling",
@@ -128,7 +156,9 @@
           "severityLevel": "Critical",
           "notes": "210 days without leave combined with father in ICU in Bihar. High risk of burnout and severe sleep fragmentation.",
           "dispatchedAt": "2026-09-25 11:30",
-          "status": "Pending Commander Approval"
+          "status": "Approved & Sanctioned",
+          "approvedAt": "2026-09-29 00:53",
+          "approvedBy": "Col. Virendra Saxena"
         },
         "validationNotes": "Stress rating reviewed and clinically verified against duty logs."
       },
@@ -148,7 +178,54 @@
         ],
         "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
       },
-      "stressClassification": "Immediate Priority"
+      "stressClassification": "Immediate Priority",
+      "modelConfidence": 1.0,
+      "medicalTreatment": {
+        "treatmentRequired": {
+          "priority": "Immediate Priority",
+          "priorityClass": "immediate",
+          "threshold": "70% and higher",
+          "badgeColor": "#ef4444",
+          "modalities": [
+            "Emergency Psychiatric Consultation & Clinical Evaluation",
+            "Acute Clinical Decompression Therapy (In-Clinic)",
+            "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+            "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+            "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+          ],
+          "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+        },
+        "prescribedModality": "1-on-1 Clinical Counseling (Trauma-Informed CBT)",
+        "status": "Undergoing Treatment",
+        "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+        "prescribedDate": "2026-09-29 01:24",
+        "clinicalNotes": "Acute combat exhaustion. Initiating trauma-informed CBT sessions.",
+        "reportedToWelfare": true,
+        "reportedToWelfareAt": "2026-09-29 01:24"
+      },
+      "welfareCommanderReporting": {
+        "reportedToCommander": true,
+        "reportedAt": "2026-09-29 01:17",
+        "personnelStatus": "Undergoing Treatment",
+        "absenceReported": true,
+        "absenceDays": 5,
+        "absenceReason": "Clinical Therapy Decompression Mandate",
+        "notes": "Immediate critical duty relief",
+        "commanderApproved": true,
+        "reportedBy": "Maj. Sunita Rao (Unit Welfare Officer)",
+        "approvedAt": "2026-09-29 01:38",
+        "approvedBy": "Col. Virendra Saxena (Commanding Officer)"
+      },
+      "directEmergencyReferral": {
+        "isDirectReferral": true,
+        "bypassedCommander": true,
+        "referredAt": "2026-09-29 00:50",
+        "stressLevel": 98,
+        "reason": "Emergency stress > 85% — Direct clinical referral to MO without Commander pre-approval",
+        "notes": "Emergency stress 98% > 85%. Immediate clinical escalation without prior Commander report.",
+        "status": "Escalated to MO (Immediate Clinical Intake)",
+        "referredBy": "Maj. Sunita Rao (Unit Welfare Officer)"
+      }
     },
     {
       "id": "BSF-44120",
@@ -162,9 +239,9 @@
       "age": 38,
       "yearsInService": 17,
       "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 29,
-      "stressRiskLevel": "High",
-      "riskScore": 71,
+      "wellbeingPercentage": 5,
+      "stressRiskLevel": "Critical",
+      "riskScore": 98,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-07-15",
@@ -226,6 +303,15 @@
       ],
       "treatmentHistory": [
         {
+          "treatmentId": "TRT-1790626254",
+          "modality": "1-on-1 Clinical Counseling (Trauma-Informed CBT)",
+          "status": "Undergoing Treatment",
+          "date": "2026-09-29 01:40",
+          "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+          "notes": "Clinical triage indicated Immediate Priority. Prescribed Emergency Psychiatric Consultation & Clinical Evaluation for stress stabilization.",
+          "stressLevelAtTreatment": 98
+        },
+        {
           "treatmentId": "TRT-44120-01",
           "treatmentName": "Trauma-Informed CBT & Autonomic Grounding Protocol",
           "category": "Psychotherapy",
@@ -249,18 +335,80 @@
         "validationDate": "2026-09-26",
         "ratingStatus": "Validated",
         "activeRecommendation": {
-          "actionType": "Reduce Workload & Shift Cap",
-          "suggestedAction": "Cap night patrol duties to max 3 per month and remove from desert perimeter ambush rotations.",
+          "actionType": "Sanction Emergency Leave & 1-to-1 Personal Care",
           "severityLevel": "High",
-          "notes": "Extreme thermal fatigue from 48-degree Jaisalmer summer patrol.",
-          "dispatchedAt": "2026-09-26 03:44:31",
+          "suggestedAction": "Sanction 14-day emergency compassionate leave immediately; arrange dedicated sub-unit buddy for 1-to-1 personal care & debrief for 3 days prior to departure.",
+          "notes": "Soldier has reached 185 days without leave with active distress flags (Agricultural land dispute back home in Alwar). Immediate compassionate home leave and peer support are necessary to prevent crisis.",
           "status": "Approved & Sanctioned",
-          "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
-          "approvedAt": "2026-09-26 03:44:37",
-          "decisionNotes": "Approved as recommended by Welfare Officer. Shift cap enacted immediately."
+          "timestamp": "2026-09-29 00:52",
+          "approvedAt": "2026-09-29 00:53",
+          "approvedBy": "Col. Virendra Saxena"
         }
       },
-      "liveStressLevel": 71
+      "liveStressLevel": 98,
+      "treatmentPriority": "Immediate Priority",
+      "treatmentRequired": {
+        "priority": "Immediate Priority",
+        "priorityClass": "immediate",
+        "threshold": "70% and higher",
+        "badgeColor": "#ef4444",
+        "modalities": [
+          "Emergency Psychiatric Consultation & Clinical Evaluation",
+          "Acute Clinical Decompression Therapy (In-Clinic)",
+          "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+          "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+          "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+        ],
+        "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+      },
+      "stressClassification": "Immediate Priority",
+      "modelConfidence": 1.0,
+      "medicalTreatment": {
+        "treatmentRequired": {
+          "priority": "Immediate Priority",
+          "priorityClass": "immediate",
+          "threshold": "70% and higher",
+          "badgeColor": "#ef4444",
+          "modalities": [
+            "Emergency Psychiatric Consultation & Clinical Evaluation",
+            "Acute Clinical Decompression Therapy (In-Clinic)",
+            "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+            "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+            "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+          ],
+          "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+        },
+        "prescribedModality": "1-on-1 Clinical Counseling (Trauma-Informed CBT)",
+        "status": "Undergoing Treatment",
+        "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+        "prescribedDate": "2026-09-29 01:40",
+        "clinicalNotes": "Clinical triage indicated Immediate Priority. Prescribed Emergency Psychiatric Consultation & Clinical Evaluation for stress stabilization.",
+        "reportedToWelfare": true,
+        "reportedToWelfareAt": "2026-09-29 01:40"
+      },
+      "welfareCommanderReporting": {
+        "reportedToCommander": true,
+        "reportedAt": "2026-09-29 00:50",
+        "personnelStatus": "Undergoing Treatment",
+        "absenceReported": true,
+        "absenceDays": 5,
+        "absenceReason": "Base Hospital Counseling and Cognitive Recovery",
+        "notes": "Personnel relieved from night patrol for 5 days.",
+        "commanderApproved": true,
+        "reportedBy": "Maj. Sunita Rao (Unit Welfare Officer)",
+        "approvedAt": "2026-09-29 00:50",
+        "approvedBy": "Col. Virendra Saxena (Commanding Officer)"
+      },
+      "directEmergencyReferral": {
+        "isDirectReferral": true,
+        "bypassedCommander": true,
+        "referredAt": "2026-09-28 15:45",
+        "stressLevel": 98,
+        "reason": "Emergency stress > 85% — Direct clinical referral to MO without Commander pre-approval",
+        "notes": "Immediate clinical intervention requested by Welfare Officer due to severe critical stress exceeding 85%.",
+        "status": "Escalated to MO (Immediate Clinical Intake)",
+        "referredBy": "Maj. Sunita Rao (Unit Welfare Officer)"
+      }
     },
     {
       "id": "ITBP-88192",
@@ -414,7 +562,7 @@
       "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80",
       "wellbeingPercentage": 5,
       "stressRiskLevel": "Critical",
-      "riskScore": 95,
+      "riskScore": 98,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-04-10",
@@ -507,7 +655,7 @@
           "reportedBackToMO": false
         }
       ],
-      "liveStressLevel": 95,
+      "liveStressLevel": 98,
       "welfareAdvisory": {
         "isValidated": true,
         "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
@@ -519,8 +667,72 @@
           "severityLevel": "Critical",
           "notes": "Recent counter-insurgency cross-border engagement. Critical physiological stress index (98%). Immediate personal care and close observation required.",
           "dispatchedAt": "2026-09-26 01:15",
-          "status": "Pending Commander Approval"
+          "status": "Approved & Sanctioned",
+          "approvedAt": "2026-09-29 00:53",
+          "approvedBy": "Col. Virendra Saxena"
         }
+      },
+      "treatmentPriority": "Immediate Priority",
+      "treatmentRequired": {
+        "priority": "Immediate Priority",
+        "priorityClass": "immediate",
+        "threshold": "70% and higher",
+        "badgeColor": "#ef4444",
+        "modalities": [
+          "Emergency Psychiatric Consultation & Clinical Evaluation",
+          "Acute Clinical Decompression Therapy (In-Clinic)",
+          "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+          "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+          "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+        ],
+        "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+      },
+      "stressClassification": "Immediate Priority",
+      "modelConfidence": 1.0,
+      "medicalTreatment": {
+        "treatmentRequired": {
+          "priority": "Immediate Priority",
+          "priorityClass": "immediate",
+          "threshold": "70% and higher",
+          "badgeColor": "#ef4444",
+          "modalities": [
+            "Emergency Psychiatric Consultation & Clinical Evaluation",
+            "Acute Clinical Decompression Therapy (In-Clinic)",
+            "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+            "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+            "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+          ],
+          "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+        },
+        "prescribedModality": "Emergency Psychiatric Consultation & Clinical Evaluation",
+        "status": "Undergoing Treatment",
+        "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+        "prescribedDate": "2026-09-28 11:30",
+        "clinicalNotes": "Clinical triage indicated Immediate Priority. Prescribed Emergency Psychiatric Consultation & Clinical Evaluation for stress stabilization.",
+        "reportedToWelfare": true,
+        "reportedToWelfareAt": "2026-09-28 11:35"
+      },
+      "welfareCommanderReporting": {
+        "reportedToCommander": true,
+        "reportedAt": "2026-09-29 01:41",
+        "personnelStatus": "Undergoing Treatment",
+        "absenceReported": true,
+        "requestMode": "report",
+        "absenceDays": 5,
+        "absenceReason": "Base Hospital Clinical Care (Emergency Psychiatric Consultation & Clinical Evaluation)",
+        "notes": "Personnel has critical stress (98% > 80%). Relieved for in-clinic medical decompression. Sub-unit buddy assigned to cover duty shifts.",
+        "commanderApproved": true,
+        "reportedBy": "Maj. Sunita Rao (Unit Welfare Officer)"
+      },
+      "directEmergencyReferral": {
+        "isDirectReferral": true,
+        "bypassedCommander": true,
+        "referredAt": "2026-09-28 15:45",
+        "stressLevel": 98,
+        "reason": "Emergency stress > 85% — Direct clinical referral to MO without Commander pre-approval",
+        "notes": "Immediate clinical intervention requested by Welfare Officer due to severe critical stress exceeding 85%.",
+        "status": "Escalated to MO (Immediate Clinical Intake)",
+        "referredBy": "Maj. Sunita Rao (Unit Welfare Officer)"
       }
     },
     {
@@ -667,9 +879,9 @@
       "age": 37,
       "yearsInService": 15,
       "photo": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 41,
-      "stressRiskLevel": "High",
-      "riskScore": 78,
+      "wellbeingPercentage": 5,
+      "stressRiskLevel": "Critical",
+      "riskScore": 98,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-05-12",
@@ -723,6 +935,71 @@
         "validationDate": null,
         "ratingStatus": "Pending Validation",
         "activeRecommendation": null
+      },
+      "liveStressLevel": 98,
+      "treatmentPriority": "Immediate Priority",
+      "treatmentRequired": {
+        "priority": "Immediate Priority",
+        "priorityClass": "immediate",
+        "threshold": "70% and higher",
+        "badgeColor": "#ef4444",
+        "modalities": [
+          "Emergency Psychiatric Consultation & Clinical Evaluation",
+          "Acute Clinical Decompression Therapy (In-Clinic)",
+          "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+          "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+          "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+        ],
+        "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+      },
+      "stressClassification": "Immediate Priority",
+      "modelConfidence": 1.0,
+      "medicalTreatment": {
+        "treatmentRequired": {
+          "priority": "Immediate Priority",
+          "priorityClass": "immediate",
+          "threshold": "70% and higher",
+          "badgeColor": "#ef4444",
+          "modalities": [
+            "Emergency Psychiatric Consultation & Clinical Evaluation",
+            "Acute Clinical Decompression Therapy (In-Clinic)",
+            "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+            "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+            "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+          ],
+          "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+        },
+        "prescribedModality": "Emergency Psychiatric Consultation & Clinical Evaluation",
+        "status": "Undergoing Treatment",
+        "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+        "prescribedDate": "2026-09-28 11:30",
+        "clinicalNotes": "Clinical triage indicated Immediate Priority. Prescribed Emergency Psychiatric Consultation & Clinical Evaluation for stress stabilization.",
+        "reportedToWelfare": true,
+        "reportedToWelfareAt": "2026-09-28 11:35"
+      },
+      "welfareCommanderReporting": {
+        "reportedToCommander": true,
+        "reportedAt": "2026-09-28 14:15",
+        "personnelStatus": "Undergoing Treatment",
+        "absenceReported": true,
+        "requestMode": "report",
+        "absenceDays": 5,
+        "absenceReason": "Clinical Medical Treatment (Emergency Psychiatric Consultation & Clinical Evaluation) at Base Hospital",
+        "notes": "Personnel relieved from field duty as advised by Medical Officer.",
+        "commanderApproved": true,
+        "approvedAt": "2026-09-29 01:39",
+        "reportedBy": "Maj. Sunita Rao (Unit Welfare Officer)",
+        "approvedBy": "Col. Virendra Saxena (Commanding Officer)"
+      },
+      "directEmergencyReferral": {
+        "isDirectReferral": true,
+        "bypassedCommander": true,
+        "referredAt": "2026-09-28 15:45",
+        "stressLevel": 98,
+        "reason": "Emergency stress > 85% — Direct clinical referral to MO without Commander pre-approval",
+        "notes": "Immediate clinical intervention requested by Welfare Officer due to severe critical stress exceeding 85%.",
+        "status": "Escalated to MO (Immediate Clinical Intake)",
+        "referredBy": "Maj. Sunita Rao (Unit Welfare Officer)"
       }
     },
     {
@@ -803,9 +1080,9 @@
       "age": 42,
       "yearsInService": 21,
       "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 48,
-      "stressRiskLevel": "High",
-      "riskScore": 69,
+      "wellbeingPercentage": 5,
+      "stressRiskLevel": "Critical",
+      "riskScore": 98,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-06-15",
@@ -858,6 +1135,71 @@
         "validationDate": null,
         "ratingStatus": "Pending Validation",
         "activeRecommendation": null
+      },
+      "liveStressLevel": 98,
+      "treatmentPriority": "Immediate Priority",
+      "treatmentRequired": {
+        "priority": "Immediate Priority",
+        "priorityClass": "immediate",
+        "threshold": "70% and higher",
+        "badgeColor": "#ef4444",
+        "modalities": [
+          "Emergency Psychiatric Consultation & Clinical Evaluation",
+          "Acute Clinical Decompression Therapy (In-Clinic)",
+          "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+          "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+          "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+        ],
+        "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+      },
+      "stressClassification": "Immediate Priority",
+      "modelConfidence": 1.0,
+      "medicalTreatment": {
+        "treatmentRequired": {
+          "priority": "Immediate Priority",
+          "priorityClass": "immediate",
+          "threshold": "70% and higher",
+          "badgeColor": "#ef4444",
+          "modalities": [
+            "Emergency Psychiatric Consultation & Clinical Evaluation",
+            "Acute Clinical Decompression Therapy (In-Clinic)",
+            "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+            "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+            "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+          ],
+          "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+        },
+        "prescribedModality": "Emergency Psychiatric Consultation & Clinical Evaluation",
+        "status": "Undergoing Treatment",
+        "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+        "prescribedDate": "2026-09-28 11:30",
+        "clinicalNotes": "Clinical triage indicated Immediate Priority. Prescribed Emergency Psychiatric Consultation & Clinical Evaluation for stress stabilization.",
+        "reportedToWelfare": true,
+        "reportedToWelfareAt": "2026-09-28 11:35"
+      },
+      "welfareCommanderReporting": {
+        "reportedToCommander": true,
+        "reportedAt": "2026-09-28 14:15",
+        "personnelStatus": "Undergoing Treatment",
+        "absenceReported": true,
+        "requestMode": "report",
+        "absenceDays": 5,
+        "absenceReason": "Clinical Medical Treatment (Emergency Psychiatric Consultation & Clinical Evaluation) at Base Hospital",
+        "notes": "Personnel relieved from field duty as advised by Medical Officer.",
+        "commanderApproved": true,
+        "approvedAt": "2026-09-29 01:39",
+        "reportedBy": "Maj. Sunita Rao (Unit Welfare Officer)",
+        "approvedBy": "Col. Virendra Saxena (Commanding Officer)"
+      },
+      "directEmergencyReferral": {
+        "isDirectReferral": true,
+        "bypassedCommander": true,
+        "referredAt": "2026-09-28 15:45",
+        "stressLevel": 98,
+        "reason": "Emergency stress > 85% — Direct clinical referral to MO without Commander pre-approval",
+        "notes": "Immediate clinical intervention requested by Welfare Officer due to severe critical stress exceeding 85%.",
+        "status": "Escalated to MO (Immediate Clinical Intake)",
+        "referredBy": "Maj. Sunita Rao (Unit Welfare Officer)"
       }
     },
     {
@@ -1460,9 +1802,9 @@
       "age": 34,
       "yearsInService": 12,
       "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 59,
-      "stressRiskLevel": "Moderate",
-      "riskScore": 51,
+      "wellbeingPercentage": 25,
+      "stressRiskLevel": "High",
+      "riskScore": 75,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-07-11",
@@ -1506,13 +1848,94 @@
         "Mandatory 7-day decompression leave post-patrol"
       ],
       "actionHistory": [],
-      "treatmentHistory": [],
+      "treatmentHistory": [
+        {
+          "treatmentId": "TRT-1790623445",
+          "modality": "Clinical Therapy Sessions & Supervised Biofeedback",
+          "status": "Treated",
+          "date": "2026-09-29 00:54",
+          "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+          "notes": "Clinical triage indicated Immediate Priority. Prescribed Emergency Psychiatric Consultation & Clinical Evaluation for stress stabilization.",
+          "stressLevelAtTreatment": 75
+        }
+      ],
       "welfareAdvisory": {
-        "isValidated": false,
-        "validatedBy": null,
+        "isValidated": true,
+        "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
         "validationDate": null,
         "ratingStatus": "Pending Validation",
-        "activeRecommendation": null
+        "activeRecommendation": {
+          "actionType": "Reduce Workload & Shift Duty Cap",
+          "severityLevel": "High",
+          "suggestedAction": "Immediately cap night patrol duty to maximum 4 shifts per month; withdraw from frontline weapon-bearing posts for 7-day rest rotation.",
+          "notes": "Severe operational circadian exhaustion observed. Capping workload will facilitate REM sleep restoration and autonomic recovery.",
+          "status": "Pending Commander Approval",
+          "timestamp": "2026-09-29 00:54"
+        }
+      },
+      "liveStressLevel": 75,
+      "treatmentPriority": "Immediate Priority",
+      "treatmentRequired": {
+        "priority": "Immediate Priority",
+        "priorityClass": "immediate",
+        "threshold": "70% and higher",
+        "badgeColor": "#ef4444",
+        "modalities": [
+          "Emergency Psychiatric Consultation & Clinical Evaluation",
+          "Acute Clinical Decompression Therapy (In-Clinic)",
+          "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+          "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+          "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+        ],
+        "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+      },
+      "stressClassification": "Immediate Priority",
+      "modelConfidence": 0.8598,
+      "medicalTreatment": {
+        "treatmentRequired": {
+          "priority": "Immediate Priority",
+          "priorityClass": "immediate",
+          "threshold": "70% and higher",
+          "badgeColor": "#ef4444",
+          "modalities": [
+            "Emergency Psychiatric Consultation & Clinical Evaluation",
+            "Acute Clinical Decompression Therapy (In-Clinic)",
+            "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+            "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+            "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+          ],
+          "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+        },
+        "prescribedModality": "Clinical Therapy Sessions & Supervised Biofeedback",
+        "status": "Treated",
+        "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+        "prescribedDate": "2026-09-29 00:54",
+        "clinicalNotes": "Clinical triage indicated Immediate Priority. Prescribed Emergency Psychiatric Consultation & Clinical Evaluation for stress stabilization.",
+        "reportedToWelfare": true,
+        "reportedToWelfareAt": "2026-09-29 00:54"
+      },
+      "welfareCommanderReporting": {
+        "reportedToCommander": true,
+        "reportedAt": "2026-09-28 14:15",
+        "personnelStatus": "Treated",
+        "absenceReported": true,
+        "absenceDays": 5,
+        "absenceReason": "Clinical Medical Treatment (Emergency Psychiatric Consultation & Clinical Evaluation) at Base Hospital",
+        "notes": "Personnel relieved from field duty as advised by Medical Officer.",
+        "commanderApproved": true,
+        "approvedAt": "2026-09-29 00:55",
+        "reportedBy": "Maj. Sunita Rao (Unit Welfare Officer)",
+        "approvedBy": "Col. Virendra Saxena (Commanding Officer)"
+      },
+      "directEmergencyReferral": {
+        "isDirectReferral": false,
+        "bypassedCommander": false,
+        "referredAt": null,
+        "stressLevel": 75,
+        "reason": "Emergency stress > 85% — Direct clinical referral to MO without Commander pre-approval",
+        "notes": "Immediate clinical intervention requested by Welfare Officer due to severe critical stress exceeding 85%.",
+        "status": "None",
+        "referredBy": null
       }
     },
     {
@@ -1793,9 +2216,9 @@
       "age": 46,
       "yearsInService": 25,
       "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
-      "wellbeingPercentage": 55,
-      "stressRiskLevel": "Moderate",
-      "riskScore": 54,
+      "wellbeingPercentage": 23,
+      "stressRiskLevel": "High",
+      "riskScore": 77,
       "consentStatus": {
         "consented": true,
         "consentDate": "2026-05-19",
@@ -1845,6 +2268,70 @@
         "validationDate": null,
         "ratingStatus": "Pending Validation",
         "activeRecommendation": null
+      },
+      "liveStressLevel": 77,
+      "treatmentPriority": "Immediate Priority",
+      "treatmentRequired": {
+        "priority": "Immediate Priority",
+        "priorityClass": "immediate",
+        "threshold": "70% and higher",
+        "badgeColor": "#ef4444",
+        "modalities": [
+          "Emergency Psychiatric Consultation & Clinical Evaluation",
+          "Acute Clinical Decompression Therapy (In-Clinic)",
+          "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+          "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+          "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+        ],
+        "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+      },
+      "stressClassification": "Immediate Priority",
+      "modelConfidence": 0.9139,
+      "medicalTreatment": {
+        "treatmentRequired": {
+          "priority": "Immediate Priority",
+          "priorityClass": "immediate",
+          "threshold": "70% and higher",
+          "badgeColor": "#ef4444",
+          "modalities": [
+            "Emergency Psychiatric Consultation & Clinical Evaluation",
+            "Acute Clinical Decompression Therapy (In-Clinic)",
+            "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
+            "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
+            "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
+          ],
+          "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
+        },
+        "prescribedModality": "Emergency Psychiatric Consultation & Clinical Evaluation",
+        "status": "Undergoing Treatment",
+        "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
+        "prescribedDate": "2026-09-28 11:30",
+        "clinicalNotes": "Clinical triage indicated Immediate Priority. Prescribed Emergency Psychiatric Consultation & Clinical Evaluation for stress stabilization.",
+        "reportedToWelfare": true,
+        "reportedToWelfareAt": "2026-09-28 11:35"
+      },
+      "welfareCommanderReporting": {
+        "reportedToCommander": true,
+        "reportedAt": "2026-09-29 01:17",
+        "personnelStatus": "Undergoing Treatment",
+        "absenceReported": true,
+        "absenceDays": 3,
+        "absenceReason": "Rotational Mental Health Counseling",
+        "notes": "Permission requested from Commanding Officer",
+        "commanderApproved": true,
+        "reportedBy": "Maj. Sunita Rao (Unit Welfare Officer)",
+        "approvedAt": "2026-09-29 01:17",
+        "approvedBy": "Col. Virendra Saxena (Commanding Officer)"
+      },
+      "directEmergencyReferral": {
+        "isDirectReferral": false,
+        "bypassedCommander": false,
+        "referredAt": null,
+        "stressLevel": 77,
+        "reason": "Emergency stress > 85% — Direct clinical referral to MO without Commander pre-approval",
+        "notes": "Immediate clinical intervention requested by Welfare Officer due to severe critical stress exceeding 85%.",
+        "status": "None",
+        "referredBy": null
       }
     },
     {

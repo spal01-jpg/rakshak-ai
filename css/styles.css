@@ -3293,5 +3293,1353 @@ body {
   margin-top: 1rem;
 }
 
+/* ============================================================== */
+/* MEDICAL OFFICER & MULTI-ROLE ENHANCEMENTS                      */
+/* ============================================================== */
+
+/* 4-Column Role Cards Grid on Landing Page */
+.role-cards-grid.four-col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .role-cards-grid.four-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .role-cards-grid.four-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 5-Column KPI Cards Grid */
+.kpi-cards-grid.five-col {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+  .kpi-cards-grid.five-col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .kpi-cards-grid.five-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Medical Officer Header Banner */
+.medical-console-header-card {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.08), rgba(2, 132, 199, 0.12));
+  border: 1.5px solid rgba(14, 165, 233, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.medical-console-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  max-width: 750px;
+}
+
+.medical-badge-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+}
+
+.medical-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.25rem;
+}
+
+.medical-base-pill {
+  background: rgba(14, 165, 233, 0.15);
+  color: #0284c7;
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.medical-officer-signature-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  padding: 0.65rem 1.1rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Medical Patient Cards Grid */
+.medical-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.medical-patient-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.medical-patient-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.medical-patient-card.critical-border {
+  border-color: rgba(239, 68, 68, 0.45);
+}
+
+.medical-patient-card.high-border {
+  border-color: rgba(249, 115, 22, 0.4);
+}
+
+.medical-patient-card.emergency-escalated {
+  border: 2px solid #ef4444;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.25);
+}
+
+/* Treatment Status Badges */
+.badge-treatment-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  line-height: 1.2;
+}
+
+.badge-treatment-status.undergoing {
+  background: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.badge-treatment-status.treated {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.badge-treatment-status.pending {
+  background: rgba(148, 163, 184, 0.15);
+  color: #64748b;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+/* Emergency Referral Banner on Patient Card */
+.emergency-referral-banner {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(185, 28, 28, 0.15));
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #ef4444;
+  animation: pulseCardBorder 2s infinite ease-in-out;
+}
+
+/* Clinical Modalities Display Pill List */
+.clinical-modalities-box {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.clinical-modalities-box strong {
+  display: block;
+  font-size: 0.76rem;
+  margin-bottom: 0.25rem;
+  color: var(--text-main);
+}
+
+/* Action Buttons for Welfare Officer 85% Rules */
+.btn-emergency-referral {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: center;
+  margin-top: 0.4rem;
+}
+
+.btn-emergency-referral:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-1px);
+}
+
+.btn-welfare-absence {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: center;
+  margin-top: 0.4rem;
+}
+
+.btn-welfare-absence:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  transform: translateY(-1px);
+}
+
+.btn-medical-prescribe {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: #ffffff;
+  border: none;
+  padding: 0.55rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: 0 3px 10px rgba(14, 165, 233, 0.3);
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-medical-prescribe:hover {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  transform: translateY(-1px);
+}
+
+/* Patient Summary Strips inside Modals */
+.medical-modal-patient-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.mmodal-summary-item .mmodal-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.mmodal-summary-item .mmodal-value {
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.mmodal-summary-item .mmodal-value.highlight {
+  color: #ef4444;
+}
+
+.medical-welfare-sync-notice {
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+/* ============================================================ */
+/* INITIALS AVATAR SYSTEM (PHOTOS REMOVED)                      */
+/* ============================================================ */
+.initials-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  user-select: none;
+  flex-shrink: 0;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-family: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.initials-avatar:hover {
+  transform: scale(1.05);
+}
+
+.topbar-initials {
+  width: 38px;
+  height: 38px;
+  font-size: 14px;
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+}
+
+/* ============================================================ */
+/* WELFARE OFFICER SUB-TABS NAVIGATION                          */
+/* ============================================================ */
+.welfare-subtabs-bar {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-card);
+  padding-bottom: 0.75rem;
+  align-items: center;
+}
+
+.welfare-subtab-btn {
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1px solid var(--border-card);
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: all 0.2s ease;
+}
+
+.welfare-subtab-btn:hover {
+  background: var(--bg-card-subtle);
+  color: var(--text-main);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.welfare-subtab-btn.active {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.15), rgba(37, 99, 235, 0.18));
+  color: #0284c7;
+  border: 1.5px solid #0284c7;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2);
+}
+
+[data-theme="tactical-cyber"] .welfare-subtab-btn.active {
+  background: linear-gradient(135deg, rgba(0, 230, 118, 0.12), rgba(0, 230, 118, 0.22));
+  color: #00e676;
+  border-color: #00e676;
+  box-shadow: 0 4px 16px rgba(0, 230, 118, 0.25);
+}
+
+.subtab-count-badge {
+  background: rgba(2, 132, 199, 0.15);
+  color: #0284c7;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.welfare-subtab-btn.active .subtab-count-badge {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+[data-theme="tactical-cyber"] .welfare-subtab-btn.active .subtab-count-badge {
+  background: #00e676;
+  color: #000000;
+}
+
+/* ============================================================ */
+/* APPLICATIONS & TREATMENT LOG BOOK TABLE                      */
+/* ============================================================ */
+.welfare-applications-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+  margin-top: 1rem;
+  scrollbar-width: thin;
+}
+
+.welfare-applications-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.welfare-applications-container::-webkit-scrollbar-track {
+  background: var(--bg-card-subtle);
+  border-radius: 4px;
+}
+
+.welfare-applications-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #0284c7, #2563eb);
+  border-radius: 4px;
+}
+
+.welfare-applications-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+}
+
+.welfare-applications-table thead th {
+  background: var(--bg-card-subtle);
+  color: var(--text-muted);
+  font-weight: 800;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 2px solid var(--border-card);
+  white-space: nowrap;
+}
+
+.welfare-applications-table tbody tr {
+  transition: background 0.15s ease;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.welfare-applications-table tbody tr:hover {
+  background: rgba(2, 132, 199, 0.04);
+}
+
+.welfare-applications-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.welfare-applications-table tbody td {
+  padding: 0.95rem 1.1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-card);
+  font-size: 0.85rem;
+  color: var(--text-main);
+}
+
+/* Stress Threshold Badges (>80% vs <=80%) */
+.badge-threshold-high {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.3px;
+}
+
+.badge-threshold-low {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.72rem;
+}
+
+/* Treatment Status Badges */
+.badge-log-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.badge-log-status.done {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.badge-log-status.pending {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+/* Action Buttons in Ledger Table */
+.btn-ledger-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius-md);
+  font-weight: 800;
+  font-size: 0.76rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.btn-ledger-action.report {
+  background: linear-gradient(135deg, #ea580c, #dc2626);
+  color: #ffffff;
+}
+
+.btn-ledger-action.report:hover {
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);
+}
+
+.btn-ledger-action.permission {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+}
+
+.btn-ledger-action.permission:hover {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+.ledger-status-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.ledger-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.ledger-status-pill.reported {
+  background: rgba(234, 88, 12, 0.12);
+  color: #ea580c;
+  border: 1px solid rgba(234, 88, 12, 0.3);
+}
+
+.ledger-status-pill.pending {
+  background: rgba(37, 99, 235, 0.12);
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+.ledger-status-pill.approved {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.ledger-sub-text {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+/* ============================================================ */
+/* WELFARE BOTTOM HORIZONTAL SCROLLER                           */
+/* ============================================================ */
+.welfare-bottom-scroller-section {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.welfare-scroller-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.welfare-scroller-title {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.welfare-scroller-title h4 {
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.scroller-pill-tag {
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: rgba(2, 132, 199, 0.12);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.welfare-scroller-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.scroller-hint-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-right: 0.35rem;
+}
+
+.btn-scroller-arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-card);
+  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.btn-scroller-arrow:hover {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+}
+
+.btn-scroller-arrow:active {
+  transform: scale(0.96);
+}
+
+.welfare-horizontal-scroller-track {
+  display: flex;
+  gap: 1.1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  padding: 0.35rem 0.25rem 1rem 0.25rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom Scrollbar for track */
+.welfare-horizontal-scroller-track::-webkit-scrollbar {
+  height: 8px;
+}
+
+.welfare-horizontal-scroller-track::-webkit-scrollbar-track {
+  background: var(--bg-card-subtle);
+  border-radius: 4px;
+}
+
+.welfare-horizontal-scroller-track::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #0284c7, #38bdf8);
+  border-radius: 4px;
+}
+
+.welfare-horizontal-scroller-track::-webkit-scrollbar-thumb:hover {
+  background: #0284c7;
+}
+
+/* Card in Horizontal Scroller */
+.welfare-scroller-card {
+  flex: 0 0 310px;
+  max-width: 310px;
+  scroll-snap-align: start;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.85rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.welfare-scroller-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: rgba(2, 132, 199, 0.4);
+}
+
+.welfare-scroller-card.stress-critical {
+  border-left: 4px solid #ef4444;
+}
+
+.welfare-scroller-card.stress-high {
+  border-left: 4px solid #f97316;
+}
+
+.welfare-scroller-card.stress-mod {
+  border-left: 4px solid #eab308;
+}
+
+.welfare-scroller-card.stress-low {
+  border-left: 4px solid #10b981;
+}
+
+.scroller-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.scroller-card-soldier-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.scroller-card-name {
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scroller-card-sub {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 0.1rem;
+}
+
+.scroller-card-station {
+  font-size: 0.69rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.15rem;
+}
+
+.scroller-card-stress-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.75rem;
+}
+
+.scroller-card-stress-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.scroller-card-stress-val {
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.scroller-card-treatment-box {
+  background: rgba(2, 132, 199, 0.05);
+  border: 1px solid rgba(2, 132, 199, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.75rem;
+  font-size: 0.74rem;
+}
+
+.scroller-treatment-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.scroller-treatment-label {
+  font-weight: 700;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.scroller-treatment-modality {
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scroller-card-action-box {
+  margin-top: auto;
+  padding-top: 0.25rem;
+}
+
+/* ============================================================ */
+/* COMMANDER ROSTER: TREATMENT GIVEN, PERMISSIONS & APPROVALS   */
+/* ============================================================ */
+.commander-treatment-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cmd-treatment-name {
+  font-weight: 700;
+  font-size: 0.84rem;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.cmd-treatment-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.cmd-treatment-notes {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.25;
+  margin-top: 0.1rem;
+}
+
+.commander-permission-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cmd-permission-header {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.cmd-permission-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.cmd-permission-reason {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.25;
+}
+
+.cmd-permission-officer {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Commander Approval Action Buttons */
+.btn-commander-approve-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.74rem;
+  font-weight: 800;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  width: 100%;
+}
+
+.btn-commander-approve-pill.permission {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+}
+
+.btn-commander-approve-pill.permission:hover {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+.btn-commander-approve-pill.notice {
+  background: linear-gradient(135deg, #ea580c, #dc2626);
+  color: #ffffff;
+}
+
+.btn-commander-approve-pill.notice:hover {
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);
+}
+
+.btn-commander-approve-pill.advisory {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+}
+
+.btn-commander-approve-pill.advisory:hover {
+  background: linear-gradient(135deg, #38bdf8, #0284c7);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+.cmd-approval-status-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  align-items: center;
+  text-align: center;
+}
+
+.badge-cmd-approved {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  font-size: 0.72rem;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  white-space: nowrap;
+}
+
+.badge-cmd-approved.notice {
+  background: rgba(2, 132, 199, 0.12);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.35);
+}
+
+.cmd-approval-date {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* ============================================================== */
+/* DOWNLOAD APP & PWA STYLES                                      */
+/* ============================================================== */
+.btn-download-app {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.95rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-download-app:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45);
+}
+
+.btn-download-app.pwa-ready {
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  border-color: rgba(37, 99, 235, 0.4);
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.35);
+}
+
+.auth-badge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.auth-download-app-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border-radius: 20px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-download-app-btn:hover {
+  background: #10b981;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.download-modal-card {
+  max-width: 940px !important;
+  width: 95% !important;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+.download-icon-badge {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #10b981 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.download-options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin: 1.2rem 0;
+}
+
+@media (max-width: 860px) {
+  .download-options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.download-option-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.25s ease;
+}
+
+.download-option-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.download-option-card.highlighted {
+  border-color: #10b981;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.04), transparent);
+}
+
+.option-badge {
+  position: absolute;
+  top: -10px;
+  right: 14px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  background: #10b981;
+  color: #ffffff;
+}
+
+.option-badge.pwa {
+  background: #0284c7;
+}
+
+.option-badge.offline {
+  background: #64748b;
+}
+
+.option-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+.option-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.option-icon.windows {
+  background: rgba(0, 120, 215, 0.15);
+  color: #0078d7;
+  border: 1px solid rgba(0, 120, 215, 0.3);
+}
+
+.option-icon.pwa {
+  background: rgba(139, 92, 246, 0.15);
+  color: #8b5cf6;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.option-icon.offline {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.option-header h4 {
+  font-size: 0.96rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.option-sub {
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.option-desc {
+  font-size: 0.8rem;
+  color: var(--text-main);
+  line-height: 1.45;
+  margin-bottom: 0.9rem;
+  min-height: 52px;
+}
+
+.option-perks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.2rem 0;
+  flex-grow: 1;
+}
+
+.option-perks li {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  margin-bottom: 0.45rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.option-perks li i {
+  color: #10b981;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.download-actions-group {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.btn-download-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 800;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  box-shadow: 0 3px 12px rgba(16, 185, 129, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-download-primary:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px);
+  color: #ffffff;
+}
+
+.btn-download-primary.pwa {
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  box-shadow: 0 3px 12px rgba(2, 132, 199, 0.3);
+}
+
+.btn-download-primary.pwa:hover {
+  background: linear-gradient(135deg, #0369a1, #1d4ed8);
+}
+
+.btn-download-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-size: 0.84rem;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-card);
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.btn-download-secondary:hover {
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.download-mirror-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+
+.btn-download-mirror {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.42rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--bg-main);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-download-mirror:hover {
+  color: var(--text-main);
+  border-color: var(--text-muted);
+}
+
+.download-permanent-info {
+  margin-top: 1.2rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-md);
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+
+
+
+
 
 

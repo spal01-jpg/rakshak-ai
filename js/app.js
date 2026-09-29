@@ -19,6 +19,14 @@ class RakshakApp {
     this.lastCalculatedStressPct = 42;
     this.hasTriggeredStressPopup = false;
 
+    // Medical Officer Console State
+    this.medicalActiveFilter = 'all';
+    this.medicalSortKey = 'stress_desc';
+    this.medicalSearchText = '';
+    this.currentPrescribeTargetPid = null;
+    this.currentAbsenceTargetPid = null;
+    this.currentEmergencyTargetPid = null;
+
     // Welfare Officer Advisory & Validation Console State
     this.welfareActiveFilter = 'all';
     this.welfareSortKey = 'stress_desc';
@@ -48,6 +56,7 @@ class RakshakApp {
 
   async init() {
     this.bindEvents();
+    this.initPwa();
     this.startEcgMonitor();
     await this.fetchPersonnel();
     await this.fetchAnalytics();
@@ -85,6 +94,48 @@ class RakshakApp {
         }
       });
     });
+  }
+
+  // ==========================================================
+  // INITIALS AVATAR ENGINE (ALL PHOTOS REPLACED)
+  // ==========================================================
+  getInitials(name) {
+    if (!name) return 'RA';
+    const clean = name.replace(/^(Havildar|Constable|Inspector|Captain|Major|Col\.|Dr\.|Dr\. Capt\.|Sub-Inspector|Head Constable|Rifleman|Naik Subedar|Assistant Commandant)\s+/i, '').trim();
+    const parts = clean.split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    } else if (parts.length === 1 && parts[0].length >= 2) {
+      return parts[0].substring(0, 2).toUpperCase();
+    } else if (parts.length === 1) {
+      return parts[0][0].toUpperCase();
+    }
+    return 'RA';
+  }
+
+  getInitialsColor(name) {
+    const colors = [
+      'linear-gradient(135deg, #1e3a8a, #3b82f6)', // Deep blue
+      'linear-gradient(135deg, #065f46, #10b981)', // Tactical green
+      'linear-gradient(135deg, #7c2d12, #ea580c)', // Warm bronze/orange
+      'linear-gradient(135deg, #4c1d95, #8b5cf6)', // Royal purple
+      'linear-gradient(135deg, #0f766e, #14b8a6)', // Teal
+      'linear-gradient(135deg, #831843, #ec4899)', // Crimson
+      'linear-gradient(135deg, #1e293b, #475569)', // Slate
+      'linear-gradient(135deg, #15803d, #22c55e)'  // Olive green
+    ];
+    let hash = 0;
+    for (let i = 0; i < (name || '').length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return colors[Math.abs(hash) % colors.length];
+  }
+
+  renderInitialsBadge(name, size = 38, extraClass = '') {
+    const initials = this.getInitials(name);
+    const bg = this.getInitialsColor(name);
+    const fontSize = Math.round(size * 0.42);
+    return `<div class="initials-avatar ${extraClass}" style="width:${size}px; height:${size}px; min-width:${size}px; min-height:${size}px; border-radius:50%; background:${bg}; font-size:${fontSize}px;" title="${name}">${initials}</div>`;
   }
 
   // ==========================================================
@@ -170,7 +221,7 @@ class RakshakApp {
   // AUTH & ROLE DISPATCHER
   // ==========================================================
   selectLoginRole(role, elem) {
-    if (role !== 'soldier' && role !== 'commander' && role !== 'welfare') role = 'soldier';
+    if (role !== 'soldier' && role !== 'commander' && role !== 'welfare' && role !== 'medical') role = 'soldier';
     this.selectedLoginRole = role;
     document.querySelectorAll('.role-card-picker').forEach(c => c.classList.remove('active'));
     if (elem) elem.classList.add('active');
@@ -178,6 +229,7 @@ class RakshakApp {
     const usernameInput = document.getElementById('loginUsernameInput');
     if (usernameInput) {
       if (role === 'soldier') usernameInput.value = 'CRPF-94821 (Rajesh Kumar)';
+      else if (role === 'medical') usernameInput.value = 'MO-02 (Dr. Capt. Ananya Sharma - Base Hospital)';
       else if (role === 'welfare') usernameInput.value = 'WEL-04 (Maj. Sunita Rao - Unit Welfare Officer)';
       else if (role === 'commander') usernameInput.value = 'CMD-01 (Col. Virendra Saxena)';
     }
@@ -185,7 +237,7 @@ class RakshakApp {
 
   handleAuthLogin(roleOverride = null) {
     let role = roleOverride || this.selectedLoginRole;
-    if (role !== 'soldier' && role !== 'commander' && role !== 'welfare') role = 'soldier';
+    if (role !== 'soldier' && role !== 'commander' && role !== 'welfare' && role !== 'medical') role = 'soldier';
     this.selectedLoginRole = role;
     document.getElementById('authLandingView').style.display = 'none';
     document.getElementById('mainAppShell').style.display = 'flex';
@@ -194,6 +246,7 @@ class RakshakApp {
     const navLiHome = document.getElementById('navLiHome');
     const navLiCommander = document.getElementById('navLiCommander');
     const navLiWelfare = document.getElementById('navLiWelfare');
+    const navLiMedical = document.getElementById('navLiMedical');
     const navLiTwin = document.getElementById('navLiTwin');
     const navHomeText = document.querySelector('#navItemHome span');
 
@@ -204,10 +257,22 @@ class RakshakApp {
       if (navLiHome) navLiHome.style.display = 'block';
       if (navLiCommander) navLiCommander.style.display = 'none';
       if (navLiWelfare) navLiWelfare.style.display = 'none';
+      if (navLiMedical) navLiMedical.style.display = 'none';
       if (navLiTwin) navLiTwin.style.display = 'block'; // ONLY PERSONNEL HAS TWIN!
 
       this.navigateToView('soldier');
       this.checkSoldierConsent();
+    } else if (role === 'medical') {
+      // MEDICAL OFFICER VIEW:
+      // Identifies required treatment, prescribes modalities, and reports to Welfare Officer
+      // Strictly no personal check-in or digital twin
+      if (navLiHome) navLiHome.style.display = 'none';
+      if (navLiCommander) navLiCommander.style.display = 'none';
+      if (navLiWelfare) navLiWelfare.style.display = 'none';
+      if (navLiMedical) navLiMedical.style.display = 'block';
+      if (navLiTwin) navLiTwin.style.display = 'none';
+
+      this.navigateToView('medical');
     } else if (role === 'welfare') {
       // WELFARE OFFICER VIEW:
       // Reviews all personnel stress ratings, validates them & advises Commander
@@ -215,6 +280,7 @@ class RakshakApp {
       if (navLiHome) navLiHome.style.display = 'none';
       if (navLiCommander) navLiCommander.style.display = 'none';
       if (navLiWelfare) navLiWelfare.style.display = 'block';
+      if (navLiMedical) navLiMedical.style.display = 'none';
       if (navLiTwin) navLiTwin.style.display = 'none'; // REMOVED FROM ALL EXCEPT PERSONNEL
 
       this.navigateToView('welfare');
@@ -226,6 +292,7 @@ class RakshakApp {
       if (navLiHome) navLiHome.style.display = 'block'; // COMMANDER ALLOWED TO CHECK LIVE STRESS!
       if (navLiCommander) navLiCommander.style.display = 'block';
       if (navLiWelfare) navLiWelfare.style.display = 'none';
+      if (navLiMedical) navLiMedical.style.display = 'none';
       if (navLiTwin) navLiTwin.style.display = 'none'; // REMOVED FROM ALL EXCEPT PERSONNEL
 
       this.navigateToView('commander');
@@ -233,6 +300,7 @@ class RakshakApp {
 
     const roleTitles = {
       soldier: 'PERSONNEL (JAWAN)',
+      medical: 'MEDICAL OFFICER (BASE HOSPITAL)',
       welfare: 'WELFARE OFFICER',
       commander: 'COMMANDING OFFICER'
     };
@@ -248,15 +316,21 @@ class RakshakApp {
 
   navigateToView(viewName) {
     // PERSONNEL DATA PRIVACY PROTECTION:
-    // If logged in as personnel/soldier, deny access to commander operations roster & welfare console!
-    if (this.selectedLoginRole === 'soldier' && (viewName === 'commander' || viewName === 'welfare')) {
-      this.showToast("🔒 Access Restricted: Force roster & welfare advisory backchannel is restricted to Officers.");
+    // If logged in as personnel/soldier, deny access to officer consoles!
+    if (this.selectedLoginRole === 'soldier' && (viewName === 'commander' || viewName === 'welfare' || viewName === 'medical')) {
+      this.showToast("🔒 Access Restricted: Force roster & officer consoles are restricted.");
       return;
     }
 
     // WELFARE OFFICER ACCESS CONTROL:
-    if (this.selectedLoginRole === 'welfare' && (viewName === 'commander' || viewName === 'soldier' || viewName === 'twin')) {
-      this.showToast("🔒 Access Restricted: Operational command & personal check-ins are restricted.");
+    if (this.selectedLoginRole === 'welfare' && (viewName === 'commander' || viewName === 'soldier' || viewName === 'twin' || viewName === 'medical')) {
+      this.showToast("🔒 Access Restricted: Clinical diagnosis & personal check-ins are restricted.");
+      return;
+    }
+
+    // MEDICAL OFFICER ACCESS CONTROL:
+    if (this.selectedLoginRole === 'medical' && (viewName === 'commander' || viewName === 'soldier' || viewName === 'twin' || viewName === 'welfare')) {
+      this.showToast("🔒 Access Restricted: Welfare records & personal check-ins are restricted.");
       return;
     }
 
@@ -287,29 +361,38 @@ class RakshakApp {
     const uRole = document.getElementById('topbarUserRole');
     const checkinGreeting = document.getElementById('checkinGreetingText');
 
+    const setTopbarUser = (name, role, initials, bg) => {
+      if (uName) uName.innerText = name;
+      if (uRole) uRole.innerText = role;
+      if (avatar) {
+        avatar.innerText = initials;
+        if (bg) avatar.style.background = bg;
+      }
+    };
+
     if (viewName === 'soldier') {
       if (this.selectedLoginRole === 'commander') {
         if (title) title.innerText = "Good Morning, Commander Saxena 👋";
         if (subtitle) subtitle.innerText = "Check your personal operational stress level & wellbeing metrics.";
-        if (avatar) avatar.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150";
-        if (uName) uName.innerText = "Col. V. Saxena";
-        if (uRole) uRole.innerText = "Commanding Officer";
+        setTopbarUser("Col. V. Saxena", "Commanding Officer", "VS", "linear-gradient(135deg, #1e293b, #475569)");
         if (checkinGreeting) checkinGreeting.innerText = "How is your operational strain today, Commander?";
       } else {
         if (title) title.innerText = "Good Morning, Rajesh 👋";
         if (subtitle) subtitle.innerText = "Take a moment. Your well-being matters.";
-        if (avatar) avatar.src = "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150";
-        if (uName) uName.innerText = "Rajesh Kumar";
-        if (uRole) uRole.innerText = "Havildar (CRPF)";
+        setTopbarUser("Rajesh Kumar", "Havildar (CRPF)", "RK", "linear-gradient(135deg, #1e3a8a, #3b82f6)");
         if (checkinGreeting) checkinGreeting.innerText = "How are you feeling today, Veer?";
       }
+    } else if (viewName === 'medical') {
+      if (title) title.innerText = "Base Hospital Medical Wing";
+      if (subtitle) subtitle.innerText = "Clinical treatment triage, modality prescription, and welfare synchronization.";
+      setTopbarUser("Dr. Capt. Ananya Sharma", "Senior Medical Officer", "AS", "linear-gradient(135deg, #065f46, #10b981)");
+      this.renderMedicalConsole();
     } else if (viewName === 'welfare') {
       if (title) title.innerText = "Welfare Officer Advisory Console";
-      if (subtitle) subtitle.innerText = "Validate force stress ratings & dispatch action suggestions to Commanding Officer.";
-      if (avatar) avatar.src = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150";
-      if (uName) uName.innerText = "Maj. Sunita Rao";
-      if (uRole) uRole.innerText = "Unit Welfare Officer";
+      if (subtitle) subtitle.innerText = "Applications Log Book: Review treatments, report absence (>80%), and request permission (≤80%).";
+      setTopbarUser("Maj. Sunita Rao", "Unit Welfare Officer", "SR", "linear-gradient(135deg, #4c1d95, #8b5cf6)");
       this.renderWelfareConsole();
+      this.renderWelfareApplicationsTable();
     } else if (viewName === 'twin') {
       if (title) title.innerText = "Digital Welfare Twin";
       if (subtitle) subtitle.innerText = "Multi-dimensional resilience radar & longitudinal trends";
@@ -317,9 +400,7 @@ class RakshakApp {
     } else if (viewName === 'commander') {
       if (title) title.innerText = "Commander Operations Center";
       if (subtitle) subtitle.innerText = "Force-wide stress metrics, leave management, & welfare dispatch";
-      if (avatar) avatar.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150";
-      if (uName) uName.innerText = "Col. V. Saxena";
-      if (uRole) uRole.innerText = "Commanding Officer";
+      setTopbarUser("Col. V. Saxena", "Commanding Officer", "VS", "linear-gradient(135deg, #1e293b, #475569)");
       this.initCommanderCharts();
       this.renderCommanderTable(this.personnelList);
     } else if (viewName === 'resilience') {
@@ -339,6 +420,8 @@ class RakshakApp {
       const res = await fetch('/api/personnel');
       this.personnelList = await res.json();
       this.renderCommanderTable(this.personnelList);
+      if (this.renderWelfareApplicationsTable) this.renderWelfareApplicationsTable();
+      if (this.renderWelfareHorizontalScroller) this.renderWelfareHorizontalScroller();
     } catch(e) {
       console.error("Fetch personnel error", e);
     }
@@ -357,6 +440,14 @@ class RakshakApp {
       if (elCrit) elCrit.innerText = data.criticalCount;
       if (elHigh) elHigh.innerText = data.highRiskCount;
       if (elRead) elRead.innerText = `${data.forceReadinessIndex}%`;
+
+      const list = this.personnelList || [];
+      const undergoingCount = list.filter(p => p.medicalTreatment?.status === 'Undergoing Treatment').length;
+      const pendingApprCount = list.filter(p => p.welfareCommanderReporting?.absenceReported && !p.welfareCommanderReporting?.commanderApproved).length;
+      const elUnder = document.getElementById('kpiUndergoingCare');
+      const elPending = document.getElementById('kpiPendingApprovals');
+      if (elUnder) elUnder.innerText = undergoingCount;
+      if (elPending) elPending.innerText = pendingApprCount;
     } catch(e) {
       console.error("Fetch analytics error", e);
     }
@@ -371,60 +462,132 @@ class RakshakApp {
     tbody.innerHTML = '';
 
     if (!list || list.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--text-muted);">No personnel matched your search criteria.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:2.5rem; color:var(--text-muted);"><div style="font-size:2rem; margin-bottom:0.4rem; color:#94a3b8;"><i class="fas fa-users-slash"></i></div>No personnel matched your filter or search criteria.</td></tr>`;
       return;
     }
 
     list.forEach(p => {
       const tr = document.createElement('tr');
+      const stress = p.liveStressLevel || p.riskScore || 50;
       const riskClass = (p.stressRiskLevel || 'low').toLowerCase();
-      const wbPct = p.wellbeingPercentage || 70;
-      
-      let barColor = '#10b981';
-      if (wbPct < 40) barColor = '#ef4444';
-      else if (wbPct < 70) barColor = '#f97316';
-
       const leaveDays = p.hrIndicators ? p.hrIndicators.daysSinceLastLeave : 45;
       const leaveAlert = leaveDays > 120 ? `style="color:#ef4444; font-weight:700;"` : '';
 
-      // Welfare Advisory Column Content
-      let advisoryHtml = `<span style="font-size:0.75rem; color:var(--text-muted);"><i class="fas fa-minus"></i> Routine Roster</span>`;
-      const wAdv = p.welfareAdvisory;
-      if (wAdv && wAdv.activeRecommendation) {
-        const rec = wAdv.activeRecommendation;
-        const isPending = rec.status === 'Pending Commander Approval';
-        const isApproved = rec.status === 'Approved & Sanctioned';
-        
-        if (isPending) {
-          advisoryHtml = `
-            <div class="commander-advisory-cell">
-              <div class="commander-advisory-badge pending" title="${rec.suggestedAction || ''}">
-                <i class="fas fa-paper-plane" style="color:#f97316;"></i> <strong>${rec.actionType}</strong>
+      let stressColor = '#10b981';
+      if (stress >= 80) stressColor = '#ef4444';
+      else if (stress >= 65) stressColor = '#f97316';
+      else if (stress >= 45) stressColor = '#eab308';
+
+      // 1. Treatment Given Column Content (Medical Officer)
+      const med = p.medicalTreatment || {};
+      const isTreated = (med.status === 'Treated');
+      const modality = med.prescribedModality || '1-on-1 Clinical Counseling (Trauma CBT)';
+      const moDoctor = med.prescribedBy ? med.prescribedBy.split('(')[0].trim() : 'Dr. Capt. Ananya Sharma';
+      const moNotes = med.clinicalNotes || 'Clinical evaluation completed by Medical Officer.';
+      const statusBadge = isTreated
+        ? `<span class="badge-log-status done" style="font-size:0.68rem; padding:0.15rem 0.45rem;"><i class="fas fa-check-circle"></i> Done (Treated)</span>`
+        : `<span class="badge-log-status pending" style="font-size:0.68rem; padding:0.15rem 0.45rem;"><i class="fas fa-clock"></i> Undergoing Care</span>`;
+
+      // 2. Permissions Asked Column Content (Welfare Officer)
+      const wRep = p.welfareCommanderReporting || {};
+      const isNotice = (wRep.requestMode === 'report' || stress > 80);
+      let permissionCellHtml = '';
+      if (wRep.absenceReported) {
+        if (isNotice) {
+          permissionCellHtml = `
+            <div class="commander-permission-cell">
+              <div class="cmd-permission-header">
+                <span class="badge-threshold-high" style="font-size:0.68rem; padding:0.15rem 0.45rem;"><i class="fas fa-bullhorn"></i> Absence Notice (&gt;80%)</span>
               </div>
-              <div style="margin-top:0.25rem;">
-                <button class="btn-commander-approve-pill" onclick="rakshakApp.commanderApproveAdvisory('${p.id}')">
-                  <i class="fas fa-check"></i> Approve & Sanction
-                </button>
-              </div>
+              <div class="cmd-permission-title">${wRep.absenceDays || 5} Days Duty Relief</div>
+              <div class="cmd-permission-reason">${wRep.absenceReason || 'In-Clinic Treatment at Base Hospital'}</div>
+              <div class="cmd-permission-officer">Reported by: ${wRep.reportedBy ? wRep.reportedBy.split('(')[0] : 'Welfare Officer'}</div>
             </div>
           `;
-        } else if (isApproved) {
-          advisoryHtml = `
-            <div class="commander-advisory-cell">
-              <div class="commander-advisory-badge approved" title="${rec.suggestedAction || ''}">
-                <i class="fas fa-check-circle" style="color:#10b981;"></i> <strong>${rec.actionType}</strong>
+        } else {
+          permissionCellHtml = `
+            <div class="commander-permission-cell">
+              <div class="cmd-permission-header">
+                <span class="badge-threshold-low" style="font-size:0.68rem; padding:0.15rem 0.45rem;"><i class="fas fa-hand-paper"></i> Permission Requested (&le;80%)</span>
               </div>
-              <div style="font-size:0.7rem; color:#10b981; font-weight:600;"><i class="fas fa-user-check"></i> Sanctioned by CO</div>
+              <div class="cmd-permission-title">${wRep.absenceDays || 3} Days Medical Absence</div>
+              <div class="cmd-permission-reason">${wRep.absenceReason || 'Outpatient Therapy Sessions'}</div>
+              <div class="cmd-permission-officer">Requested by: ${wRep.reportedBy ? wRep.reportedBy.split('(')[0] : 'Welfare Officer'}</div>
             </div>
           `;
         }
+      } else if (p.welfareAdvisory?.activeRecommendation) {
+        const rec = p.welfareAdvisory.activeRecommendation;
+        permissionCellHtml = `
+          <div class="commander-permission-cell">
+            <div class="cmd-permission-header">
+              <span style="background:rgba(249,115,22,0.12); color:#f97316; border:1px solid rgba(249,115,22,0.3); font-size:0.68rem; font-weight:700; padding:0.15rem 0.45rem; border-radius:4px;"><i class="fas fa-paper-plane"></i> Advisory Suggestion</span>
+            </div>
+            <div class="cmd-permission-title">${rec.actionType}</div>
+            <div class="cmd-permission-reason" title="${rec.suggestedAction || ''}">"${(rec.suggestedAction || '').substring(0, 45)}..."</div>
+          </div>
+        `;
+      } else {
+        permissionCellHtml = `
+          <div class="commander-permission-cell">
+            <div style="font-size:0.75rem; color:var(--text-muted);"><i class="fas fa-check-circle" style="color:#10b981;"></i> Regular Duty Roster</div>
+            <div style="font-size:0.68rem; color:var(--text-muted); margin-top:0.15rem;">No medical absence asked</div>
+          </div>
+        `;
+      }
+
+      // 3. Commander Approval Column Content (Option to Approve)
+      let approvalCellHtml = '';
+      if (wRep.absenceReported) {
+        if (wRep.commanderApproved) {
+          approvalCellHtml = `
+            <div class="cmd-approval-status-box">
+              <span class="badge-cmd-approved ${isNotice ? 'notice' : ''}">
+                <i class="fas ${isNotice ? 'fa-shield-alt' : 'fa-check-double'}"></i> ${isNotice ? 'Notice Acknowledged' : 'Permission Granted'}
+              </span>
+              <span class="cmd-approval-date"><i class="far fa-clock"></i> ${wRep.approvedAt ? wRep.approvedAt.split(' ')[0] : 'Approved by CO'}</span>
+            </div>
+          `;
+        } else {
+          if (isNotice) {
+            approvalCellHtml = `
+              <button class="btn-commander-approve-pill notice" onclick="rakshakApp.commanderApproveAbsence('${p.id}')">
+                <i class="fas fa-clipboard-check"></i> Acknowledge Notice
+              </button>
+            `;
+          } else {
+            approvalCellHtml = `
+              <button class="btn-commander-approve-pill permission" onclick="rakshakApp.commanderApproveAbsence('${p.id}')">
+                <i class="fas fa-check"></i> Approve Permission
+              </button>
+            `;
+          }
+        }
+      } else if (p.welfareAdvisory?.activeRecommendation?.status === 'Pending Commander Approval') {
+        approvalCellHtml = `
+          <button class="btn-commander-approve-pill advisory" onclick="rakshakApp.commanderApproveAdvisory('${p.id}')">
+            <i class="fas fa-paper-plane"></i> Sanction Advisory
+          </button>
+        `;
+      } else if (p.welfareAdvisory?.activeRecommendation?.status === 'Approved & Sanctioned') {
+        approvalCellHtml = `
+          <div class="cmd-approval-status-box">
+            <span class="badge-cmd-approved"><i class="fas fa-check"></i> Advisory Sanctioned</span>
+          </div>
+        `;
+      } else {
+        approvalCellHtml = `
+          <div style="text-align:center; color:var(--text-muted); font-size:0.74rem;">
+            <i class="fas fa-shield-alt" style="color:#10b981;"></i> Fit for Duty
+          </div>
+        `;
       }
 
       tr.innerHTML = `
         <td><input type="checkbox" class="roster-row-checkbox" value="${p.id}" onchange="rakshakApp.updateBatchSelection()" /></td>
         <td>
           <div class="personnel-cell">
-            <img src="${p.photo || 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=150'}" class="personnel-table-avatar" alt="Avatar" />
+            ${this.renderInitialsBadge(p.name, 38)}
             <div>
               <div class="personnel-table-name">${p.name}</div>
               <div class="personnel-table-id">${p.rank} • ${p.force} (${p.id})</div>
@@ -432,21 +595,36 @@ class RakshakApp {
           </div>
         </td>
         <td>
-          <div style="font-weight:600; font-size:0.85rem;">${p.station || 'Field Post'}</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">${p.deploymentZone || 'Border'}</div>
+          <div style="font-weight:600; font-size:0.83rem;"><i class="fas fa-map-marker-alt" style="color:#0284c7;"></i> ${p.station || 'Field Post'}</div>
+          <div style="font-size:0.73rem; color:var(--text-muted);">${p.deploymentZone || 'Border'}</div>
+          <div style="font-size:0.7rem; margin-top:0.15rem; ${leaveAlert}">${leaveDays}d without leave</div>
         </td>
-        <td ${leaveAlert}>${leaveDays} days</td>
-        <td><span class="risk-badge ${riskClass}">${p.stressRiskLevel}</span></td>
-        <td>${advisoryHtml}</td>
         <td>
-          <div class="wellbeing-bar-cell">
-            <span style="font-weight:700; font-size:0.85rem; width:35px;">${wbPct}%</span>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: ${wbPct}%; background: ${barColor};"></div>
-            </div>
+          <div style="display:flex; align-items:center; gap:0.35rem; margin-bottom:0.2rem;">
+            <span style="font-size:1.05rem; font-weight:800; color:${stressColor};">${stress}%</span>
+            <span class="risk-badge ${riskClass}" style="font-size:0.65rem; padding:0.1rem 0.4rem;">${p.stressRiskLevel}</span>
+          </div>
+          <div class="progress-track" style="height:5px; background:var(--border-card);">
+            <div class="progress-fill" style="width: ${stress}%; background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);"></div>
           </div>
         </td>
         <td>
+          <div class="commander-treatment-cell">
+            <div class="cmd-treatment-name">${modality}</div>
+            <div class="cmd-treatment-meta">
+              ${statusBadge}
+              <span style="font-size:0.68rem; color:var(--text-muted);"><i class="fas fa-user-md" style="color:#0ea5e9;"></i> ${moDoctor}</span>
+            </div>
+            <div class="cmd-treatment-notes" title="${moNotes}">"${moNotes.length > 55 ? moNotes.substring(0, 52) + '...' : moNotes}"</div>
+          </div>
+        </td>
+        <td>
+          ${permissionCellHtml}
+        </td>
+        <td style="text-align: center;">
+          ${approvalCellHtml}
+        </td>
+        <td style="text-align: center;">
           <button class="btn-table-action" onclick="rakshakApp.openPersonnelModal('${p.id}')">
             <i class="fas fa-file-medical"></i> Review
           </button>
@@ -461,8 +639,8 @@ class RakshakApp {
     this.searchDebounce = setTimeout(async () => {
       const q = val.trim();
       let url = `/api/personnel?q=${encodeURIComponent(q)}`;
-      if (this.activeFilter !== 'all') url += `&risk=${this.activeFilter}`;
-      if (this.currentSortKey !== 'default') url += `&sort=${this.currentSortKey}`;
+      if (this.activeFilter && this.activeFilter !== 'all') url += `&risk=${this.activeFilter}`;
+      if (this.currentSortKey && this.currentSortKey !== 'default') url += `&sort=${this.currentSortKey}`;
       try {
         const res = await fetch(url);
         const data = await res.json();
@@ -473,14 +651,14 @@ class RakshakApp {
 
   filterPersonnel(riskLevel, btnElem) {
     this.activeFilter = riskLevel;
-    document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#view_commander .filter-pill').forEach(b => b.classList.remove('active'));
     if (btnElem) btnElem.classList.add('active');
 
     const searchInput = document.getElementById('commanderSearchInput');
     const q = searchInput ? searchInput.value.trim() : '';
     let url = `/api/personnel?risk=${riskLevel}`;
     if (q) url += `&q=${encodeURIComponent(q)}`;
-    if (this.currentSortKey !== 'default') url += `&sort=${this.currentSortKey}`;
+    if (this.currentSortKey && this.currentSortKey !== 'default') url += `&sort=${this.currentSortKey}`;
 
     fetch(url).then(r => r.json()).then(data => this.renderCommanderTable(data));
   }
@@ -491,7 +669,7 @@ class RakshakApp {
     const q = searchInput ? searchInput.value.trim() : '';
     let url = `/api/personnel?sort=${sortVal}`;
     if (q) url += `&q=${encodeURIComponent(q)}`;
-    if (this.activeFilter !== 'all') url += `&risk=${this.activeFilter}`;
+    if (this.activeFilter && this.activeFilter !== 'all') url += `&risk=${this.activeFilter}`;
 
     fetch(url).then(r => r.json()).then(data => this.renderCommanderTable(data));
   }
@@ -538,6 +716,66 @@ class RakshakApp {
     if (bar) bar.style.display = 'none';
   }
 
+  async approveAllPendingPermissions() {
+    try {
+      const res = await fetch('/api/commander/batch-approve-absence', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ soldierIds: [] })
+      });
+      const data = await res.json();
+      if (data.success) {
+        (this.personnelList || []).forEach(p => {
+          if (p.welfareCommanderReporting) {
+            p.welfareCommanderReporting.commanderApproved = true;
+          }
+        });
+        await this.fetchPersonnel();
+        await this.fetchAnalytics();
+        this.renderCommanderTable(this.personnelList);
+        if (this.renderWelfareApplicationsTable) this.renderWelfareApplicationsTable();
+        if (this.renderWelfareHorizontalScroller) this.renderWelfareHorizontalScroller();
+        const count = data.approvedCount || 'All';
+        this.showToast(`✅ Commanding Officer approved all pending medical permissions (${count} requests sanctioned)!`);
+      }
+    } catch(e) {
+      this.showToast("Failed to process batch approval.");
+    }
+  }
+
+  async batchApproveSelectedPermissions() {
+    const selected = Array.from(document.querySelectorAll('.roster-row-checkbox:checked')).map(cb => cb.value);
+    if (!selected.length) {
+      this.showToast("Please select at least one soldier checkbox.");
+      return;
+    }
+    try {
+      const res = await fetch('/api/commander/batch-approve-absence', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ soldierIds: selected })
+      });
+      const data = await res.json();
+      if (data.success) {
+        (this.personnelList || []).forEach(p => {
+          if (selected.includes(p.id) && p.welfareCommanderReporting) {
+            p.welfareCommanderReporting.commanderApproved = true;
+          }
+        });
+        await this.fetchPersonnel();
+        await this.fetchAnalytics();
+        this.renderCommanderTable(this.personnelList);
+        if (this.renderWelfareApplicationsTable) this.renderWelfareApplicationsTable();
+        if (this.renderWelfareHorizontalScroller) this.renderWelfareHorizontalScroller();
+        this.showToast(`✅ Commanding Officer approved medical permissions for ${selected.length} selected personnel!`);
+        const bar = document.getElementById('batchActionBar');
+        if (bar) bar.style.display = 'none';
+      }
+    } catch(e) {
+      this.showToast("Failed to approve selected permissions.");
+    }
+  }
+
   async exportReportCSV() {
     try {
       const res = await fetch('/api/export-report');
@@ -577,7 +815,7 @@ class RakshakApp {
 
       container.innerHTML = `
         <div style="display:flex; align-items:center; gap:1.2rem; margin-bottom:1.5rem;">
-          <img src="${p.photo || 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=150'}" style="width:64px; height:64px; border-radius:50%; object-fit:cover; border:3px solid var(--primary);" />
+          ${this.renderInitialsBadge(p.name, 64)}
           <div>
             <h3 style="font-size:1.3rem; font-weight:800; color:var(--text-main);">${p.name}</h3>
             <p style="font-size:0.85rem; color:var(--text-muted);">${p.rank} • ${p.force} (${p.id}) | ${p.station}</p>
@@ -1517,7 +1755,7 @@ class RakshakApp {
       card.className = `welfare-soldier-card ${borderClass}`;
       card.innerHTML = `
         <div class="welfare-card-top-row">
-          <img src="${p.photo || 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=150'}" class="welfare-soldier-avatar" alt="Avatar" />
+          ${this.renderInitialsBadge(p.name, 48)}
           <div class="welfare-soldier-info">
             <div class="welfare-soldier-name">${p.name}</div>
             <div class="welfare-soldier-sub">${p.rank} • ${p.force} (${p.id})</div>
@@ -1566,6 +1804,65 @@ class RakshakApp {
 
         ${advisoryHtml}
 
+        <!-- Medical Officer Treatment Status & Diagnosis Sync -->
+        <div style="background:rgba(14, 165, 233, 0.08); border:1px solid rgba(14, 165, 233, 0.3); border-radius:var(--radius-sm); padding:0.65rem 0.8rem; margin-top:0.4rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
+            <span style="font-size:0.75rem; font-weight:800; color:#0284c7;"><i class="fas fa-user-md"></i> MO Prescribed Care:</span>
+            <span class="badge-treatment-status ${p.medicalTreatment?.status === 'Treated' ? 'treated' : 'undergoing'}">
+              <i class="fas ${p.medicalTreatment?.status === 'Treated' ? 'fa-check-circle' : 'fa-procedures'}"></i> ${p.medicalTreatment?.status || 'Undergoing Treatment'}
+            </span>
+          </div>
+          <div style="font-size:0.78rem; font-weight:700; color:var(--text-main);">
+            ${p.medicalTreatment?.prescribedModality || '1-on-1 Clinical Counseling (Trauma CBT)'}
+          </div>
+          <div style="font-size:0.7rem; color:var(--text-muted); font-style:italic; margin-top:0.2rem;">
+            "${p.medicalTreatment?.clinicalNotes || 'Triage indicated clinical attention.'}" — ${p.medicalTreatment?.prescribedBy || 'Base Hospital MO'}
+          </div>
+        </div>
+
+        <!-- 80% Stress Threshold Commander Actions -->
+        ${stress > 80 ? `
+          <!-- STRESS > 80%: Report Absence Directly to Commander -->
+          <div style="margin-top:0.5rem; background:rgba(239, 68, 68, 0.06); border:1px dashed #ef4444; border-radius:var(--radius-sm); padding:0.6rem;">
+            <div style="font-size:0.72rem; font-weight:800; color:#ef4444; margin-bottom:0.3rem; display:flex; align-items:center; gap:0.35rem;">
+              <i class="fas fa-bullhorn"></i> Critical Stress (&gt;80%): Report Absence to Commander
+            </div>
+            ${p.welfareCommanderReporting?.absenceReported ? `
+              <div style="background:rgba(239, 68, 68, 0.1); border:1px solid rgba(239, 68, 68, 0.3); border-radius:4px; padding:0.4rem 0.6rem; font-size:0.72rem; color:#b91c1c; font-weight:700; display:flex; justify-content:space-between; align-items:center;">
+                <span><i class="fas fa-bullhorn"></i> Absence Reported (${p.welfareCommanderReporting.absenceDays || 5}d)</span>
+                <span style="font-weight:800; color:${p.welfareCommanderReporting.commanderApproved ? '#10b981' : '#ea580c'};">${p.welfareCommanderReporting.commanderApproved ? 'CO Acknowledged' : 'Notice Sent'}</span>
+              </div>
+            ` : `
+              <button class="btn-ledger-action report" style="width:100%; justify-content:center;" onclick="rakshakApp.openWelfareAbsenceModal('${p.id}', 'report')">
+                <i class="fas fa-bullhorn"></i> 📢 Report Absence to Commander (&gt;80%)
+              </button>
+              <div style="font-size:0.67rem; color:#ef4444; margin-top:0.25rem; line-height:1.3; text-align:center;">
+                Mandatory Notice: Stress &gt; 80% warrants immediate duty relief.
+              </div>
+            `}
+          </div>
+        ` : `
+          <!-- STRESS <= 80%: Ask Permission from Commander -->
+          <div style="margin-top:0.5rem; background:rgba(37, 99, 235, 0.05); border:1px dashed rgba(37, 99, 235, 0.4); border-radius:var(--radius-sm); padding:0.6rem;">
+            <div style="font-size:0.72rem; font-weight:800; color:#2563eb; margin-bottom:0.3rem; display:flex; align-items:center; gap:0.35rem;">
+              <i class="fas fa-hand-paper"></i> Standard Protocol (&le;80%): Ask Permission from Commander
+            </div>
+            ${p.welfareCommanderReporting?.absenceReported ? `
+              <div style="background:rgba(37, 99, 235, 0.1); border:1px solid rgba(37, 99, 235, 0.3); border-radius:4px; padding:0.4rem 0.6rem; font-size:0.72rem; color:#1e40af; font-weight:700; display:flex; justify-content:space-between; align-items:center;">
+                <span><i class="fas fa-hourglass-half"></i> Permission Requested (${p.welfareCommanderReporting.absenceDays || 3}d)</span>
+                <span style="font-weight:800; color:${p.welfareCommanderReporting.commanderApproved ? '#10b981' : '#f97316'};">${p.welfareCommanderReporting.commanderApproved ? 'Permission Granted' : 'Pending CO'}</span>
+              </div>
+            ` : `
+              <button class="btn-ledger-action permission" style="width:100%; justify-content:center;" onclick="rakshakApp.openWelfareAbsenceModal('${p.id}', 'permission')">
+                <i class="fas fa-hand-paper"></i> ✋ Ask Permission from Commander (&le;80%)
+              </button>
+              <div style="font-size:0.67rem; color:var(--text-muted); margin-top:0.25rem; line-height:1.3; text-align:center;">
+                Clearance Request: Obtain Commanding Officer authorization for duty relief.
+              </div>
+            `}
+          </div>
+        `}
+
         <div class="welfare-action-btn-row">
           <button class="btn-welfare-val ${isValidated ? 'validated' : ''}" onclick="rakshakApp.validatePersonnelRating('${p.id}')">
             <i class="fas ${isValidated ? 'fa-check' : 'fa-clipboard-check'}"></i> ${isValidated ? 'Re-Validate Rating' : 'Validate Rating'}
@@ -1577,6 +1874,7 @@ class RakshakApp {
       `;
       container.appendChild(card);
     });
+    if (this.renderWelfareHorizontalScroller) this.renderWelfareHorizontalScroller();
   }
 
   handleWelfareSearch(val) {
@@ -1787,6 +2085,957 @@ class RakshakApp {
       }
     } catch(e) {
       this.showToast("Advisory approval failed.");
+    }
+  }
+
+  // ==========================================================
+  // MEDICAL OFFICER CONSOLE & TREATMENT TRIAGE
+  // ==========================================================
+  renderMedicalConsole() {
+    const list = this.personnelList || [];
+    if (!this.medicalActiveFilter) this.medicalActiveFilter = 'all';
+    if (!this.medicalSortKey) this.medicalSortKey = 'stress_desc';
+
+    // 1. Calculate Medical KPIs
+    const totalCount = list.length;
+    const immediateCount = list.filter(p => (p.liveStressLevel || p.riskScore || 0) >= 70).length;
+    const highCount = list.filter(p => {
+      const s = p.liveStressLevel || p.riskScore || 0;
+      return s >= 55 && s < 70;
+    }).length;
+    const undergoingCount = list.filter(p => p.medicalTreatment?.status === 'Undergoing Treatment').length;
+    const treatedCount = list.filter(p => p.medicalTreatment?.status === 'Treated').length;
+
+    const elTot = document.getElementById('kMedTotal');
+    const elImm = document.getElementById('kMedImmediate');
+    const elHigh = document.getElementById('kMedHigh');
+    const elUnder = document.getElementById('kMedUndergoing');
+    const elTrt = document.getElementById('kMedTreated');
+
+    if (elTot) elTot.innerText = totalCount;
+    if (elImm) elImm.innerText = immediateCount;
+    if (elHigh) elHigh.innerText = highCount;
+    if (elUnder) elUnder.innerText = undergoingCount;
+    if (elTrt) elTrt.innerText = treatedCount;
+
+    // 2. Filter list
+    let filtered = list.filter(p => {
+      const stress = p.liveStressLevel || p.riskScore || 0;
+      const med = p.medicalTreatment;
+
+      if (this.medicalActiveFilter === 'immediate') {
+        if (stress < 70) return false;
+      } else if (this.medicalActiveFilter === 'high') {
+        if (stress < 55 || stress >= 70) return false;
+      } else if (this.medicalActiveFilter === 'medium') {
+        if (stress < 40 || stress >= 55) return false;
+      } else if (this.medicalActiveFilter === 'low') {
+        if (stress >= 40) return false;
+      } else if (this.medicalActiveFilter === 'undergoing') {
+        if (med?.status !== 'Undergoing Treatment') return false;
+      } else if (this.medicalActiveFilter === 'treated') {
+        if (med?.status !== 'Treated') return false;
+      } else if (this.medicalActiveFilter === 'escalated') {
+        if (!p.directEmergencyReferral?.isDirectReferral) return false;
+      }
+
+      if (this.medicalSearchText) {
+        const q = this.medicalSearchText.toLowerCase();
+        const searchable = `${p.name} ${p.id} ${p.rank} ${p.force} ${p.unit} ${p.station}`.toLowerCase();
+        if (!searchable.includes(q)) return false;
+      }
+
+      return true;
+    });
+
+    // 3. Sort list
+    if (this.medicalSortKey === 'stress_desc') {
+      filtered.sort((a, b) => (b.liveStressLevel || b.riskScore || 0) - (a.liveStressLevel || a.riskScore || 0));
+    } else if (this.medicalSortKey === 'stress_asc') {
+      filtered.sort((a, b) => (a.liveStressLevel || a.riskScore || 0) - (b.liveStressLevel || b.riskScore || 0));
+    } else if (this.medicalSortKey === 'name_asc') {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    // 4. Render cards
+    const container = document.getElementById('medicalPersonnelContainer');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align:center; padding:3rem; background:var(--bg-card); border-radius:var(--radius-lg); border:1px solid var(--border-card);">
+          <div style="font-size:2.5rem; color:#94a3b8; margin-bottom:0.75rem;"><i class="fas fa-notes-medical"></i></div>
+          <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-bottom:0.3rem;">No Patients Found</h4>
+          <p style="font-size:0.85rem; color:var(--text-muted);">No personnel matched the selected clinical triage filter.</p>
+        </div>
+      `;
+      return;
+    }
+
+    filtered.forEach(p => {
+      const stress = p.liveStressLevel || p.riskScore || 50;
+      let borderClass = 'low-border';
+      let riskPillClass = 'low';
+      let riskText = 'Low Priority (<40%)';
+      if (stress >= 70) {
+        borderClass = 'critical-border';
+        riskPillClass = 'critical';
+        riskText = 'Immediate Priority (≥70%)';
+      } else if (stress >= 55) {
+        borderClass = 'high-border';
+        riskPillClass = 'high';
+        riskText = 'High Priority (55-69%)';
+      } else if (stress >= 40) {
+        borderClass = 'moderate-border';
+        riskPillClass = 'moderate';
+        riskText = 'Medium Priority (40-54%)';
+      }
+
+      const isEmergencyEscalated = p.directEmergencyReferral && p.directEmergencyReferral.isDirectReferral;
+      const med = p.medicalTreatment;
+      const medStatus = med?.status || (stress >= 70 ? 'Undergoing Treatment' : 'Treated');
+      const isTreated = medStatus === 'Treated';
+      const statusBadge = isTreated
+        ? `<span class="badge-treatment-status treated"><i class="fas fa-check-circle"></i> Status: Treated</span>`
+        : `<span class="badge-treatment-status undergoing"><i class="fas fa-procedures"></i> Status: Undergoing Treatment</span>`;
+
+      const req = p.treatmentRequired || { modalities: ["1-on-1 Counseling"], primaryFocus: "Stress de-escalation" };
+
+      const card = document.createElement('div');
+      card.className = `medical-patient-card ${borderClass} ${isEmergencyEscalated ? 'emergency-escalated' : ''}`;
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; align-items:center; gap:0.85rem;">
+            ${this.renderInitialsBadge(p.name, 48)}
+            <div>
+              <div style="font-size:0.95rem; font-weight:800; color:var(--text-main);">${p.name}</div>
+              <div style="font-size:0.75rem; color:var(--text-muted);">${p.rank} • ${p.force} (${p.id})</div>
+              <div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.15rem;">
+                <i class="fas fa-hospital-alt" style="color:#0ea5e9;"></i> ${p.station || 'Field Post'} • ${p.deploymentZone || 'Duty Zone'}
+              </div>
+            </div>
+          </div>
+          <div>${statusBadge}</div>
+        </div>
+
+        ${isEmergencyEscalated ? `
+          <div class="emergency-referral-banner">
+            <i class="fas fa-ambulance"></i>
+            <div>
+              <strong>🚨 Direct Welfare Escalation (Stress &gt; 85%):</strong> Commander pre-approval bypassed due to critical emergency.
+            </div>
+          </div>
+        ` : ''}
+
+        <div style="background:var(--bg-card-subtle); border:1px solid var(--border-card); border-radius:var(--radius-sm); padding:0.6rem 0.8rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
+            <span style="font-size:0.73rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Live Stress Level</span>
+            <div style="display:flex; align-items:center; gap:0.4rem;">
+              <span style="font-size:1.1rem; font-weight:800; color:${stress >= 70 ? '#ef4444' : stress >= 55 ? '#f97316' : stress >= 40 ? '#eab308' : '#10b981'};">${stress}%</span>
+              <span class="risk-badge ${riskPillClass}" style="font-size:0.68rem; padding:0.15rem 0.45rem;">${riskText}</span>
+            </div>
+          </div>
+          <div class="progress-track" style="height:5px; background:var(--border-card);">
+            <div class="progress-fill" style="width:${stress}%; background:linear-gradient(90deg, #10b981, #f59e0b, #ef4444);"></div>
+          </div>
+        </div>
+
+        <div class="clinical-modalities-box">
+          <strong><i class="fas fa-heartbeat" style="color:#ef4444;"></i> Indicated Clinical Care (${req.priority}):</strong>
+          <ul style="padding-left:1.1rem; margin:0.3rem 0; font-size:0.73rem; color:var(--text-main); line-height:1.4;">
+            ${(req.modalities || []).slice(0, 3).map(m => `<li>${m}</li>`).join('')}
+          </ul>
+          <div style="font-size:0.68rem; color:var(--text-muted); margin-top:0.25rem; font-style:italic;">
+            Primary Objective: ${req.primaryFocus || 'Crisis stabilization and autonomic reset.'}
+          </div>
+        </div>
+
+        <div style="background:rgba(14, 165, 233, 0.06); border:1px solid rgba(14, 165, 233, 0.25); border-radius:var(--radius-sm); padding:0.65rem 0.8rem; font-size:0.75rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.2rem;">
+            <strong style="color:#0284c7;"><i class="fas fa-stethoscope"></i> Prescribed Regimen:</strong>
+            <span style="font-size:0.68rem; color:var(--text-muted);">${med?.prescribedDate || 'Active'}</span>
+          </div>
+          <div style="font-weight:700; color:var(--text-main);">${med?.prescribedModality || '1-on-1 Clinical Counseling (Trauma CBT)'}</div>
+          <div style="color:var(--text-muted); font-size:0.7rem; margin-top:0.2rem; font-style:italic;">
+            "${med?.clinicalNotes || 'Clinical evaluation completed. Prescribed therapeutic sessions.'}"
+          </div>
+        </div>
+
+        <div style="margin-top:auto; padding-top:0.5rem;">
+          <button class="btn-medical-prescribe" onclick="rakshakApp.openMedicalPrescribeModal('${p.id}')">
+            <i class="fas fa-prescription-bottle-alt"></i> Prescribe Treatment & Report to Welfare
+          </button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  handleMedicalSearch(val) {
+    this.medicalSearchText = val.trim();
+    this.renderMedicalConsole();
+  }
+
+  filterMedical(filterKey, elem) {
+    this.medicalActiveFilter = filterKey;
+    document.querySelectorAll('#view_medical .filter-pill').forEach(btn => btn.classList.remove('active'));
+    if (elem) elem.classList.add('active');
+    this.renderMedicalConsole();
+  }
+
+  handleMedicalSortChange(sortKey) {
+    this.medicalSortKey = sortKey;
+    this.renderMedicalConsole();
+  }
+
+  openMedicalPrescribeModal(pid) {
+    const p = this.personnelList.find(x => x.id.toLowerCase() === pid.toLowerCase());
+    if (!p) return;
+    this.currentPrescribeTargetPid = pid;
+
+    const elId = document.getElementById('mPrescribeSoldierId');
+    const elName = document.getElementById('mModalPatientName');
+    const elPId = document.getElementById('mModalPatientId');
+    const elStress = document.getElementById('mModalStressPct');
+    const elTier = document.getElementById('mModalPriorityTier');
+    const elStatus = document.getElementById('mModalCurrentStatus');
+    const elStation = document.getElementById('mModalStation');
+    const elModality = document.getElementById('mPrescribeModality');
+    const elPrescribeStatus = document.getElementById('mPrescribeStatus');
+    const elNotes = document.getElementById('mPrescribeNotes');
+
+    const stress = p.liveStressLevel || p.riskScore || 50;
+    if (elId) elId.value = p.id;
+    if (elName) elName.innerText = p.name;
+    if (elPId) elPId.innerText = p.id;
+    if (elStress) elStress.innerText = `${stress}% (${p.treatmentPriority || 'Priority'})`;
+    if (elTier) elTier.innerText = p.treatmentPriority || 'Immediate Priority';
+    if (elStatus) elStatus.innerText = p.medicalTreatment?.status || 'Undergoing Treatment';
+    if (elStation) elStation.innerText = p.station || 'Base Hospital';
+
+    if (elModality && p.treatmentRequired?.modalities?.[0]) {
+      const bestMod = p.treatmentRequired.modalities[0];
+      const matchOpt = Array.from(elModality.options).find(opt => opt.value.includes(bestMod.substring(0, 10)) || bestMod.includes(opt.value.substring(0, 10)));
+      if (matchOpt) elModality.value = matchOpt.value;
+    }
+
+    if (elPrescribeStatus) {
+      elPrescribeStatus.value = p.medicalTreatment?.status || (stress >= 70 ? 'Undergoing Treatment' : 'Treated');
+    }
+
+    if (elNotes) {
+      elNotes.value = p.medicalTreatment?.clinicalNotes || `Clinical evaluation indicates ${p.treatmentPriority}. Recommended 3 bi-weekly sessions of ${elModality ? elModality.value : 'Clinical Care'} at Base Hospital.`;
+    }
+
+    const modal = document.getElementById('medicalPrescribeModal');
+    if (modal) modal.classList.add('active');
+  }
+
+  closeMedicalPrescribeModal() {
+    const modal = document.getElementById('medicalPrescribeModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  async submitMedicalPrescription(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const pid = document.getElementById('mPrescribeSoldierId')?.value || this.currentPrescribeTargetPid;
+    const modality = document.getElementById('mPrescribeModality')?.value;
+    const status = document.getElementById('mPrescribeStatus')?.value;
+    const notes = document.getElementById('mPrescribeNotes')?.value;
+
+    try {
+      const res = await fetch(`/api/medical/prescribe-treatment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          soldierId: pid,
+          prescribedModality: modality,
+          status: status,
+          clinicalNotes: notes,
+          prescribedBy: "Dr. Capt. Ananya Sharma (Senior MO)"
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const p = this.personnelList.find(x => x.id.toLowerCase() === pid.toLowerCase());
+        if (p) {
+          p.medicalTreatment = data.medicalTreatment;
+          if (p.welfareCommanderReporting) {
+            p.welfareCommanderReporting.personnelStatus = status;
+          }
+        }
+        this.closeMedicalPrescribeModal();
+        this.renderMedicalConsole();
+        if (this.renderWelfareApplicationsTable) this.renderWelfareApplicationsTable();
+        this.showToast(`Prescription saved & reported to Welfare Officer for ${p ? p.name : pid}!`);
+      }
+    } catch(err) {
+      this.showToast("Failed to save prescription.");
+    }
+  }
+
+  // ==========================================================
+  // WELFARE OFFICER 85% RULE ACTIONS & MODALS
+  // ==========================================================
+  openEmergencyMoReferralModal(pid) {
+    const p = this.personnelList.find(x => x.id.toLowerCase() === pid.toLowerCase());
+    if (!p) return;
+    this.currentEmergencyTargetPid = pid;
+
+    const elId = document.getElementById('wDirectSoldierId');
+    const elName = document.getElementById('wDirectSoldierName');
+    const elStress = document.getElementById('wDirectStressPct');
+    const elNotes = document.getElementById('wDirectNotes');
+
+    const stress = p.liveStressLevel || p.riskScore || 90;
+    if (elId) elId.value = p.id;
+    if (elName) elName.innerText = `${p.rank} ${p.name} (${p.id})`;
+    if (elStress) elStress.innerText = `${stress}% (CRITICAL)`;
+    if (elNotes) elNotes.value = `Critical autonomic strain (${stress}%) and severe sleep deficit. Direct emergency referral to Medical Officer executed under >85% threshold protocol without Commander notice.`;
+
+    const modal = document.getElementById('welfareDirectReferralModal');
+    if (modal) modal.classList.add('active');
+  }
+
+  closeEmergencyMoReferralModal() {
+    const modal = document.getElementById('welfareDirectReferralModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  async submitEmergencyMoReferral(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const pid = document.getElementById('wDirectSoldierId')?.value || this.currentEmergencyTargetPid;
+    const notes = document.getElementById('wDirectNotes')?.value;
+
+    try {
+      const res = await fetch(`/api/welfare/emergency-mo-referral`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          soldierId: pid,
+          notes: notes
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const p = this.personnelList.find(x => x.id.toLowerCase() === pid.toLowerCase());
+        if (p) {
+          p.directEmergencyReferral = data.directEmergencyReferral;
+          p.moReferralPending = true;
+        }
+        this.closeEmergencyMoReferralModal();
+        this.renderWelfareConsole();
+        this.showToast(`🚨 Direct Emergency Referral dispatched to Medical Officer for ${p ? p.name : pid}! (Commander Bypassed)`);
+      }
+    } catch(err) {
+      this.showToast("Failed to dispatch emergency referral.");
+    }
+  }
+
+  // ==========================================================
+  // WELFARE OFFICER APPLICATIONS LOG BOOK & 80% COMMANDER PROTOCOL
+  // ==========================================================
+  switchWelfareSubTab(subTab) {
+    this.welfareActiveSubTab = subTab;
+    const btnApps = document.getElementById('btnWelfareSubTab_apps');
+    const btnRoster = document.getElementById('btnWelfareSubTab_roster');
+    const viewApps = document.getElementById('welfareSubView_apps');
+    const viewRoster = document.getElementById('welfareSubView_roster');
+
+    if (subTab === 'applications') {
+      if (btnApps) btnApps.classList.add('active');
+      if (btnRoster) btnRoster.classList.remove('active');
+      if (viewApps) viewApps.style.display = 'block';
+      if (viewRoster) viewRoster.style.display = 'none';
+      this.renderWelfareApplicationsTable();
+    } else {
+      if (btnRoster) btnRoster.classList.add('active');
+      if (btnApps) btnApps.classList.remove('active');
+      if (viewApps) viewApps.style.display = 'none';
+      if (viewRoster) viewRoster.style.display = 'block';
+      this.renderWelfareConsole();
+    }
+  }
+
+  handleWelfareAppsSearch(val) {
+    this.welfareAppsSearchText = val.trim();
+    this.renderWelfareApplicationsTable();
+  }
+
+  filterWelfareApps(filterKey, elem) {
+    this.welfareAppsActiveFilter = filterKey;
+    document.querySelectorAll('#welfareSubView_apps .filter-pill').forEach(btn => btn.classList.remove('active'));
+    if (elem) elem.classList.add('active');
+    this.renderWelfareApplicationsTable();
+  }
+
+  handleWelfareAppsSortChange(sortKey) {
+    this.welfareAppsSortKey = sortKey;
+    this.renderWelfareApplicationsTable();
+  }
+
+  renderWelfareApplicationsTable() {
+    const list = this.personnelList || [];
+    if (!this.welfareAppsActiveFilter) this.welfareAppsActiveFilter = 'all';
+    if (!this.welfareAppsSortKey) this.welfareAppsSortKey = 'stress_desc';
+
+    // 1. Compute Applications KPI Stats
+    const totalApps = list.length;
+    const doneCount = list.filter(p => p.medicalTreatment?.status === 'Treated').length;
+    const undergoingCount = list.filter(p => p.medicalTreatment?.status === 'Undergoing Treatment' || !p.medicalTreatment?.status).length;
+    const above80Count = list.filter(p => (p.liveStressLevel || p.riskScore || 0) > 80).length;
+    const below80Count = list.filter(p => (p.liveStressLevel || p.riskScore || 0) <= 80).length;
+
+    const elTotal = document.getElementById('kAppTotal');
+    const elDone = document.getElementById('kAppDone');
+    const elUnder = document.getElementById('kAppUndergoing');
+    const elAbove = document.getElementById('kAppAbove80');
+    const badgeApps = document.getElementById('kWelfareAppsBadge');
+
+    if (elTotal) elTotal.innerText = totalApps;
+    if (elDone) elDone.innerText = doneCount;
+    if (elUnder) elUnder.innerText = undergoingCount;
+    if (elAbove) elAbove.innerText = above80Count;
+    if (badgeApps) badgeApps.innerText = totalApps;
+
+    // 2. Filter applications list
+    let filtered = list.filter(p => {
+      const stress = p.liveStressLevel || p.riskScore || 50;
+      const med = p.medicalTreatment || {};
+      const status = med.status || 'Undergoing Treatment';
+      const wRep = p.welfareCommanderReporting;
+
+      if (this.welfareAppsActiveFilter === 'above80') {
+        if (stress <= 80) return false;
+      } else if (this.welfareAppsActiveFilter === 'below80') {
+        if (stress > 80) return false;
+      } else if (this.welfareAppsActiveFilter === 'undergoing') {
+        if (status !== 'Undergoing Treatment') return false;
+      } else if (this.welfareAppsActiveFilter === 'treated') {
+        if (status !== 'Treated') return false;
+      } else if (this.welfareAppsActiveFilter === 'reported') {
+        if (!wRep?.absenceReported) return false;
+      } else if (this.welfareAppsActiveFilter === 'pending_permission') {
+        if (!wRep?.absenceReported || wRep?.commanderApproved || (wRep?.requestMode !== 'permission' && stress > 80)) return false;
+      }
+
+      if (this.welfareAppsSearchText) {
+        const q = this.welfareAppsSearchText.toLowerCase();
+        const searchable = `${p.name} ${p.id} ${p.rank} ${p.force} ${p.unit} ${p.station} ${med.prescribedModality || ''}`.toLowerCase();
+        if (!searchable.includes(q)) return false;
+      }
+
+      return true;
+    });
+
+    // 3. Sort applications list
+    if (this.welfareAppsSortKey === 'stress_desc') {
+      filtered.sort((a, b) => (b.liveStressLevel || b.riskScore || 0) - (a.liveStressLevel || a.riskScore || 0));
+    } else if (this.welfareAppsSortKey === 'stress_asc') {
+      filtered.sort((a, b) => (a.liveStressLevel || a.riskScore || 0) - (b.liveStressLevel || b.riskScore || 0));
+    } else if (this.welfareAppsSortKey === 'status_undergoing') {
+      filtered.sort((a, b) => (a.medicalTreatment?.status === 'Undergoing Treatment' ? -1 : 1));
+    } else if (this.welfareAppsSortKey === 'status_treated') {
+      filtered.sort((a, b) => (a.medicalTreatment?.status === 'Treated' ? -1 : 1));
+    } else if (this.welfareAppsSortKey === 'name_asc') {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    // 4. Render systematic table rows
+    const tbody = document.getElementById('welfareApplicationsTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align:center; padding:3rem; color:var(--text-muted);">
+            <div style="font-size:2.2rem; color:#94a3b8; margin-bottom:0.5rem;"><i class="fas fa-clipboard-check"></i></div>
+            <h4 style="font-size:1.05rem; font-weight:700; color:var(--text-main); margin-bottom:0.3rem;">No Treatment Applications Found</h4>
+            <p style="font-size:0.82rem; margin:0;">No logbook entries match the selected filter criteria.</p>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    filtered.forEach(p => {
+      const stress = p.liveStressLevel || p.riskScore || 50;
+      const isAbove80 = (stress > 80);
+      const med = p.medicalTreatment || {};
+      const status = med.status || 'Undergoing Treatment';
+      const isTreated = (status === 'Treated');
+      const wRep = p.welfareCommanderReporting || {};
+      const modality = med.prescribedModality || '1-on-1 Clinical Counseling (Trauma CBT)';
+      const moNotes = med.clinicalNotes || 'Clinical evaluation completed by Medical Officer.';
+      const moDoctor = med.prescribedBy || 'Dr. Capt. Ananya Sharma (Senior MO)';
+      const entryId = `APP-${p.id.replace(/[^0-9]/g, '') || '8012'}`;
+      const entryDate = med.prescribedDate || '2026-09-28';
+
+      // Stress display
+      const stressColor = stress >= 80 ? '#ef4444' : stress >= 65 ? '#f97316' : stress >= 45 ? '#eab308' : '#10b981';
+      const thresholdBadge = isAbove80
+        ? `<span class="badge-threshold-high"><i class="fas fa-exclamation-triangle"></i> &gt;80% Critical</span>`
+        : `<span class="badge-threshold-low"><i class="fas fa-shield-alt"></i> &le;80% Standard</span>`;
+
+      // Treatment Timing Badge (Done vs About to be Done)
+      const statusBadge = isTreated
+        ? `<span class="badge-log-status done"><i class="fas fa-check-circle"></i> Done (Treated)</span>`
+        : `<span class="badge-log-status pending"><i class="fas fa-clock"></i> About to be Done</span>`;
+
+      // Commander Action Cell (The core 80% Rule logic requested by the user!)
+      let actionCellHtml = '';
+      if (isAbove80) {
+        // Stress > 80%: Welfare Officer reports absence directly to Commander
+        if (!wRep.absenceReported) {
+          actionCellHtml = `
+            <button class="btn-ledger-action report" onclick="rakshakApp.openWelfareAbsenceModal('${p.id}', 'report')">
+              <i class="fas fa-bullhorn"></i> Report Absence to Commander
+            </button>
+            <div class="ledger-sub-text" style="color:#ef4444; margin-top:0.25rem;">Direct Notice: Stress &gt; 80%</div>
+          `;
+        } else {
+          actionCellHtml = `
+            <div class="ledger-status-box">
+              <span class="ledger-status-pill reported"><i class="fas fa-bullhorn"></i> Absence Reported (${wRep.absenceDays || 5}d)</span>
+              <span class="ledger-sub-text" style="color:${wRep.commanderApproved ? '#10b981' : '#f97316'}; font-weight:700;">
+                <i class="fas ${wRep.commanderApproved ? 'fa-check-circle' : 'fa-paper-plane'}"></i> ${wRep.commanderApproved ? 'CO Acknowledged' : 'Notice Dispatched to CO'}
+              </span>
+            </div>
+          `;
+        }
+      } else {
+        // Stress <= 80%: Welfare Officer asks permission from Commander
+        if (!wRep.absenceReported) {
+          actionCellHtml = `
+            <button class="btn-ledger-action permission" onclick="rakshakApp.openWelfareAbsenceModal('${p.id}', 'permission')">
+              <i class="fas fa-hand-paper"></i> Ask Permission from Commander
+            </button>
+            <div class="ledger-sub-text" style="color:#0284c7; margin-top:0.25rem;">Permission Required: Stress &le; 80%</div>
+          `;
+        } else if (!wRep.commanderApproved) {
+          actionCellHtml = `
+            <div class="ledger-status-box">
+              <span class="ledger-status-pill pending"><i class="fas fa-hourglass-half"></i> Permission Requested (${wRep.absenceDays || 3}d)</span>
+              <span class="ledger-sub-text" style="color:#f97316; font-weight:700;"><i class="fas fa-clock"></i> Pending CO Approval</span>
+            </div>
+          `;
+        } else {
+          actionCellHtml = `
+            <div class="ledger-status-box">
+              <span class="ledger-status-pill approved"><i class="fas fa-check-double"></i> Permission Granted</span>
+              <span class="ledger-sub-text" style="color:#10b981; font-weight:700;"><i class="fas fa-shield-alt"></i> Sanctioned by CO</span>
+            </div>
+          `;
+        }
+      }
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div style="font-weight:800; font-size:0.82rem; color:var(--text-main); font-family:monospace;">#${entryId}</div>
+          <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.15rem;"><i class="far fa-clock"></i> ${entryDate}</div>
+        </td>
+        <td>
+          <div style="display:flex; align-items:center; gap:0.75rem;">
+            ${this.renderInitialsBadge(p.name, 36)}
+            <div>
+              <div style="font-weight:800; font-size:0.88rem; color:var(--text-main);">${p.name}</div>
+              <div style="font-size:0.73rem; color:var(--text-muted);">${p.rank} • ${p.force} (${p.id})</div>
+              <div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.1rem;"><i class="fas fa-map-marker-alt" style="color:#0284c7;"></i> ${p.station || 'Field Post'}</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div style="display:flex; align-items:center; gap:0.4rem; margin-bottom:0.25rem;">
+            <span style="font-size:1.05rem; font-weight:800; color:${stressColor};">${stress}%</span>
+          </div>
+          <div>${thresholdBadge}</div>
+        </td>
+        <td>
+          <div style="font-weight:700; font-size:0.84rem; color:var(--text-main);">${modality}</div>
+          <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.2rem;">
+            <i class="fas fa-stethoscope" style="color:#0ea5e9;"></i> Regimen: ${p.treatmentRequired?.priority || 'Clinical Care'}
+          </div>
+        </td>
+        <td>
+          ${statusBadge}
+          <div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.25rem;">
+            ${isTreated ? 'Clinically Cleared' : 'In-Clinic Sessions Active'}
+          </div>
+        </td>
+        <td>
+          <div style="font-size:0.78rem; font-weight:700; color:var(--text-main);">
+            <i class="fas fa-user-md" style="color:#0284c7;"></i> ${moDoctor}
+          </div>
+          <div style="font-size:0.72rem; color:var(--text-muted); font-style:italic; margin-top:0.15rem; max-width:240px; line-height:1.3;">
+            "${moNotes}"
+          </div>
+        </td>
+        <td style="text-align: center;">
+          ${actionCellHtml}
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+    if (this.renderWelfareHorizontalScroller) this.renderWelfareHorizontalScroller();
+  }
+
+  // ==========================================================
+  // WELFARE BOTTOM HORIZONTAL SCROLLER
+  // ==========================================================
+  renderWelfareHorizontalScroller() {
+    const track = document.getElementById('welfareHorizontalScroller');
+    if (!track) return;
+    const list = this.personnelList || [];
+    if (!list.length) return;
+
+    // Clone and sort by stress descending to put highest priority soldiers first
+    const sortedList = [...list].sort((a, b) => (b.liveStressLevel || b.riskScore || 0) - (a.liveStressLevel || a.riskScore || 0));
+
+    track.innerHTML = '';
+    sortedList.forEach(p => {
+      const stress = p.liveStressLevel || p.riskScore || 50;
+      const isAbove80 = (stress > 80);
+      const med = p.medicalTreatment || {};
+      const status = med.status || 'Undergoing Treatment';
+      const isTreated = (status === 'Treated');
+      const wRep = p.welfareCommanderReporting || {};
+      const modality = med.prescribedModality || '1-on-1 Clinical Counseling';
+
+      let borderClass = 'stress-low';
+      let stressColor = '#10b981';
+      if (stress >= 80) {
+        borderClass = 'stress-critical';
+        stressColor = '#ef4444';
+      } else if (stress >= 65) {
+        borderClass = 'stress-high';
+        stressColor = '#f97316';
+      } else if (stress >= 45) {
+        borderClass = 'stress-mod';
+        stressColor = '#eab308';
+      }
+
+      const thresholdBadge = isAbove80
+        ? `<span class="badge-threshold-high" style="font-size:0.68rem; padding:0.15rem 0.45rem;"><i class="fas fa-exclamation-triangle"></i> &gt;80% Critical</span>`
+        : `<span class="badge-threshold-low" style="font-size:0.68rem; padding:0.15rem 0.45rem;"><i class="fas fa-shield-alt"></i> &le;80% Standard</span>`;
+
+      const statusBadge = isTreated
+        ? `<span class="badge-log-status done" style="font-size:0.68rem; padding:0.15rem 0.45rem;"><i class="fas fa-check-circle"></i> Done</span>`
+        : `<span class="badge-log-status pending" style="font-size:0.68rem; padding:0.15rem 0.45rem;"><i class="fas fa-clock"></i> In Progress</span>`;
+
+      let actionHtml = '';
+      if (isAbove80) {
+        if (!wRep.absenceReported) {
+          actionHtml = `
+            <button class="btn-ledger-action report" style="width:100%; justify-content:center; padding:0.42rem 0.6rem; font-size:0.72rem;" onclick="rakshakApp.openWelfareAbsenceModal('${p.id}', 'report')">
+              <i class="fas fa-bullhorn"></i> Report Absence (&gt;80%)
+            </button>
+          `;
+        } else {
+          actionHtml = `
+            <div class="ledger-status-box">
+              <span class="ledger-status-pill reported" style="font-size:0.68rem; padding:0.2rem 0.5rem;"><i class="fas fa-bullhorn"></i> Absence Reported (${wRep.absenceDays || 5}d)</span>
+              <span class="ledger-sub-text" style="color:${wRep.commanderApproved ? '#10b981' : '#f97316'}; font-weight:700;">
+                <i class="fas ${wRep.commanderApproved ? 'fa-check-circle' : 'fa-paper-plane'}"></i> ${wRep.commanderApproved ? 'CO Acknowledged' : 'Notice Sent to CO'}
+              </span>
+            </div>
+          `;
+        }
+      } else {
+        if (!wRep.absenceReported) {
+          actionHtml = `
+            <button class="btn-ledger-action permission" style="width:100%; justify-content:center; padding:0.42rem 0.6rem; font-size:0.72rem;" onclick="rakshakApp.openWelfareAbsenceModal('${p.id}', 'permission')">
+              <i class="fas fa-hand-paper"></i> Ask Permission (&le;80%)
+            </button>
+          `;
+        } else if (!wRep.commanderApproved) {
+          actionHtml = `
+            <div class="ledger-status-box">
+              <span class="ledger-status-pill pending" style="font-size:0.68rem; padding:0.2rem 0.5rem;"><i class="fas fa-hourglass-half"></i> Permission Requested (${wRep.absenceDays || 3}d)</span>
+              <span class="ledger-sub-text" style="color:#f97316; font-weight:700;"><i class="fas fa-clock"></i> Pending CO Approval</span>
+            </div>
+          `;
+        } else {
+          actionHtml = `
+            <div class="ledger-status-box">
+              <span class="ledger-status-pill approved" style="font-size:0.68rem; padding:0.2rem 0.5rem;"><i class="fas fa-check-double"></i> Permission Granted</span>
+              <span class="ledger-sub-text" style="color:#10b981; font-weight:700;"><i class="fas fa-shield-alt"></i> Sanctioned by CO</span>
+            </div>
+          `;
+        }
+      }
+
+      const card = document.createElement('div');
+      card.className = `welfare-scroller-card ${borderClass}`;
+      card.innerHTML = `
+        <div class="scroller-card-header">
+          ${this.renderInitialsBadge(p.name, 40)}
+          <div class="scroller-card-soldier-info">
+            <div class="scroller-card-name" title="${p.name}">${p.name}</div>
+            <div class="scroller-card-sub">${p.rank} • ${p.force} (${p.id})</div>
+            <div class="scroller-card-station">
+              <i class="fas fa-map-marker-alt" style="color:#0284c7;"></i> ${p.station || 'Field Post'}
+            </div>
+          </div>
+        </div>
+
+        <div class="scroller-card-stress-box">
+          <div class="scroller-card-stress-top">
+            <div>
+              <div style="font-size:0.66rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Live Stress</div>
+              <div class="scroller-card-stress-val" style="color:${stressColor};">${stress}%</div>
+            </div>
+            <div>${thresholdBadge}</div>
+          </div>
+          <div class="progress-track" style="height:5px; background:var(--border-card);">
+            <div class="progress-fill" style="width:${stress}%; background:linear-gradient(90deg, #10b981, #f59e0b, #ef4444);"></div>
+          </div>
+        </div>
+
+        <div class="scroller-card-treatment-box">
+          <div class="scroller-treatment-top">
+            <span class="scroller-treatment-label"><i class="fas fa-stethoscope" style="color:#0ea5e9;"></i> Medical Care</span>
+            ${statusBadge}
+          </div>
+          <div class="scroller-treatment-modality" title="${modality}">
+            ${modality}
+          </div>
+        </div>
+
+        <div class="scroller-card-action-box">
+          ${actionHtml}
+        </div>
+      `;
+      track.appendChild(card);
+    });
+  }
+
+  scrollWelfareScroller(direction) {
+    const track = document.getElementById('welfareHorizontalScroller');
+    if (!track) return;
+    const scrollAmount = 340;
+    if (direction === 'left') {
+      track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  }
+
+  openWelfareAbsenceModal(pid, explicitMode = null) {
+    const p = this.personnelList.find(x => x.id.toLowerCase() === pid.toLowerCase());
+    if (!p) return;
+    this.currentAbsenceTargetPid = pid;
+
+    const stress = p.liveStressLevel || p.riskScore || 60;
+    const mode = explicitMode || (stress > 80 ? 'report' : 'permission');
+
+    const elId = document.getElementById('wAbsenceSoldierId');
+    const elMode = document.getElementById('wAbsenceMode');
+    const elName = document.getElementById('wAbsenceSoldierName');
+    const elStress = document.getElementById('wAbsenceStressPct');
+    const elModality = document.getElementById('wAbsenceModality');
+    const elRule = document.getElementById('wAbsenceRuleText');
+    const elStatus = document.getElementById('wAbsenceStatus');
+    const elReason = document.getElementById('wAbsenceReason');
+    const elNotes = document.getElementById('wAbsenceNotes');
+    const elTitle = document.getElementById('wAbsenceModalTitle');
+    const elSubtitle = document.getElementById('wAbsenceModalSubtitle');
+    const elIcon = document.getElementById('wAbsenceIconBadge');
+    const elDirectiveText = document.getElementById('wAbsenceDirectiveText');
+    const elDirectiveIcon = document.getElementById('wAbsenceDirectiveIcon');
+    const elSubmitBtn = document.getElementById('wAbsenceSubmitBtn');
+
+    if (elId) elId.value = p.id;
+    if (elMode) elMode.value = mode;
+    if (elName) elName.innerText = `${p.rank} ${p.name} (${p.id})`;
+    if (elStress) {
+      elStress.innerText = `${stress}%`;
+      elStress.style.color = stress > 80 ? '#ef4444' : '#2563eb';
+    }
+    if (elModality) elModality.innerText = p.medicalTreatment?.prescribedModality || '1-on-1 Clinical Counseling';
+    if (elStatus) elStatus.value = p.medicalTreatment?.status || 'Undergoing Treatment';
+    if (elReason) elReason.value = `Base Hospital Clinical Care (${p.medicalTreatment?.prescribedModality || 'Counseling'})`;
+
+    if (mode === 'report') {
+      if (elTitle) elTitle.innerText = "📢 Report Absence to Commander (Stress > 80%)";
+      if (elSubtitle) elSubtitle.innerText = "Mandatory Commander notification for critical stress exceeding 80% undergoing medical care";
+      if (elIcon) {
+        elIcon.style.background = "linear-gradient(135deg, #ea580c, #dc2626)";
+        elIcon.innerHTML = '<i class="fas fa-bullhorn"></i>';
+      }
+      if (elRule) {
+        elRule.innerText = "Stress > 80% (Mandatory Notice)";
+        elRule.style.color = "#ef4444";
+      }
+      if (elDirectiveIcon) {
+        elDirectiveIcon.className = "fas fa-bullhorn";
+        elDirectiveIcon.style.color = "#ea580c";
+      }
+      if (elDirectiveText) {
+        elDirectiveText.innerHTML = "<strong>Protocol Directive (Stress > 80%):</strong> Due to acute critical stress exceeding 80%, the Welfare Officer submits a mandatory Absence Notification directly to the Commanding Officer so the soldier can immediately undergo medical treatment.";
+      }
+      if (elSubmitBtn) {
+        elSubmitBtn.innerHTML = '<i class="fas fa-bullhorn"></i> Dispatch Absence Notice to Commander';
+        elSubmitBtn.style.background = "linear-gradient(135deg, #ea580c, #dc2626)";
+      }
+      if (elNotes) elNotes.value = `Personnel has critical stress (${stress}% > 80%). Relieved for in-clinic medical decompression. Sub-unit buddy assigned to cover duty shifts.`;
+    } else {
+      if (elTitle) elTitle.innerText = "✋ Ask Permission from Commander (Stress ≤ 80%)";
+      if (elSubtitle) elSubtitle.innerText = "Duty absence clearance request for personnel with stress ≤ 80% undergoing medical care";
+      if (elIcon) {
+        elIcon.style.background = "linear-gradient(135deg, #2563eb, #1d4ed8)";
+        elIcon.innerHTML = '<i class="fas fa-hand-paper"></i>';
+      }
+      if (elRule) {
+        elRule.innerText = "Stress ≤ 80% (Permission Required)";
+        elRule.style.color = "#2563eb";
+      }
+      if (elDirectiveIcon) {
+        elDirectiveIcon.className = "fas fa-shield-alt";
+        elDirectiveIcon.style.color = "#2563eb";
+      }
+      if (elDirectiveText) {
+        elDirectiveText.innerHTML = "<strong>Protocol Directive (Stress ≤ 80%):</strong> For stress levels at or below 80%, the Welfare Officer must ask permission from the Commanding Officer before personnel are formally granted absence from duty rosters.";
+      }
+      if (elSubmitBtn) {
+        elSubmitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Ask Permission from Commander';
+        elSubmitBtn.style.background = "linear-gradient(135deg, #2563eb, #1d4ed8)";
+      }
+      if (elNotes) elNotes.value = `Personnel has stress level of ${stress}%. Clinical therapy sessions recommended by MO. Requesting CO authorization for temporary duty absence.`;
+    }
+
+    const modal = document.getElementById('welfareAbsenceModal');
+    if (modal) modal.classList.add('active');
+  }
+
+  closeWelfareAbsenceModal() {
+    const modal = document.getElementById('welfareAbsenceModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  async submitWelfareAbsenceReport(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const pid = document.getElementById('wAbsenceSoldierId')?.value || this.currentAbsenceTargetPid;
+    const mode = document.getElementById('wAbsenceMode')?.value || 'report';
+    const status = document.getElementById('wAbsenceStatus')?.value;
+    const reason = document.getElementById('wAbsenceReason')?.value;
+    const days = document.getElementById('wAbsenceDays')?.value;
+    const notes = document.getElementById('wAbsenceNotes')?.value;
+
+    try {
+      const res = await fetch(`/api/welfare/report-commander-absence`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          soldierId: pid,
+          mode: mode,
+          personnelStatus: status,
+          absenceReason: reason,
+          absenceDays: parseInt(days || 5),
+          notes: notes
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const p = this.personnelList.find(x => x.id.toLowerCase() === pid.toLowerCase());
+        if (p) {
+          p.welfareCommanderReporting = data.welfareCommanderReporting;
+        }
+        this.closeWelfareAbsenceModal();
+        this.renderWelfareApplicationsTable();
+        this.renderWelfareConsole();
+        if (this.renderWelfareHorizontalScroller) this.renderWelfareHorizontalScroller();
+        const actionMsg = mode === 'report' ? 'Absence notice dispatched to Commander' : 'Permission request submitted to Commander';
+        this.showToast(`📋 ${actionMsg} for ${p ? p.name : pid}!`);
+      }
+    } catch(err) {
+      this.showToast("Failed to process absence action.");
+    }
+  }
+
+  async commanderApproveAbsence(pid) {
+    try {
+      const res = await fetch(`/api/commander/approve-absence`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ soldierId: pid, approved: true })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const p = this.personnelList.find(x => x.id.toLowerCase() === pid.toLowerCase());
+        if (p && p.welfareCommanderReporting) {
+          p.welfareCommanderReporting.commanderApproved = true;
+        }
+        await this.fetchPersonnel();
+        this.renderCommanderTable(this.personnelList);
+        this.renderWelfareApplicationsTable();
+        if (this.renderWelfareHorizontalScroller) this.renderWelfareHorizontalScroller();
+        this.showToast(`Medical absence approved/acknowledged by Commanding Officer for ${p ? p.name : pid}!`);
+      }
+    } catch(err) {
+      this.showToast("Failed to approve absence.");
+    }
+  }
+
+  // ==========================================================
+  // DOWNLOAD & PWA INSTALL CONTROLLER
+  // ==========================================================
+  openDownloadModal() {
+    const modal = document.getElementById('downloadModal');
+    if (modal) modal.classList.add('active');
+  }
+
+  closeDownloadModal() {
+    const modal = document.getElementById('downloadModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  initPwa() {
+    this.deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+      const btn = document.getElementById('btnDownloadApp');
+      if (btn) {
+        btn.classList.add('pwa-ready');
+        const text = document.getElementById('downloadBtnText');
+        if (text) text.innerText = 'Install App';
+      }
+      const triggerBtn = document.getElementById('btnTriggerPwaInstall');
+      if (triggerBtn) {
+        triggerBtn.innerHTML = '<i class="fas fa-download"></i> Install Rakshak AI Directly Now';
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      this.deferredPrompt = null;
+      this.showToast('✅ Rakshak AI installed as desktop/mobile app successfully!');
+      this.closeDownloadModal();
+    });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then((reg) => {
+          console.log('Rakshak AI Service Worker registered with scope:', reg.scope);
+        }).catch((err) => {
+          console.warn('Service Worker registration skipped/failed:', err);
+        });
+      });
+    }
+  }
+
+  async triggerPwaInstall() {
+    if (this.deferredPrompt) {
+      this.deferredPrompt.prompt();
+      const choiceResult = await this.deferredPrompt.userChoice;
+      if (choiceResult && choiceResult.outcome === 'accepted') {
+        this.showToast('Installing Rakshak AI onto your system...');
+      }
+      this.deferredPrompt = null;
+    } else {
+      this.showToast('💡 To install: click the Install icon (⊞ or ⬇️) in your browser address bar, or use the Desktop ZIP package!');
     }
   }
 
