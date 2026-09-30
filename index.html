@@ -654,7 +654,7 @@
           <div class="filter-pills-group">
             <button class="filter-pill active" onclick="rakshakApp.filterPersonnel('all', this)">All (28)</button>
             <button class="filter-pill" onclick="rakshakApp.filterPersonnel('pending_permissions', this)">✋ Pending Approvals</button>
-            <button class="filter-pill" onclick="rakshakApp.filterPersonnel('absence_notices', this)">📢 Absence Notices (&gt;80%)</button>
+            <button class="filter-pill" onclick="rakshakApp.filterPersonnel('absence_notices', this)">📢 Direct MO Notices (&gt;75%)</button>
             <button class="filter-pill" onclick="rakshakApp.filterPersonnel('undergoing', this)">⏳ Undergoing Care</button>
             <button class="filter-pill" onclick="rakshakApp.filterPersonnel('treated', this)">✅ Treated</button>
             <button class="filter-pill" onclick="rakshakApp.filterPersonnel('critical', this)">🔴 Critical Only</button>
@@ -751,39 +751,39 @@
           </div>
         </div>
 
-        <!-- 5 Top KPI Cards for Medical Console -->
+        <!-- 5 Top KPI Cards for Medical Console (Only Referred Patients) -->
         <div class="kpi-cards-grid five-col">
           <div class="kpi-metric-card monitored">
             <div class="kpi-metric-info">
-              <h5>Total Monitored</h5>
-              <div id="kMedTotal" class="kpi-metric-val">28</div>
-              <span class="kpi-metric-badge" style="color:#0284c7;">Active Roster</span>
+              <h5>Patients in Queue</h5>
+              <div id="kMedTotal" class="kpi-metric-val">0</div>
+              <span class="kpi-metric-badge" style="color:#0284c7;">Referred for Care</span>
             </div>
-            <div class="kpi-icon-badge blue"><i class="fas fa-users"></i></div>
+            <div class="kpi-icon-badge blue"><i class="fas fa-hospital-user"></i></div>
           </div>
 
           <div class="kpi-metric-card critical">
             <div class="kpi-metric-info">
-              <h5>Immediate Priority</h5>
-              <div id="kMedImmediate" class="kpi-metric-val">12</div>
-              <span class="kpi-metric-badge" style="color:#ef4444;">≥70% Stress</span>
+              <h5>Direct Referrals (&gt;75%)</h5>
+              <div id="kMedDirect" class="kpi-metric-val">0</div>
+              <span class="kpi-metric-badge" style="color:#ef4444;">Welfare Urgent Bypass</span>
             </div>
-            <div class="kpi-icon-badge red"><i class="fas fa-ambulance"></i></div>
+            <div class="kpi-icon-badge red"><i class="fas fa-bolt"></i></div>
           </div>
 
           <div class="kpi-metric-card high">
             <div class="kpi-metric-info">
-              <h5>High Priority</h5>
-              <div id="kMedHigh" class="kpi-metric-val">6</div>
-              <span class="kpi-metric-badge" style="color:#f97316;">55% - 69%</span>
+              <h5>Commander Approved (&le;75%)</h5>
+              <div id="kMedApproved" class="kpi-metric-val">0</div>
+              <span class="kpi-metric-badge" style="color:#0284c7;">Sanctioned Applications</span>
             </div>
-            <div class="kpi-icon-badge orange"><i class="fas fa-heartbeat"></i></div>
+            <div class="kpi-icon-badge orange"><i class="fas fa-shield-check"></i></div>
           </div>
 
           <div class="kpi-metric-card mod">
             <div class="kpi-metric-info">
               <h5>Undergoing Care</h5>
-              <div id="kMedUndergoing" class="kpi-metric-val">14</div>
+              <div id="kMedUndergoing" class="kpi-metric-val">0</div>
               <span class="kpi-metric-badge" style="color:#eab308;">Active Therapy</span>
             </div>
             <div class="kpi-icon-badge yellow"><i class="fas fa-procedures"></i></div>
@@ -791,11 +791,19 @@
 
           <div class="kpi-metric-card green">
             <div class="kpi-metric-info">
-              <h5>Successfully Treated</h5>
-              <div id="kMedTreated" class="kpi-metric-val">8</div>
-              <span class="kpi-metric-badge" style="color:#10b981;">Stabilized</span>
+              <h5>Discharged / Treated</h5>
+              <div id="kMedTreated" class="kpi-metric-val">0</div>
+              <span class="kpi-metric-badge" style="color:#10b981;">Stabilized & Cleared</span>
             </div>
             <div class="kpi-icon-badge green"><i class="fas fa-check-circle"></i></div>
+          </div>
+        </div>
+
+        <!-- Clinical Queue Isolation Protocol Notice -->
+        <div class="medical-access-notice">
+          <i class="fas fa-user-shield" style="font-size: 1.25rem; color:#0ea5e9; flex-shrink: 0;"></i>
+          <div>
+            <strong>Clinical Triage Isolation:</strong> The Medical Officer console <strong>only displays personnel actively referred for treatment</strong> (either directly sent by Welfare Officer due to stress &gt; 75%, or approved by Commander for stress &le; 75%). Unreferred personnel on regular duty are strictly excluded from this clinical queue.
           </div>
         </div>
 
@@ -803,18 +811,15 @@
         <div class="commander-filter-bar">
           <div class="search-box-wrapper">
             <i class="fas fa-search search-icon"></i>
-            <input type="text" id="medicalSearchInput" class="input-commander-search" placeholder="Search patient by name, Service ID (e.g. 'Rajesh', 'CRPF-94821')..." oninput="rakshakApp.handleMedicalSearch(this.value)" />
+            <input type="text" id="medicalSearchInput" class="input-commander-search" placeholder="Search referred patient by name, Service ID (e.g. 'Rajesh', 'CRPF-94821')..." oninput="rakshakApp.handleMedicalSearch(this.value)" />
           </div>
 
           <div class="filter-pills-group">
-            <button class="filter-pill active" onclick="rakshakApp.filterMedical('all', this)">All (28)</button>
-            <button class="filter-pill" onclick="rakshakApp.filterMedical('immediate', this)">🔴 Immediate (≥70%)</button>
-            <button class="filter-pill" onclick="rakshakApp.filterMedical('high', this)">🟠 High (55-69%)</button>
-            <button class="filter-pill" onclick="rakshakApp.filterMedical('medium', this)">🟡 Medium (40-54%)</button>
-            <button class="filter-pill" onclick="rakshakApp.filterMedical('low', this)">🟢 Low (&lt;40%)</button>
+            <button class="filter-pill active" onclick="rakshakApp.filterMedical('all', this)">All Patients</button>
+            <button class="filter-pill" onclick="rakshakApp.filterMedical('direct', this)">⚡ Direct Welfare Referrals (&gt;75%)</button>
+            <button class="filter-pill" onclick="rakshakApp.filterMedical('commander', this)">🛡️ Commander Approved (&le;75%)</button>
             <button class="filter-pill" onclick="rakshakApp.filterMedical('undergoing', this)">⏳ Undergoing Treatment</button>
-            <button class="filter-pill" onclick="rakshakApp.filterMedical('treated', this)">✅ Treated</button>
-            <button class="filter-pill" onclick="rakshakApp.filterMedical('escalated', this)">🚨 Direct Welfare Referrals</button>
+            <button class="filter-pill" onclick="rakshakApp.filterMedical('treated', this)">✅ Treated / Discharged</button>
           </div>
 
           <select class="sort-select-dropdown" onchange="rakshakApp.handleMedicalSortChange(this.value)">
@@ -849,66 +854,166 @@
               <p style="font-size:0.83rem; color:var(--text-muted); margin:0;">Review live stress ratings across all 28 force personnel, validate clinical severity, and pass confidential action suggestions to the Commanding Officer. <em>All advisories are completely isolated from personnel files.</em></p>
             </div>
           </div>
-          <div class="welfare-officer-signature-pill">
-            <i class="fas fa-user-check" style="color:#10b981; font-size:1.4rem;"></i>
-            <div>
-              <strong style="display:block; font-size:0.88rem; color:var(--text-main);">Maj. Sunita Rao</strong>
-              <span style="font-size:0.75rem; color:var(--text-muted);">Unit Welfare Officer</span>
+          <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+            <button type="button" class="btn-table-action" onclick="rakshakApp.resetAllWorkflowData()" style="background:rgba(239, 68, 68, 0.12); border:1px solid rgba(239, 68, 68, 0.35); color:#ef4444; font-weight:700; padding:0.55rem 1rem; border-radius:var(--radius-sm); font-size:0.8rem; cursor:pointer; display:inline-flex; align-items:center; gap:0.4rem; transition:all 0.2s;" title="Reset all referrals, applications, and treatment approvals to initial state">
+              <i class="fas fa-redo-alt"></i> Reset All Options
+            </button>
+            <div class="welfare-officer-signature-pill">
+              <i class="fas fa-user-check" style="color:#10b981; font-size:1.4rem;"></i>
+              <div>
+                <strong style="display:block; font-size:0.88rem; color:var(--text-main);">Maj. Sunita Rao</strong>
+                <span style="font-size:0.75rem; color:var(--text-muted);">Unit Welfare Officer</span>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Welfare Sub-Navigation Tabs -->
         <div class="welfare-subtabs-bar">
-          <button id="btnWelfareSubTab_apps" class="welfare-subtab-btn active" onclick="rakshakApp.switchWelfareSubTab('applications')">
-            <i class="fas fa-clipboard-list"></i> Applications & Medical Treatment Log Book
-            <span id="kWelfareAppsBadge" class="subtab-count-badge">28</span>
+          <button id="btnWelfareSubTab_triage" class="welfare-subtab-btn active" onclick="rakshakApp.switchWelfareSubTab('triage')">
+            <i class="fas fa-heart-pulse"></i> Stress Overview &amp; Action Center (75% Protocol)
+            <span id="kWelfareStressBadge" class="subtab-count-badge">28</span>
           </button>
-          <button id="btnWelfareSubTab_roster" class="welfare-subtab-btn" onclick="rakshakApp.switchWelfareSubTab('roster')">
-            <i class="fas fa-users"></i> Force Personnel Overview & Validation
+          <button id="btnWelfareSubTab_apps" class="welfare-subtab-btn" onclick="rakshakApp.switchWelfareSubTab('applications')">
+            <i class="fas fa-clipboard-list"></i> Applications &amp; Treatment Log Book
+            <span id="kWelfareAppsBadge" class="subtab-count-badge">0</span>
           </button>
         </div>
 
         <!-- ============================================================ -->
-        <!-- SUBVIEW 1: APPLICATIONS & SYSTEMATIC MEDICAL TREATMENT LOG BOOK -->
+        <!-- SUBVIEW 1: STRESS OVERVIEW & TRIAGE ACTION CENTER (75% PROTOCOL) -->
         <!-- ============================================================ -->
-        <div id="welfareSubView_apps">
+        <div id="welfareSubView_triage">
+          <!-- 4 Top KPI Cards for Welfare Triage -->
+          <div class="kpi-cards-grid">
+            <div class="kpi-metric-card monitored">
+              <div class="kpi-metric-info">
+                <h5>Total Personnel</h5>
+                <div id="kWelfareTotal" class="kpi-metric-val">28</div>
+                <span class="kpi-metric-badge" style="color:#0284c7;">Active Roster</span>
+              </div>
+              <div class="kpi-icon-badge blue"><i class="fas fa-users"></i></div>
+            </div>
+
+            <div class="kpi-metric-card critical">
+              <div class="kpi-metric-info">
+                <h5>Stress &gt; 75% (Direct MO)</h5>
+                <div id="kWelfareAbove75" class="kpi-metric-val">10</div>
+                <span class="kpi-metric-badge" style="color:#ef4444;">⚡ Direct MO Referral</span>
+              </div>
+              <div class="kpi-icon-badge red"><i class="fas fa-bolt"></i></div>
+            </div>
+
+            <div class="kpi-metric-card high">
+              <div class="kpi-metric-info">
+                <h5>Stress &le; 75% (Commander App)</h5>
+                <div id="kWelfareBelow75" class="kpi-metric-val">18</div>
+                <span class="kpi-metric-badge" style="color:#0284c7;">📝 Commander Application</span>
+              </div>
+              <div class="kpi-icon-badge orange"><i class="fas fa-file-signature"></i></div>
+            </div>
+
+            <div class="kpi-metric-card mod">
+              <div class="kpi-metric-info">
+                <h5>In MO Treatment Queue</h5>
+                <div id="kWelfareInMoQueue" class="kpi-metric-val">0</div>
+                <span class="kpi-metric-badge" style="color:#10b981;">Active Patients</span>
+              </div>
+              <div class="kpi-icon-badge green"><i class="fas fa-user-doctor"></i></div>
+            </div>
+          </div>
+
+          <!-- Protocol Guidance Box -->
+          <div class="welfare-protocol-notice">
+            <i class="fas fa-scale-balanced" style="font-size: 1.3rem; color:#f59e0b; flex-shrink:0;"></i>
+            <div style="font-size: 0.83rem; line-height: 1.5; color:var(--text-main);">
+              <strong>Welfare Officer Decision Protocol:</strong> First inspect live stress levels below. 
+              If deemed necessary (<strong>Stress &gt; 75%</strong>), directly dispatch a treatment request to the Medical Officer based on severity (counseling, therapy) <em>without waiting for prior Commander approval</em>.
+              If <strong>Stress &le; 75%</strong>, send a formal application to the Commander — once approved by the Commander, the personnel is forwarded to the Medical Officer with options to treat.
+            </div>
+          </div>
+
+          <!-- Welfare Triage Filter & Search Bar -->
+          <div class="commander-filter-bar">
+            <div class="search-box-wrapper">
+              <i class="fas fa-search search-icon"></i>
+              <input type="text" id="welfareTriageSearchInput" class="input-commander-search" placeholder="Search personnel by name, Service ID (e.g. 'Rajesh', 'CRPF-94821', 'BSF')..." oninput="rakshakApp.handleWelfareTriageSearch(this.value)" />
+            </div>
+
+            <div class="filter-pills-group">
+              <button class="filter-pill active" onclick="rakshakApp.filterWelfareTriage('all', this)">All (28)</button>
+              <button class="filter-pill" onclick="rakshakApp.filterWelfareTriage('above75', this)">⚡ Stress &gt; 75% (Direct MO)</button>
+              <button class="filter-pill" onclick="rakshakApp.filterWelfareTriage('below75', this)">📝 Stress &le; 75% (Commander App)</button>
+              <button class="filter-pill" onclick="rakshakApp.filterWelfareTriage('in_mo', this)">⏳ Sent to MO</button>
+              <button class="filter-pill" onclick="rakshakApp.filterWelfareTriage('cmd_approved', this)">✅ Commander Approved</button>
+            </div>
+
+            <select class="sort-select-dropdown" id="welfareTriageSortSelect" onchange="rakshakApp.handleWelfareTriageSortChange(this.value)">
+              <option value="stress_desc">Sort: Live Stress % (Highest First) ⚠️</option>
+              <option value="stress_asc">Sort: Live Stress % (Lowest First)</option>
+              <option value="name_asc">Personnel Name (A to Z)</option>
+            </select>
+          </div>
+
+          <!-- Stress Triage Table -->
+          <div class="welfare-applications-container">
+            <table class="welfare-applications-table">
+              <thead>
+                <tr>
+                  <th style="width: 240px;">Personnel</th>
+                  <th style="width: 170px;">Live Stress %</th>
+                  <th style="width: 220px;">Vitals &amp; Fatigue Indicators</th>
+                  <th style="width: 220px;">Protocol Classification</th>
+                  <th style="text-align: center; width: 260px;">Welfare Officer Action</th>
+                </tr>
+              </thead>
+              <tbody id="welfareStressTriageTableBody">
+                <!-- Populated dynamically by app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SUBVIEW 2: APPLICATIONS & SYSTEMATIC MEDICAL TREATMENT LOG BOOK -->
+        <!-- ============================================================ -->
+        <div id="welfareSubView_apps" style="display: none;">
           <!-- KPI Metrics for Applications Logbook -->
           <div class="kpi-cards-grid">
             <div class="kpi-metric-card monitored">
               <div class="kpi-metric-info">
                 <h5>Total Applications Logged</h5>
-                <div id="kAppTotal" class="kpi-metric-val">28</div>
-                <span class="kpi-metric-badge" style="color:#0284c7;">Medical Care Registry</span>
+                <div id="kAppTotal" class="kpi-metric-val">0</div>
+                <span class="kpi-metric-badge" style="color:#0284c7;">Registry</span>
               </div>
               <div class="kpi-icon-badge blue"><i class="fas fa-clipboard-list"></i></div>
             </div>
 
             <div class="kpi-metric-card mod">
               <div class="kpi-metric-info">
-                <h5>Done (Treated)</h5>
-                <div id="kAppDone" class="kpi-metric-val">8</div>
-                <span class="kpi-metric-badge" style="color:#10b981;">Stabilized & Cleared</span>
+                <h5>Discharged / Treated</h5>
+                <div id="kAppDone" class="kpi-metric-val">0</div>
+                <span class="kpi-metric-badge" style="color:#10b981;">Stabilized</span>
               </div>
               <div class="kpi-icon-badge green"><i class="fas fa-check-circle"></i></div>
             </div>
 
             <div class="kpi-metric-card high">
               <div class="kpi-metric-info">
-                <h5>About to be Done</h5>
-                <div id="kAppUndergoing" class="kpi-metric-val">20</div>
-                <span class="kpi-metric-badge" style="color:#f59e0b;">Scheduled / Undergoing</span>
+                <h5>Undergoing Care</h5>
+                <div id="kAppUndergoing" class="kpi-metric-val">0</div>
+                <span class="kpi-metric-badge" style="color:#f59e0b;">In Session</span>
               </div>
               <div class="kpi-icon-badge yellow"><i class="fas fa-procedures"></i></div>
             </div>
 
             <div class="kpi-metric-card critical">
               <div class="kpi-metric-info">
-                <h5>Stress &gt; 80% (Report Absence)</h5>
-                <div id="kAppAbove80" class="kpi-metric-val">5</div>
-                <span class="kpi-metric-badge" style="color:#ef4444;">Mandatory CO Notice</span>
+                <h5>Direct MO Referrals (&gt;75%)</h5>
+                <div id="kAppAbove75" class="kpi-metric-val">0</div>
+                <span class="kpi-metric-badge" style="color:#ef4444;">Direct MO</span>
               </div>
-              <div class="kpi-icon-badge red"><i class="fas fa-bullhorn"></i></div>
+              <div class="kpi-icon-badge red"><i class="fas fa-bolt"></i></div>
             </div>
           </div>
 
@@ -921,8 +1026,8 @@
 
             <div class="filter-pills-group">
               <button class="filter-pill active" onclick="rakshakApp.filterWelfareApps('all', this)">All (28)</button>
-              <button class="filter-pill" onclick="rakshakApp.filterWelfareApps('above80', this)">🔴 Stress &gt; 80% (Report Absence)</button>
-              <button class="filter-pill" onclick="rakshakApp.filterWelfareApps('below80', this)">🔵 Stress &le; 80% (Ask Permission)</button>
+              <button class="filter-pill" onclick="rakshakApp.filterWelfareApps('above80', this)">🔴 Stress &gt; 75% (Direct MO Referral)</button>
+              <button class="filter-pill" onclick="rakshakApp.filterWelfareApps('below80', this)">🔵 Stress &le; 75% (Commander Application)</button>
               <button class="filter-pill" onclick="rakshakApp.filterWelfareApps('undergoing', this)">⏳ About to be Done</button>
               <button class="filter-pill" onclick="rakshakApp.filterWelfareApps('treated', this)">✅ Done (Treated)</button>
               <button class="filter-pill" onclick="rakshakApp.filterWelfareApps('reported', this)">📢 Reported to CO</button>
@@ -1573,18 +1678,18 @@
     </div>
   </div>
 
-  <!-- Modal: Welfare Officer Report Personnel Absence & Status to Commander (80% Rule) -->
+  <!-- Modal: Welfare Officer Submit Treatment Application to Commander (Stress <= 75%) -->
   <div id="welfareAbsenceModal" class="modal-overlay">
     <div class="modal-content-box welfare-modal-box" style="max-width: 680px;">
       <button class="modal-close-btn" onclick="rakshakApp.closeWelfareAbsenceModal()">&times;</button>
       
       <div class="welfare-modal-header">
-        <div id="wAbsenceIconBadge" class="welfare-modal-icon-badge" style="background:linear-gradient(135deg, #ea580c, #dc2626);">
-          <i class="fas fa-bullhorn"></i>
+        <div id="wAbsenceIconBadge" class="welfare-modal-icon-badge" style="background:linear-gradient(135deg, #0284c7, #2563eb);">
+          <i class="fas fa-file-signature"></i>
         </div>
         <div>
-          <h3 id="wAbsenceModalTitle" style="font-size:1.25rem; font-weight:800; color:var(--text-main); margin-bottom:0.2rem;">📢 Report Absence to Commander (Stress &gt; 80%)</h3>
-          <p id="wAbsenceModalSubtitle" style="font-size:0.85rem; color:var(--text-muted); margin:0;">Mandatory Commander notification for personnel with Stress &gt; 80% undergoing medical care</p>
+          <h3 id="wAbsenceModalTitle" style="font-size:1.25rem; font-weight:800; color:var(--text-main); margin-bottom:0.2rem;">📝 Submit Treatment Application to Commander (Stress &le; 75%)</h3>
+          <p id="wAbsenceModalSubtitle" style="font-size:0.85rem; color:var(--text-muted); margin:0;">Application sent to Commanding Officer for permission. Once approved, soldier is forwarded to Medical Officer for treatment.</p>
         </div>
       </div>
 
@@ -1596,37 +1701,39 @@
         </div>
         <div class="wmodal-summary-item">
           <span class="wmodal-label">Live Stress</span>
-          <span class="wmodal-value highlight" id="wAbsenceStressPct">88%</span>
+          <span class="wmodal-value highlight" id="wAbsenceStressPct" style="color:#0284c7;">68%</span>
         </div>
         <div class="wmodal-summary-item">
-          <span class="wmodal-label">MO Prescription</span>
-          <span class="wmodal-value" id="wAbsenceModality">1-1 Counseling</span>
+          <span class="wmodal-label">Protocol Path</span>
+          <span class="wmodal-value" id="wAbsenceRuleText" style="color:#0284c7; font-weight:800;">Stress &le; 75% (Commander App)</span>
         </div>
         <div class="wmodal-summary-item">
-          <span class="wmodal-label">Action Requirement</span>
-          <span class="wmodal-value" id="wAbsenceRuleText" style="color:#ef4444; font-weight:800;">Stress &gt; 80% (Report Absence)</span>
+          <span class="wmodal-label">Next Step</span>
+          <span class="wmodal-value" style="color:#10b981;">CO Review &rarr; Forward to MO</span>
         </div>
       </div>
 
       <form id="welfareAbsenceForm" onsubmit="rakshakApp.submitWelfareAbsenceReport(event)">
         <input type="hidden" id="wAbsenceSoldierId" value="" />
-        <input type="hidden" id="wAbsenceMode" value="report" />
+        <input type="hidden" id="wAbsenceMode" value="permission" />
 
-        <!-- Form Field 1: Personnel Status -->
+        <!-- Form Field 1: Proposed Treatment Modality for MO -->
         <div class="auth-input-group" style="margin-bottom: 1rem;">
           <label style="font-weight:700; font-size:0.85rem; margin-bottom:0.4rem; display:block;">
-            <i class="fas fa-info-circle" style="color:#0284c7;"></i> Personnel Treatment Status Reported to Commander
+            <i class="fas fa-hand-holding-medical" style="color:#0284c7;"></i> Proposed Clinical Treatment for Medical Officer (Upon Approval)
           </label>
-          <select id="wAbsenceStatus" class="auth-input-field" required>
-            <option value="Undergoing Treatment">Undergoing Treatment (Currently attending clinical sessions / about to be done)</option>
-            <option value="Treated">Treated (Treatment complete / successfully stabilized)</option>
+          <select id="wAbsenceModalitySelect" class="auth-input-field" required>
+            <option value="1-on-1 Clinical Counseling & Stress Decompression" selected>1-on-1 Clinical Counseling &amp; Stress Decompression</option>
+            <option value="Therapy Sessions & Cognitive Relief">Therapy Sessions &amp; Cognitive Behavioral Relief</option>
+            <option value="Preventive Counseling & Routine Wellness Check">Preventive Counseling &amp; Routine Wellness Check</option>
+            <option value="Trauma-Informed Stress Relief & Sleep Decompression">Trauma-Informed Stress Relief &amp; Sleep Decompression</option>
           </select>
         </div>
 
         <!-- Form Field 2: Absence Reason -->
         <div class="auth-input-group" style="margin-bottom: 1rem;">
           <label style="font-weight:700; font-size:0.85rem; margin-bottom:0.4rem; display:block;">
-            <i class="fas fa-hospital-user" style="color:#10b981;"></i> Duty Relief & Absence Reason
+            <i class="fas fa-hospital-user" style="color:#10b981;"></i> Purpose of Clinical Duty Relief
           </label>
           <input type="text" id="wAbsenceReason" class="auth-input-field" value="Base Hospital Clinical Counseling & Decompression Duty Relief" required />
         </div>
@@ -1634,54 +1741,54 @@
         <!-- Form Field 3: Absence Duration -->
         <div class="auth-input-group" style="margin-bottom: 1rem;">
           <label style="font-weight:700; font-size:0.85rem; margin-bottom:0.4rem; display:block;">
-            <i class="fas fa-clock" style="color:#f97316;"></i> Absence Duration Requested
+            <i class="fas fa-clock" style="color:#f97316;"></i> Duty Absence Duration Requested
           </label>
           <select id="wAbsenceDays" class="auth-input-field" required>
-            <option value="3">3 Days (Short decompression & counseling)</option>
-            <option value="5" selected>5 Days (Standard therapeutic relief cycle)</option>
+            <option value="3" selected>3 Days (Short decompression & counseling)</option>
+            <option value="5">5 Days (Standard therapeutic relief cycle)</option>
             <option value="7">7 Days (Full clinical therapy & rest mandate)</option>
-            <option value="14">14 Days (Extended medical convalescence)</option>
+            <option value="0">0 Days (In-Situ / On-Duty Clinical Counseling)</option>
           </select>
         </div>
 
         <!-- Form Field 4: Justification Notes -->
         <div class="auth-input-group" style="margin-bottom: 1.2rem;">
           <label style="font-weight:700; font-size:0.85rem; margin-bottom:0.4rem; display:block;">
-            <i class="fas fa-comment-alt" style="color:#8b5cf6;"></i> Welfare Officer Notes for Commanding Officer
+            <i class="fas fa-comment-alt" style="color:#8b5cf6;"></i> Welfare Officer Justification for Commanding Officer
           </label>
-          <textarea id="wAbsenceNotes" class="auth-input-field" rows="2" placeholder="Explain duty coverage plan, sub-unit roster adjustment, or clinical rationale..." required></textarea>
+          <textarea id="wAbsenceNotes" class="auth-input-field" rows="2" placeholder="Explain rationale, sub-unit duty roster adjustments, and proposed clinical outcome..." required>Personnel exhibiting cumulative fatigue. Recommend commanding officer sanction for 1-1 counseling and therapeutic sessions at Base Hospital.</textarea>
         </div>
 
         <!-- Operational Rule Notice -->
-        <div id="wAbsenceDirectiveBox" class="welfare-airgap-notice-box">
-          <i id="wAbsenceDirectiveIcon" class="fas fa-bullhorn" style="color:#ea580c; font-size:1.3rem; flex-shrink:0;"></i>
+        <div id="wAbsenceDirectiveBox" class="welfare-airgap-notice-box" style="border-left: 4px solid #0284c7; background: rgba(2, 132, 199, 0.08);">
+          <i id="wAbsenceDirectiveIcon" class="fas fa-shield-alt" style="color:#0284c7; font-size:1.3rem; flex-shrink:0;"></i>
           <div id="wAbsenceDirectiveText" style="font-size:0.8rem; line-height:1.5; color:var(--text-main);">
-            <strong>Protocol Directive (Stress &gt; 80%):</strong> Due to acute critical stress exceeding 80%, the Welfare Officer submits a mandatory Absence Notification directly to the Commanding Officer.
+            <strong>Protocol Directive (Stress &le; 75%):</strong> Commander approval is required before clinical scheduling. Once approved by the Commander, this personnel will automatically be placed in the <strong>Medical Officer's clinical queue</strong> with options to treat.
           </div>
         </div>
 
         <div style="display: flex; gap: 0.8rem; margin-top: 1.25rem; justify-content: flex-end;">
           <button type="button" class="btn-dismiss-stress-modal" onclick="rakshakApp.closeWelfareAbsenceModal()">Cancel</button>
-          <button type="submit" id="wAbsenceSubmitBtn" class="btn-auth-submit" style="margin-top:0; width:auto; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #ea580c, #dc2626);">
-            <i class="fas fa-bullhorn"></i> Report Absence to Commander
+          <button type="submit" id="wAbsenceSubmitBtn" class="btn-auth-submit" style="margin-top:0; width:auto; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #0284c7, #2563eb);">
+            <i class="fas fa-paper-plane"></i> Send Application to Commander
           </button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Modal: Welfare Officer Direct Emergency MO Referral (>85% Rule - Bypasses Commander) -->
+  <!-- Modal: Welfare Officer Direct MO Referral (Stress > 75% - Bypasses Commander Pre-Approval) -->
   <div id="welfareDirectReferralModal" class="modal-overlay">
     <div class="modal-content-box welfare-modal-box emergency-box" style="max-width: 680px; border:2px solid #ef4444;">
       <button class="modal-close-btn" onclick="rakshakApp.closeEmergencyMoReferralModal()">&times;</button>
       
       <div class="welfare-modal-header">
         <div class="welfare-modal-icon-badge" style="background:linear-gradient(135deg, #ef4444, #b91c1c);">
-          <i class="fas fa-exclamation-triangle"></i>
+          <i class="fas fa-bolt"></i>
         </div>
         <div>
-          <h3 style="font-size:1.25rem; font-weight:800; color:#ef4444; margin-bottom:0.2rem;">🚨 Direct Emergency Medical Referral</h3>
-          <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Direct escalation to Medical Officer (Commander pre-approval bypassed — Stress &gt; 85%)</p>
+          <h3 style="font-size:1.25rem; font-weight:800; color:#ef4444; margin-bottom:0.2rem;">⚡ Direct Treatment Referral to Medical Officer (Stress &gt; 75%)</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">Direct clinical request sent to Medical Officer based on severity (1-1 Counseling, Therapy) — Commander pre-approval bypassed.</p>
         </div>
       </div>
 
@@ -1692,41 +1799,67 @@
         </div>
         <div class="wmodal-summary-item">
           <span class="wmodal-label">Critical Stress</span>
-          <span class="wmodal-value highlight" id="wDirectStressPct" style="font-size:1.1rem; color:#ef4444;">98% (CRITICAL)</span>
+          <span class="wmodal-value highlight" id="wDirectStressPct" style="font-size:1.1rem; color:#ef4444;">88% (CRITICAL)</span>
         </div>
         <div class="wmodal-summary-item">
           <span class="wmodal-label">Protocol Exemption</span>
-          <span class="wmodal-value" style="color:#ef4444;">Stress &gt; 85% Bypass</span>
+          <span class="wmodal-value" style="color:#ef4444; font-weight:800;">Stress &gt; 75% Direct MO</span>
         </div>
         <div class="wmodal-summary-item">
-          <span class="wmodal-label">Destination</span>
-          <span class="wmodal-value" style="color:#0ea5e9;">Base Hospital MO Desk</span>
+          <span class="wmodal-label">Immediate Destination</span>
+          <span class="wmodal-value" style="color:#0ea5e9; font-weight:700;">Base Hospital MO Desk</span>
         </div>
       </div>
 
       <form id="welfareDirectReferralForm" onsubmit="rakshakApp.submitEmergencyMoReferral(event)">
         <input type="hidden" id="wDirectSoldierId" value="" />
 
-        <div style="background:rgba(239, 68, 68, 0.08); border:1px solid rgba(239, 68, 68, 0.3); border-radius:var(--radius-md); padding:1rem; margin-bottom:1.2rem;">
-          <h4 style="font-size:0.92rem; font-weight:800; color:#ef4444; margin-bottom:0.4rem;">
-            <i class="fas fa-bolt"></i> Emergency Threshold Exceeded (Stress &gt; 85%)
+        <div style="background:rgba(239, 68, 68, 0.08); border:1px solid rgba(239, 68, 68, 0.3); border-radius:var(--radius-md); padding:0.9rem; margin-bottom:1.1rem;">
+          <h4 style="font-size:0.92rem; font-weight:800; color:#ef4444; margin-bottom:0.3rem;">
+            <i class="fas fa-bolt"></i> Severity Threshold Exceeded (Live Stress &gt; 75%)
           </h4>
           <p style="font-size:0.82rem; color:var(--text-main); margin:0; line-height:1.5;">
-            Under Armed Forces Psychiatric Emergency Protocol, when a jawan's live stress exceeds <strong>85%</strong>, the Welfare Officer is authorized to directly dispatch the personnel for emergency Medical Officer evaluation <strong>without waiting for prior Commander authorization</strong>.
+            Under Armed Forces Rapid Triage Protocol, when a jawan's live stress exceeds <strong>75%</strong>, the Welfare Officer directly sends a treatment request to the Medical Officer based on severity (1-1 Counseling, Therapy) <strong>without waiting for prior Commander authorization</strong>.
           </p>
         </div>
 
+        <!-- Form Field 1: Treatment Modality Based on Severity -->
+        <div class="auth-input-group" style="margin-bottom: 1rem;">
+          <label style="font-weight:700; font-size:0.85rem; margin-bottom:0.4rem; display:block;">
+            <i class="fas fa-stethoscope" style="color:#ef4444;"></i> Severity-Based Treatment Requested for Medical Officer
+          </label>
+          <select id="wDirectModalitySelect" class="auth-input-field" required>
+            <option value="1-on-1 Clinical Counseling & Psychological First Aid" selected>1-on-1 Counseling &amp; Psychological First Aid (High Severity)</option>
+            <option value="Clinical Therapy Sessions & CBT">Clinical Therapy Sessions &amp; Cognitive Behavioral Therapy (Critical Severity)</option>
+            <option value="Intensive Clinical Decompression & Psychiatric Therapy">Intensive Decompression &amp; Psychiatric Therapy (Acute Severity)</option>
+            <option value="Trauma-Informed Crisis Intervention & Sleep Relief">Trauma-Informed Crisis Intervention &amp; Sleep Relief</option>
+          </select>
+        </div>
+
+        <!-- Form Field 2: Severity Classification -->
+        <div class="auth-input-group" style="margin-bottom: 1rem;">
+          <label style="font-weight:700; font-size:0.85rem; margin-bottom:0.4rem; display:block;">
+            <i class="fas fa-thermometer-half" style="color:#f97316;"></i> Clinical Urgency &amp; Severity Level
+          </label>
+          <select id="wDirectSeveritySelect" class="auth-input-field" required>
+            <option value="Critical Severity (>75% Stress)" selected>Critical Severity (&gt;75% Stress) — Urgent Clinical Triage</option>
+            <option value="Severe Autonomic Strain">Severe Autonomic Strain &amp; Extreme Fatigue</option>
+            <option value="Acute Crisis Stabilization">Acute Crisis Stabilization Required</option>
+          </select>
+        </div>
+
+        <!-- Form Field 3: Clinical Notes -->
         <div class="auth-input-group" style="margin-bottom: 1.2rem;">
           <label style="font-weight:700; font-size:0.85rem; margin-bottom:0.4rem; display:block;">
-            <i class="fas fa-notes-medical" style="color:#ef4444;"></i> Welfare Officer Urgent Clinical Referral Reason
+            <i class="fas fa-notes-medical" style="color:#ef4444;"></i> Welfare Officer Clinical Notes for Medical Officer
           </label>
-          <textarea id="wDirectNotes" class="auth-input-field" rows="3" placeholder="Describe acute stress symptoms, sleep breakdown, emotional distress, or grounds for emergency bypass..." required>Acute autonomic overload and critical sleep deficit detected. Immediate emergency clinical triage requested at Base Hospital.</textarea>
+          <textarea id="wDirectNotes" class="auth-input-field" rows="3" placeholder="Describe acute stress symptoms, sleep deficit, emotional distress, or treatment justification..." required>Severe autonomic overload and critical fatigue detected (>75% stress). Urgent direct clinical referral for 1-1 counseling and therapy sessions at Base Hospital.</textarea>
         </div>
 
         <div style="display: flex; gap: 0.8rem; margin-top: 1.25rem; justify-content: flex-end;">
           <button type="button" class="btn-dismiss-stress-modal" onclick="rakshakApp.closeEmergencyMoReferralModal()">Cancel</button>
           <button type="submit" class="btn-auth-submit" style="margin-top:0; width:auto; padding:0.75rem 1.6rem; background:linear-gradient(135deg, #ef4444, #dc2626); box-shadow:0 4px 15px rgba(239, 68, 68, 0.4);">
-            <i class="fas fa-ambulance"></i> Dispatch Direct MO Referral Now
+            <i class="fas fa-paper-plane"></i> Send Treatment Request to Medical Officer Now
           </button>
         </div>
       </form>
@@ -1855,6 +1988,7 @@
 
   <!-- Scripts -->
   <script src="js/chatbot.js"></script>
+  <script src="js/offline-adapter.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

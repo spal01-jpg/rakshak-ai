@@ -354,73 +354,48 @@ def enrich_personnel_record(p: Dict[str, Any]) -> Dict[str, Any]:
     p["modelConfidence"] = metrics.get("classConfidence", 0.88)
     if "treatmentHistory" not in p:
         p["treatmentHistory"] = []
+    if "actionHistory" not in p:
+        p["actionHistory"] = []
 
-    stress = p["liveStressLevel"]
-    req = p["treatmentRequired"]
-    default_mod = req["modalities"][0] if req.get("modalities") else "1-to-1 Clinical Counseling (Trauma CBT)"
-
-    if "medicalTreatment" not in p:
-        status = "Undergoing Treatment" if stress >= 70 else ("Treated" if stress < 45 else "Pending Evaluation")
-        p["medicalTreatment"] = {
-            "treatmentRequired": req,
-            "prescribedModality": default_mod,
-            "status": status,
-            "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
-            "prescribedDate": "2026-09-28 11:30",
-            "clinicalNotes": f"Clinical triage indicated {p['treatmentPriority']}. Prescribed {default_mod} for stress stabilization.",
-            "reportedToWelfare": True,
-            "reportedToWelfareAt": "2026-09-28 11:35"
-        }
-    else:
-        p["medicalTreatment"]["treatmentRequired"] = req
-        if "prescribedModality" not in p["medicalTreatment"]:
-            p["medicalTreatment"]["prescribedModality"] = default_mod
-        if "status" not in p["medicalTreatment"]:
-            p["medicalTreatment"]["status"] = "Undergoing Treatment" if stress >= 70 else "Treated"
-
-    med_status = p.get("medicalTreatment", {}).get("status", "Undergoing Treatment")
+    # Clean initial state without injecting false auto-approvals
     if "welfareCommanderReporting" not in p:
-        is_reported = (stress >= 65)
-        is_above_80 = (stress > 80)
-        mode = "report" if is_above_80 else "permission"
         p["welfareCommanderReporting"] = {
-            "reportedToCommander": is_reported,
-            "reportedAt": "2026-09-28 14:15" if is_reported else None,
-            "personnelStatus": med_status if med_status in ["Undergoing Treatment", "Treated"] else "Undergoing Treatment",
-            "absenceReported": is_reported,
-            "requestMode": mode,
-            "absenceDays": 5 if stress >= 70 else 3,
-            "absenceReason": f"Clinical Medical Treatment ({p['medicalTreatment'].get('prescribedModality', 'Therapy Session')}) at Base Hospital",
-            "notes": "Personnel relieved from field duty as advised by Medical Officer.",
-            "commanderApproved": (stress < 80 and is_reported),
-            "approvedAt": "2026-09-28 16:00" if (stress < 80 and is_reported) else None,
-            "reportedBy": "Maj. Sunita Rao (Unit Welfare Officer)"
+            "applicationSubmitted": False,
+            "commanderApproved": False,
+            "absenceReported": False,
+            "status": "Normal Duty"
+        }
+
+    if "directMoReferral" not in p:
+        p["directMoReferral"] = {
+            "active": False,
+            "referredAt": None,
+            "severity": None,
+            "recommendedModality": None,
+            "notes": None
         }
 
     if "directEmergencyReferral" not in p:
-        is_emergency = stress > 85
         p["directEmergencyReferral"] = {
-            "isDirectReferral": is_emergency,
-            "bypassedCommander": is_emergency,
-            "referredAt": "2026-09-28 15:45" if is_emergency else None,
-            "stressLevel": stress,
-            "reason": "Emergency stress > 85% — Direct clinical referral to MO without Commander pre-approval",
-            "notes": "Immediate clinical intervention requested by Welfare Officer due to severe critical stress exceeding 85%.",
-            "status": "Escalated to MO (Immediate Clinical Intake)" if is_emergency else "None",
-            "referredBy": "Maj. Sunita Rao (Unit Welfare Officer)" if is_emergency else None
+            "isDirectReferral": False,
+            "bypassedCommander": False
         }
 
-    if "welfareAdvisory" not in p:
-        p["welfareAdvisory"] = {
-            "isValidated": True,
-            "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
-            "activeRecommendation": {
-                "actionType": "Reduce Workload & Shift Duty Cap" if stress >= 55 else "Routine Maintenance",
-                "severityLevel": "High" if stress >= 70 else "Moderate",
-                "suggestedAction": "Relieve from night patrol and schedule 1-to-1 care.",
-                "notes": "autonomic burnout prevention",
-                "status": "Pending Commander Approval" if stress >= 70 else "Approved & Sanctioned"
-            } if stress >= 55 else None
+    if "commanderApprovedForTreatment" not in p:
+        p["commanderApprovedForTreatment"] = {
+            "active": False,
+            "approvedAt": None,
+            "approvedBy": None
+        }
+
+    if "medicalTreatment" not in p:
+        p["medicalTreatment"] = {
+            "status": "Not Referred",
+            "prescribedModality": None,
+            "prescribedBy": None,
+            "prescribedDate": None,
+            "clinicalNotes": None,
+            "reportedToWelfare": False
         }
 
     return p
@@ -428,6 +403,7 @@ def enrich_personnel_record(p: Dict[str, Any]) -> Dict[str, Any]:
 @app.get("/api/personnel")
 async def get_personnel(
     q: Optional[str] = "",
+    role: Optional[str] = "all",
     risk: Optional[str] = "all",
     force: Optional[str] = "all",
     priority: Optional[str] = "all",
@@ -437,6 +413,7 @@ async def get_personnel(
     db = load_db()
     personnel = db.get("personnel", [])
     q_str = (q or "").strip().lower()
+    role_filter = (role or "all").strip().lower()
     risk_filter = (risk or "all").strip().lower()
     force_filter = (force or "all").strip().lower()
     priority_filter = (priority or "all").strip().lower()
@@ -445,6 +422,14 @@ async def get_personnel(
     filtered = []
     for p in personnel:
         enrich_personnel_record(p)
+
+        # ROLE RESTRICTION: Medical Officer MUST NOT have the entire list!
+        # MO only sees patients who were directly referred (>75%) by Welfare OR approved by Commander (<=75%)
+        if role_filter == "medical":
+            is_direct = bool(p.get("directMoReferral", {}).get("active") or p.get("directEmergencyReferral", {}).get("isDirectReferral"))
+            is_cmd_approved = bool(p.get("commanderApprovedForTreatment", {}).get("active") or (p.get("welfareCommanderReporting", {}).get("applicationSubmitted") and p.get("welfareCommanderReporting", {}).get("commanderApproved")))
+            if not (is_direct or is_cmd_approved):
+                continue
 
         match_q = True
         if q_str:
@@ -694,16 +679,49 @@ async def prescribe_treatment(request: Request, person_id: Optional[str] = None)
         "medicalTreatment": person["medicalTreatment"]
     }
 
+@app.get("/api/medical/patients")
+async def get_medical_patients(q: Optional[str] = ""):
+    """
+    Returns ONLY the patients referred for clinical medical care.
+    Medical Officer MUST NOT have the entire roster of 28 personnel!
+    Only personnel with:
+    1. Direct Welfare Referral (Stress > 75%)
+    2. Commander Approved Application (Stress <= 75%)
+    """
+    db = load_db()
+    personnel = db.get("personnel", [])
+    patients = []
+    q_str = (q or "").strip().lower()
+
+    for p in personnel:
+        enrich_personnel_record(p)
+        is_direct = bool(p.get("directMoReferral", {}).get("active") or p.get("directEmergencyReferral", {}).get("isDirectReferral"))
+        is_cmd_approved = bool(p.get("commanderApprovedForTreatment", {}).get("active") or (p.get("welfareCommanderReporting", {}).get("applicationSubmitted") and p.get("welfareCommanderReporting", {}).get("commanderApproved")))
+
+        if is_direct or is_cmd_approved:
+            if q_str:
+                searchable = f"{p['name']} {p['id']} {p['rank']} {p['force']} {p['unit']} {p['station']}".lower()
+                if q_str not in searchable:
+                    continue
+            patients.append(p)
+
+    patients.sort(key=lambda x: x.get("liveStressLevel", 0), reverse=True)
+    return patients
+
+@app.post("/api/welfare/direct-referral")
 @app.post("/api/welfare/emergency-mo-referral")
 @app.post("/api/personnel/{person_id}/emergency-mo-referral")
 async def emergency_mo_referral(request: Request, person_id: Optional[str] = None):
     """
-    Emergency direct referral from Welfare Officer to Medical Officer for Stress > 85%.
-    BYPASSES Commander beforehand as per military psychiatric emergency protocol.
+    Welfare Officer Direct Request to Medical Officer (> 75% Stress).
+    If stress is > 75%, directly sends a request to Medical Officer to treat
+    based on severity (counseling, therapy) WITHOUT prior Commander permission.
     """
     payload = await request.json()
     pid = person_id or payload.get("soldierId") or payload.get("personnelId")
-    notes = payload.get("notes", "Severe critical stress > 85% — Direct emergency referral to Medical Officer without Commander pre-approval")
+    modality = payload.get("modality") or payload.get("prescribedModality") or "1-on-1 Critical Psychiatric Counseling & Trauma CBT"
+    severity = payload.get("severity") or "Critical / Severe (>75% Stress)"
+    notes = payload.get("notes") or "Acute autonomic overload (>75%). Urgent direct referral dispatched to Medical Officer."
 
     db = load_db()
     person = next((p for p in db.get("personnel", []) if p["id"].lower() == pid.lower()), None)
@@ -713,41 +731,63 @@ async def emergency_mo_referral(request: Request, person_id: Optional[str] = Non
     enrich_personnel_record(person)
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
 
+    person["directMoReferral"] = {
+        "active": True,
+        "referredAt": now_str,
+        "severity": severity,
+        "recommendedModality": modality,
+        "notes": notes,
+        "status": "Directly Referred to MO (>75%)",
+        "referredBy": "Maj. Sunita Rao (Unit Welfare Officer)"
+    }
     person["directEmergencyReferral"] = {
         "isDirectReferral": True,
         "bypassedCommander": True,
         "referredAt": now_str,
         "stressLevel": person["liveStressLevel"],
-        "reason": "Emergency stress > 85% — Direct clinical referral to MO without Commander pre-approval",
+        "reason": f"Severe stress {person['liveStressLevel']}% > 75% — Direct clinical referral to MO",
         "notes": notes,
-        "status": "Escalated to MO (Immediate Clinical Intake)",
+        "status": "In MO Clinical Queue",
         "referredBy": "Maj. Sunita Rao (Unit Welfare Officer)"
     }
     person["moReferralPending"] = True
 
+    # Initialize / update medicalTreatment
+    person["medicalTreatment"]["status"] = "Undergoing Treatment"
+    person["medicalTreatment"]["prescribedModality"] = modality
+    person["medicalTreatment"]["clinicalNotes"] = notes
+    person["medicalTreatment"]["prescribedDate"] = now_str
+    person["medicalTreatment"]["reportedToWelfare"] = True
+
+    # Informational notice for Commander
+    person["welfareCommanderReporting"]["absenceReported"] = True
+    person["welfareCommanderReporting"]["requestMode"] = "notice"
+    person["welfareCommanderReporting"]["reportedAt"] = now_str
+    person["welfareCommanderReporting"]["status"] = "Undergoing MO Care (>75%)"
+    person["welfareCommanderReporting"]["absenceReason"] = f"Urgent Direct MO Referral: {modality}"
+
     save_db(db)
     return {
         "success": True,
-        "message": f"Direct Emergency Referral for {person['name']} dispatched to Medical Officer (Commander pre-approval bypassed: stress {person['liveStressLevel']}% > 85%).",
+        "message": f"Direct treatment request for {person['name']} (Stress: {person['liveStressLevel']}%) sent to Medical Officer.",
         "personnel": person,
-        "directEmergencyReferral": person["directEmergencyReferral"]
+        "directMoReferral": person["directMoReferral"]
     }
 
+@app.post("/api/welfare/submit-application")
 @app.post("/api/welfare/report-commander-absence")
 @app.post("/api/personnel/{person_id}/report-commander-absence")
 async def report_commander_absence(request: Request, person_id: Optional[str] = None):
     """
-    Welfare Officer reports personnel absence and treatment status to Commander:
-    - Stress > 80%: Welfare Officer reports absence directly to Commander (Notice of Absence).
-    - Stress <= 80%: Welfare Officer asks permission from Commander (Permission Request).
+    Welfare Officer sends application to Commander for stress <= 75%.
+    Requires Commander approval before forwarding to Medical Officer.
     """
     payload = await request.json()
     pid = person_id or payload.get("soldierId") or payload.get("personnelId")
-    status = payload.get("personnelStatus", "Undergoing Treatment")
-    reason = payload.get("absenceReason", "Clinical Therapy & Medical Counseling Decompression")
     days = int(payload.get("absenceDays", 5))
-    notes = payload.get("notes", "Welfare Officer duty relief action for personnel undergoing medical treatment.")
-    mode = payload.get("mode") or payload.get("requestType")
+    reason = payload.get("absenceReason", "Mild/Moderate Stress Decompression & Counseling")
+    requested_modality = payload.get("requestedModality") or payload.get("prescribedModality", "1-on-1 Counseling & Therapy Sessions")
+    notes = payload.get("notes", "Welfare application requesting Commander sanction for medical treatment.")
 
     db = load_db()
     person = next((p for p in db.get("personnel", []) if p["id"].lower() == pid.lower()), None)
@@ -757,36 +797,43 @@ async def report_commander_absence(request: Request, person_id: Optional[str] = 
     enrich_personnel_record(person)
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    if not mode:
-        mode = "report" if person.get("liveStressLevel", 50) > 80 else "permission"
-
-    is_permission = (mode == "permission")
-
     person["welfareCommanderReporting"] = {
+        "applicationSubmitted": True,
         "reportedToCommander": True,
         "reportedAt": now_str,
-        "personnelStatus": status,
+        "personnelStatus": "Pending Commander Approval",
         "absenceReported": True,
-        "requestMode": mode,
+        "requestMode": "permission",
         "absenceDays": days,
         "absenceReason": reason,
+        "requestedModality": requested_modality,
         "notes": notes,
-        "commanderApproved": False if is_permission else True,
+        "commanderApproved": False,
+        "status": "Pending Commander Approval",
         "reportedBy": "Maj. Sunita Rao (Unit Welfare Officer)"
     }
+    # Reset any previous flags so not sent to MO before approval
+    person["commanderApprovedForTreatment"] = { "active": False }
+    person["directMoReferral"] = { "active": False }
+    person["directEmergencyReferral"] = { "isDirectReferral": False }
+    person["medicalTreatment"]["status"] = "Pending Commander Approval"
 
     save_db(db)
-    action_label = "Absence reported" if mode == "report" else "Permission requested"
     return {
         "success": True,
-        "message": f"{action_label} for {person['name']} to Commanding Officer (Status: {status}).",
+        "message": f"Treatment application for {person['name']} (Stress: {person['liveStressLevel']}%) submitted to Commanding Officer for approval.",
         "personnel": person,
         "welfareCommanderReporting": person["welfareCommanderReporting"]
     }
 
+@app.post("/api/commander/approve-treatment-application")
 @app.post("/api/commander/approve-absence")
 @app.post("/api/personnel/{person_id}/commander-approve-absence")
 async def approve_commander_absence(request: Request, person_id: Optional[str] = None):
+    """
+    Commander approves application for treatment (Stress <= 75%).
+    Once approved, the personnel IS FORWARDED TO MEDICAL OFFICER with options to treat!
+    """
     payload = await request.json()
     pid = person_id or payload.get("soldierId") or payload.get("personnelId")
 
@@ -804,18 +851,33 @@ async def approve_commander_absence(request: Request, person_id: Optional[str] =
     person["welfareCommanderReporting"]["commanderApproved"] = True
     person["welfareCommanderReporting"]["approvedAt"] = now_str
     person["welfareCommanderReporting"]["approvedBy"] = "Col. Virendra Saxena (Commanding Officer)"
+    person["welfareCommanderReporting"]["status"] = "Approved for Treatment"
+
+    # Forward to Medical Officer with treatment options!
+    modality = person["welfareCommanderReporting"].get("requestedModality", "1-on-1 Counseling & Therapy Sessions")
+    person["commanderApprovedForTreatment"] = {
+        "active": True,
+        "approvedAt": now_str,
+        "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
+        "status": "Commander Sanctioned - In MO Queue"
+    }
+
+    person["medicalTreatment"]["status"] = "Undergoing Treatment"
+    person["medicalTreatment"]["prescribedModality"] = modality
+    person["medicalTreatment"]["prescribedDate"] = now_str
+    person["medicalTreatment"]["prescribedBy"] = "Dr. Capt. Ananya Sharma (Senior MO)"
 
     save_db(db)
     return {
         "success": True,
-        "message": f"Medical absence and treatment schedule approved by Commander for {person['name']}.",
+        "message": f"Treatment application approved by Commander for {person['name']}. Personnel forwarded to Medical Officer queue with options to treat.",
         "personnel": person
     }
 
 @app.post("/api/commander/batch-approve-absence")
 async def batch_approve_commander_absence(request: Request):
     """
-    Commander batch approval for all or selected pending absence permissions.
+    Commander batch approval: forwards all approved personnel to Medical Officer queue!
     """
     payload = await request.json()
     pids = payload.get("soldierIds", [])
@@ -827,20 +889,68 @@ async def batch_approve_commander_absence(request: Request):
     for person in db.get("personnel", []):
         if not pids or person["id"].lower() in pids_lower:
             enrich_personnel_record(person)
-            if "welfareCommanderReporting" not in person:
-                person["welfareCommanderReporting"] = {}
-            if not person["welfareCommanderReporting"].get("commanderApproved"):
-                person["welfareCommanderReporting"]["commanderApproved"] = True
-                person["welfareCommanderReporting"]["approvedAt"] = now_str
-                person["welfareCommanderReporting"]["approvedBy"] = "Col. Virendra Saxena (Commanding Officer)"
+            w_rep = person.get("welfareCommanderReporting", {})
+            if not w_rep.get("commanderApproved"):
+                w_rep["commanderApproved"] = True
+                w_rep["approvedAt"] = now_str
+                w_rep["approvedBy"] = "Col. Virendra Saxena (Commanding Officer)"
+                w_rep["status"] = "Approved for Treatment"
+
+                modality = w_rep.get("requestedModality", "1-on-1 Counseling & Therapy Sessions")
+                person["commanderApprovedForTreatment"] = {
+                    "active": True,
+                    "approvedAt": now_str,
+                    "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
+                    "status": "Commander Sanctioned - In MO Queue"
+                }
+                person["medicalTreatment"]["status"] = "Undergoing Treatment"
+                person["medicalTreatment"]["prescribedModality"] = modality
+                person["medicalTreatment"]["prescribedDate"] = now_str
                 approved_count += 1
 
     save_db(db)
     return {
         "success": True,
         "approvedCount": approved_count,
-        "message": f"Successfully approved {approved_count} medical absence requests by Commanding Officer."
+        "message": f"Successfully approved {approved_count} applications and forwarded personnel to Medical Officer queue."
     }
+
+@app.post("/api/reset-all-data")
+async def reset_all_data_endpoint():
+    """
+    Resets all approvals, applications, and treatment states to clean initial state.
+    """
+    db = load_db()
+    for p in db.get("personnel", []):
+        p["welfareCommanderReporting"] = {
+            "applicationSubmitted": False,
+            "commanderApproved": False,
+            "absenceReported": False,
+            "reportedToCommander": False,
+            "status": "Normal Duty"
+        }
+        p["directMoReferral"] = { "active": False, "referredAt": None, "severity": None, "modality": None, "notes": None }
+        p["directEmergencyReferral"] = { "isDirectReferral": False, "bypassedCommander": False }
+        p["commanderApprovedForTreatment"] = { "active": False, "approvedAt": None, "approvedBy": None }
+        p["medicalTreatment"] = {
+            "status": "Not Referred",
+            "prescribedModality": None,
+            "prescribedBy": None,
+            "prescribedDate": None,
+            "clinicalNotes": None,
+            "reportedToWelfare": False
+        }
+        p["actionHistory"] = []
+        p["treatmentHistory"] = []
+        p["moReferralPending"] = False
+
+    if "unitStats" in db:
+        db["unitStats"]["pendingApprovals"] = 0
+        db["unitStats"]["undergoingCare"] = 0
+        db["unitStats"]["treatedCount"] = 0
+
+    save_db(db)
+    return {"success": True, "message": "All database records successfully reset to clean initial state!"}
 
 @app.post("/api/personnel/{person_id}/welfare-validate")
 async def validate_welfare_rating(person_id: str, request: Request):
@@ -1091,8 +1201,8 @@ async def predict_direct(request: Request):
 # -------------------------------------------------------------
 # DOWNLOAD & DISTRIBUTION ENDPOINTS
 # -------------------------------------------------------------
-@app.get("/download/desktop-app")
-@app.get("/api/download-app")
+@app.api_route("/download/desktop-app", methods=["GET", "HEAD"])
+@app.api_route("/api/download-app", methods=["GET", "HEAD"])
 async def download_desktop_app():
     zip_path = os.path.join(BASE_DIR, "Rakshak-AI-Desktop-Setup.zip")
     if os.path.exists(zip_path):
@@ -1107,7 +1217,7 @@ async def download_desktop_app():
 # -------------------------------------------------------------
 # STATIC FILES & SINGLE PAGE APP SERVING
 # -------------------------------------------------------------
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 async def root_index():
     index_path = os.path.join(BASE_DIR, "index.html")
     if os.path.exists(index_path):
@@ -1121,7 +1231,7 @@ for folder in ["assets", "css", "js", "canva_pages"]:
         app.mount(f"/{folder}", StaticFiles(directory=folder_path), name=folder)
 
 # Catch-all to serve index.html for client-side navigation
-@app.get("/{full_path:path}")
+@app.api_route("/{full_path:path}", methods=["GET", "HEAD"])
 async def catch_all(full_path: str):
     file_path = os.path.join(BASE_DIR, full_path)
     if os.path.exists(file_path) and os.path.isfile(file_path):
