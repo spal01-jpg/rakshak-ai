@@ -64,18 +64,8 @@
         "Assign trusted Peer Buddy (Sahayak) from same sub-unit"
       ],
       "actionHistory": [],
-      "treatmentHistory": [
-        {
-          "treatmentId": "TRT-1790709943",
-          "modality": "1-on-1 Clinical Counseling (Trauma-Informed CBT)",
-          "status": "Undergoing Treatment",
-          "date": "2026-09-30 00:55",
-          "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
-          "notes": "Severe autonomic overload and critical fatigue detected (98% stress). Urgent direct clinical referral for 1-1 counseling and therapy sessions at Base Hospital.",
-          "stressLevelAtTreatment": 98
-        }
-      ],
-      "moReferralPending": true,
+      "treatmentHistory": [],
+      "moReferralPending": false,
       "welfareAdvisory": {
         "isValidated": true,
         "validatedBy": "Maj. Sunita Rao (Welfare Officer)",
@@ -112,65 +102,29 @@
       "stressClassification": "Immediate Priority",
       "modelConfidence": 1.0,
       "medicalTreatment": {
-        "treatmentRequired": {
-          "priority": "Immediate Priority",
-          "priorityClass": "immediate",
-          "threshold": "70% and higher",
-          "badgeColor": "#ef4444",
-          "modalities": [
-            "Emergency Psychiatric Consultation & Clinical Evaluation",
-            "Acute Clinical Decompression Therapy (In-Clinic)",
-            "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
-            "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
-            "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
-          ],
-          "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
-        },
-        "prescribedModality": "1-on-1 Clinical Counseling (Trauma-Informed CBT)",
-        "status": "Undergoing Treatment",
-        "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
-        "prescribedDate": "2026-09-30 00:55",
-        "clinicalNotes": "Severe autonomic overload and critical fatigue detected (98% stress). Urgent direct clinical referral for 1-1 counseling and therapy sessions at Base Hospital.",
-        "reportedToWelfare": true,
-        "reportedToWelfareAt": "2026-09-30 00:55"
+        "status": "Not Referred",
+        "prescribedModality": null,
+        "prescribedBy": null,
+        "prescribedDate": null,
+        "clinicalNotes": null,
+        "reportedToWelfare": false
       },
       "welfareCommanderReporting": {
         "applicationSubmitted": false,
-        "commanderApproved": true,
-        "absenceReported": true,
+        "commanderApproved": false,
+        "absenceReported": false,
         "reportedToCommander": false,
-        "status": "Approved for Treatment",
-        "requestMode": "notice",
-        "reportedAt": "2026-09-30 00:55",
-        "absenceReason": "Urgent Direct MO Referral: Clinical Therapy Sessions & CBT",
-        "approvedAt": "2026-09-30 00:55",
-        "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
-        "personnelStatus": "Undergoing Treatment"
+        "status": "Normal Duty"
       },
       "directEmergencyReferral": {
-        "isDirectReferral": true,
-        "bypassedCommander": true,
-        "referredAt": "2026-09-30 00:55",
-        "stressLevel": 98,
-        "reason": "Severe stress 98% > 75% — Direct clinical referral to MO",
-        "notes": "Severe autonomic overload and critical fatigue detected (98% stress). Urgent direct clinical referral for 1-1 counseling and therapy sessions at Base Hospital.",
-        "status": "In MO Clinical Queue",
-        "referredBy": "Maj. Sunita Rao (Unit Welfare Officer)"
+        "isDirectReferral": false,
+        "bypassedCommander": false
       },
       "directMoReferral": {
-        "active": true,
-        "referredAt": "2026-09-30 00:55",
-        "severity": "Critical Severity (>75% Stress)",
-        "recommendedModality": "Clinical Therapy Sessions & CBT",
-        "notes": "Severe autonomic overload and critical fatigue detected (98% stress). Urgent direct clinical referral for 1-1 counseling and therapy sessions at Base Hospital.",
-        "status": "Directly Referred to MO (>75%)",
-        "referredBy": "Maj. Sunita Rao (Unit Welfare Officer)"
+        "active": false
       },
       "commanderApprovedForTreatment": {
-        "active": true,
-        "approvedAt": "2026-09-30 00:55",
-        "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
-        "status": "Commander Sanctioned - In MO Queue"
+        "active": false
       }
     },
     {
@@ -289,16 +243,10 @@
         "bypassedCommander": false
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       }
     },
     {
@@ -377,20 +325,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -478,20 +420,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -621,16 +557,10 @@
         "bypassedCommander": false
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "moReferralPending": false
     },
@@ -707,20 +637,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -805,20 +729,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -937,16 +855,10 @@
         "bypassedCommander": false
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "moReferralPending": false
     },
@@ -1023,20 +935,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -1154,16 +1060,10 @@
         "bypassedCommander": false
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "moReferralPending": false
     },
@@ -1240,20 +1140,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -1341,20 +1235,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -1443,20 +1331,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -1525,17 +1407,7 @@
         "Plan winter rotation to Joshimath transit camp"
       ],
       "actionHistory": [],
-      "treatmentHistory": [
-        {
-          "treatmentId": "TRT-1790709968",
-          "modality": "1-on-1 Clinical Counseling (Trauma-Informed CBT)",
-          "status": "Undergoing Treatment",
-          "date": "2026-09-30 00:56",
-          "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
-          "notes": "Clinical evaluation indicates Immediate Priority. Recommended 3 bi-weekly sessions of 1-on-1 Clinical Counseling (Trauma-Informed CBT) at Base Hospital.",
-          "stressLevelAtTreatment": 74
-        }
-      ],
+      "treatmentHistory": [],
       "welfareAdvisory": {
         "isValidated": false,
         "validatedBy": null,
@@ -1544,56 +1416,29 @@
         "activeRecommendation": null
       },
       "welfareCommanderReporting": {
-        "applicationSubmitted": true,
-        "reportedToCommander": true,
-        "reportedAt": "2026-09-30 00:55",
-        "personnelStatus": "Undergoing Treatment",
-        "absenceReported": true,
-        "requestMode": "permission",
-        "absenceDays": 3,
-        "absenceReason": "Base Hospital Clinical Counseling & Decompression Duty Relief",
-        "requestedModality": "1-on-1 Clinical Counseling & Stress Decompression",
-        "notes": "Personnel exhibiting cumulative strain (74%). Recommend commanding officer sanction for 1-1 counseling and therapeutic sessions at Base Hospital.",
-        "commanderApproved": true,
-        "status": "Approved for Treatment",
-        "reportedBy": "Maj. Sunita Rao (Unit Welfare Officer)",
-        "approvedAt": "2026-09-30 00:55",
-        "approvedBy": "Col. Virendra Saxena (Commanding Officer)"
+        "applicationSubmitted": false,
+        "commanderApproved": false,
+        "absenceReported": false,
+        "reportedToCommander": false,
+        "status": "Normal Duty"
       },
       "directMoReferral": {
         "active": false
       },
       "directEmergencyReferral": {
-        "isDirectReferral": false
+        "isDirectReferral": false,
+        "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": true,
-        "approvedAt": "2026-09-30 00:55",
-        "approvedBy": "Col. Virendra Saxena (Commanding Officer)",
-        "status": "Commander Sanctioned - In MO Queue"
+        "active": false
       },
       "medicalTreatment": {
-        "treatmentRequired": {
-          "priority": "Immediate Priority",
-          "priorityClass": "immediate",
-          "threshold": "70% and higher",
-          "badgeColor": "#ef4444",
-          "modalities": [
-            "Emergency Psychiatric Consultation & Clinical Evaluation",
-            "Acute Clinical Decompression Therapy (In-Clinic)",
-            "Mandatory 48-Hour Buddy Watch & In-Patient Rest Mandate",
-            "Pharmacotherapy Evaluation & Sleep Cycle Reset Regimen",
-            "Immediate Temporary Duty Withdrawal from Weapon-Bearing Posts"
-          ],
-          "primaryFocus": "Crisis stabilization, suicide/self-harm risk mitigation, and neuro-autonomic reset."
-        },
-        "prescribedModality": "1-on-1 Clinical Counseling (Trauma-Informed CBT)",
-        "status": "Undergoing Treatment",
-        "prescribedBy": "Dr. Capt. Ananya Sharma (Senior MO)",
-        "prescribedDate": "2026-09-30 00:56",
-        "clinicalNotes": "Clinical evaluation indicates Immediate Priority. Recommended 3 bi-weekly sessions of 1-on-1 Clinical Counseling (Trauma-Informed CBT) at Base Hospital.",
-        "reportedToWelfare": true,
-        "reportedToWelfareAt": "2026-09-30 00:56"
+        "status": "Not Referred",
+        "prescribedModality": null,
+        "prescribedBy": null,
+        "prescribedDate": null,
+        "clinicalNotes": null,
+        "reportedToWelfare": false
       },
       "moReferralPending": false,
       "liveStressLevel": 74,
@@ -1688,20 +1533,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -1788,20 +1627,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -1886,20 +1719,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -2019,16 +1846,10 @@
         "bypassedCommander": false
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "moReferralPending": false
     },
@@ -2145,16 +1966,10 @@
         "bypassedCommander": false
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "moReferralPending": false
     },
@@ -2232,20 +2047,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -2329,20 +2138,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -2429,20 +2232,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -2527,20 +2324,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -2655,16 +2446,10 @@
         "bypassedCommander": false
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "moReferralPending": false
     },
@@ -2740,20 +2525,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -2840,20 +2619,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -2938,20 +2711,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",
@@ -3050,20 +2817,14 @@
         "status": "Normal Duty"
       },
       "directMoReferral": {
-        "active": false,
-        "referredAt": null,
-        "severity": null,
-        "modality": null,
-        "notes": null
+        "active": false
       },
       "directEmergencyReferral": {
         "isDirectReferral": false,
         "bypassedCommander": false
       },
       "commanderApprovedForTreatment": {
-        "active": false,
-        "approvedAt": null,
-        "approvedBy": null
+        "active": false
       },
       "medicalTreatment": {
         "status": "Not Referred",

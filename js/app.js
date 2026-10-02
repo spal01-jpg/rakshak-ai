@@ -3281,7 +3281,7 @@ class RakshakApp {
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then((reg) => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
           console.log('Rakshak AI Service Worker registered with scope:', reg.scope);
         }).catch((err) => {
           console.warn('Service Worker registration skipped/failed:', err);

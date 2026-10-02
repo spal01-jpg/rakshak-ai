@@ -1,21 +1,22 @@
-const CACHE_NAME = 'rakshak-ai-v2.0';
+const CACHE_NAME = 'rakshak-ai-v3.0';
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/css/styles.css',
-  '/js/app.js',
-  '/manifest.json',
-  '/assets/icon-192.png',
-  '/assets/icon-512.png',
-  '/assets/rakshak_ai_logo.svg',
-  '/assets/rakshak_ai_logo.jpg'
+  './',
+  'index.html',
+  'css/styles.css',
+  'js/app.js',
+  'js/offline-adapter.js',
+  'js/chatbot.js',
+  'manifest.json',
+  'assets/icon-192.png',
+  'assets/icon-512.png',
+  'assets/rakshak_ai_eagle_logo.jpg?v=eagle_final'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(STATIC_ASSETS).catch(err => {
-        console.warn('Cache addAll warning:', err);
+        console.warn('[Rakshak PWA] Cache addAll warning:', err);
       });
     }).then(() => self.skipWaiting())
   );
@@ -38,20 +39,13 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // For API endpoints, prefer network, do not cache mutating requests
-  if (url.pathname.startsWith('/api/')) {
-    event.respondWith(
-      fetch(event.request).catch(() => {
-        return new Response(JSON.stringify({ error: 'Offline - server unreachable' }), {
-          headers: { 'Content-Type': 'application/json' },
-          status: 503
-        });
-      })
-    );
+  // NEVER intercept /api/ calls in Service Worker!
+  // Let the browser/page handle them directly via offline-adapter or live backend
+  if (url.pathname.includes('/api/')) {
     return;
   }
 
-  // Stale-while-revalidate for static assets
+  // Stale-while-revalidate for static assets only
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       const fetchPromise = fetch(event.request).then((networkResponse) => {
